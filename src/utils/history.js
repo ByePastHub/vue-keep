@@ -29,7 +29,7 @@ export function getAbsolutePath() {
 export function getBase(router) {
   let base;
   if (router.mode) {
-    // vue-router4.x以下版本
+    // vue-router3.x版本
     base = router.options.base;
     // if (!base) {
     //   base =
@@ -41,18 +41,19 @@ export function getBase(router) {
   return base;
 }
 
-export function getToLocation($router) {
-  const base = getBase($router);
-  const path = createCurrentLocation(base);
-  const toLocation = $router.resolve(path);
+export function toLocationResolve(router, to) {
+  let toLocation = router.resolve(to);
+  if (toLocation.resolved) {
+    toLocation = toLocation.resolved;
+  }
 
   return toLocation;
 }
 
-export function limitMaxPosition(keepPosition) {
-  let maxPosition = keepPosition + 1 >= history.length ? history.length : keepPosition;
-  if (maxPosition === history.length) {
-    maxPosition = history.length - 1;
-  }
-  return maxPosition;
+export function getToLocation(router) {
+  const base = getBase(router);
+  const path = createCurrentLocation(base);
+  const toLocation = toLocationResolve(router, path);
+
+  return toLocation;
 }

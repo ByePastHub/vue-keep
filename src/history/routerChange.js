@@ -1,10 +1,10 @@
 import { KEEP_BEFORE_ROUTE_CHANGE, KEEP_ROUTE_CHANGE } from '../constants';
-import { assign, createCurrentLocation, getBase, getAbsolutePath, useCallbacks, getToLocation, limitMaxPosition } from '../utils/index';
+import { assign, createCurrentLocation, getBase, getAbsolutePath, useCallbacks, getToLocation, toLocationResolve } from '../utils/index';
 import { router3x, router4x } from './extendRouterJump';
 export const beforeGuards = useCallbacks();
 
 let $router;
-let keepPosition = history.state?.keepPosition || history.length - 1;
+let keepPosition = history.state?.keepPosition || 0;
 let prevPosition = keepPosition;
 let isEmptyJump;
 let to;
@@ -12,11 +12,14 @@ let from = Object.create(null);
 let isRouter4xPush;
 let isNotTriggerBeforeEach;
 let historyStack = JSON.parse(sessionStorage.getItem('keep_history_stack') || '[]');
+let popstateBack;
 
 window.addEventListener('popstate', async function(ev) {
   keepPosition = ev.state.keepPosition;
   const direction = keepPosition <= prevPosition ? 'back' : 'forward';
   const absolutePath = getAbsolutePath();
+  direction === 'back' && (popstateBack = true);
+  // 更新该页面前进/后退路径
   history.replaceState(history.state, absolutePath);
   routerChange(direction, 'popstate');
   prevPosition = keepPosition;
@@ -50,27 +53,31 @@ export function historyJumpExtend(router) {
       }
       let toLocation;
       if (to?.name || to?.path) {
-        toLocation = $router.resolve(to);
+        toLocation = toLocationResolve($router, to);
       }
       if (!toLocation) {
         const base = getBase($router);
         toLocation = { path: createCurrentLocation(base) };
       }
       if (!(['go', 'forward', 'back'].includes(key))) {
-        keepPosition = limitMaxPosition(keepPosition);
-
         const current = (['forward', 'pushState'].includes(key)
-          ? historyStack[keepPosition - 2]
-          : historyStack[keepPosition - 1]) || toLocation.path;
+          ? historyStack[keepPosition - 1]
+          : historyStack[keepPosition]) || toLocation.path;
 
         const state = {
           keepPosition,
-          keepBack: historyStack[keepPosition - 2],
+          keepBack: historyStack[keepPosition - 1],
           keepCurrent: current,
           keepNext: toLocation.path,
-          keepForward: historyStack[keepPosition],
+          keepForward: historyStack[keepPosition + 1],
         };
         arguments[0] = assign(arguments[0], state);
+      }
+      if (popstateBack && historyStack.length > length) {
+        const positionOffset = Math.abs(historyStack.length - history.length - keepPosition);
+        console.log('positionOffset', positionOffset, historyStack[positionOffset - 1]);
+        arguments[0] = assign(arguments[0], history.state, { keepBack: historyStack[positionOffset - 1] });
+        popstateBack = false;
       }
       historyJumpMethods[key].call(this, ...arguments);
       if (['pushState', 'replaceState'].includes(key)) {
@@ -78,6 +85,8 @@ export function historyJumpExtend(router) {
         if (isRouter4xPush && key === 'replaceState') return;
         routerChange('forward', key);
       }
+
+      console.log(history.state);
 
       isRouter4xPush = false;
     };
@@ -114,10 +123,6 @@ function triggerBeforeEach(mergeToLocation) {
 }
 
 function dispatch(eventName, direction, toLocation) {
-  if (toLocation.resolved) {
-    toLocation = toLocation.resolved;
-  }
-
   const mergeToLocation = assign({ direction, triggerType: eventName }, to, toLocation);
   if (eventName === KEEP_BEFORE_ROUTE_CHANGE) {
     triggerBeforeEach(mergeToLocation);
@@ -146,7 +151,6 @@ function beforeRouterChange(direction, method) {
   if (!to.path && !to.name) {
     const { keepPosition } = history.state;
     let index;
-    console.log(to);
     switch (method) {
       case 'go':
         index = keepPosition + to.delta;
@@ -160,14 +164,15 @@ function beforeRouterChange(direction, method) {
       default:
         index = keepPosition;
     }
-    _to = historyStack[index - 1];
+    _to = historyStack[index];
     console.log('path', keepPosition, _to);
     if (!_to) {
       isEmptyJump = true;
+      new Promise(resolve => resolve()).then(() => (isEmptyJump = false));
       return;
     };
   }
-  const toLocation = $router.resolve(_to);
+  const toLocation = toLocationResolve($router, _to);
   dispatch(KEEP_BEFORE_ROUTE_CHANGE, direction, toLocation);
 }
 
@@ -179,7 +184,6 @@ function routerChange(direction, method) {
   from = mergeToLocation;
   to = null;
   isNotTriggerBeforeEach = false;
-  isEmptyJump = false;
 }
 
 function handleHistoryStack(toLocation, method) {
@@ -189,12 +193,10 @@ function handleHistoryStack(toLocation, method) {
   if (stackLength === 0) {
     historyStack[0] = toLocation.path;
   } else if (method === 'replaceState') {
-    const length = keepPosition - 1;
-    historyStack[length] = toLocation.path;
+    historyStack[keepPosition] = toLocation.path;
   } else if (method === 'pushState') {
-    const maxPosition = limitMaxPosition(keepPosition);
     historyStack.push(toLocation.path);
-    historyStack = historyStack.slice(0, maxPosition);
+    historyStack = historyStack.slice(0, keepPosition + 1);
   }
 
   sessionStorage.setItem('keep_history_stack', JSON.stringify(historyStack));
