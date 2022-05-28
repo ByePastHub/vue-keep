@@ -1,14 +1,10 @@
 import { KEEP_BEFORE_ROUTE_CHANGE, KEEP_COMPONENT_DESTROY, KEEP_ROUTE_CHANGE, DESTROY_ALL } from './constants';
-import keepAliveTest from './keepAlive';
 import { render2x, render3x } from './render';
-// import methods from './methods';
 import { Vue } from './index';
 
 export default {
   name: 'KeepRouteView',
-  components: {
-    'keep-alive-test': keepAliveTest
-  },
+
   render: function() {
     if (!this.vueNext) {
       return render2x.call(this);
@@ -16,6 +12,7 @@ export default {
       return render3x(...arguments);
     }
   },
+
   props: {
     max: {
       type: Number,
@@ -38,36 +35,45 @@ export default {
       default: 'allKeepAlive',
     }
   },
+
   data() {
     return {
       vueNext: Number(Vue.version.slice(0, 3)) >= 3,
       includeList: [],
     };
   },
+
   created() {
     this.isForward = false;
     this.addEvents();
   },
+
   methods: {
     addEvents() {
       window.addEventListener(KEEP_BEFORE_ROUTE_CHANGE, this.beforeRouteChangeEvent);
       window.addEventListener(KEEP_ROUTE_CHANGE, this.routerChangeEvent);
       window.addEventListener(KEEP_COMPONENT_DESTROY, this.componentDestroyEvent);
     },
+
     async beforeRouteChangeEvent(params) {
       const { detail: { direction, destroy, cache, toLocation }} = params;
       if (direction !== 'forward') return;
       cache || this.destroyTraverse(toLocation.name);
-      console.log('toLocation', toLocation);
       if (destroy === DESTROY_ALL) {
         this.includeList = [];
       }
       this.handelDestroy(destroy);
+      console.log('toLocation.name', toLocation.name);
+      if (!toLocation.name) {
+        console.warn('keep-router-view: Please pay attention to whether the router base path you configured is correct!');
+      }
     },
+
     routerChangeEvent(params) {
       const { toLocation } = params.detail;
       this.forward(toLocation.name);
     },
+
     componentDestroyEvent(params) {
       const { detail: destroy } = params;
       this.handelDestroy(destroy);
@@ -84,6 +90,7 @@ export default {
       }
       includeList.push(name);
     },
+
     handelDestroy(destroy) {
       const { destroyTraverse } = this;
       if (typeof destroy === 'string' && destroy) {
@@ -92,6 +99,7 @@ export default {
         destroy.forEach(name => destroyTraverse(name));
       }
     },
+
     destroyTraverse(name) {
       const { includeList } = this;
       for (let i = 0; i < includeList.length; i++) {

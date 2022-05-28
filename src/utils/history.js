@@ -28,17 +28,17 @@ export function getAbsolutePath() {
 
 export function getBase(router) {
   let base;
+  // vue-router3.x版本
   if (router.mode) {
-    // vue-router3.x版本
     base = router.options.base;
-    // if (!base) {
-    //   base =
-    // }
     return base;
   }
-  base = router.options.history?.base || '/';
+  base = router.options.history?.base;
+  if (!base && location.hash) {
+    base = location.pathname;
+  }
 
-  return base;
+  return base || '/';
 }
 
 export function toLocationResolve(router, to) {

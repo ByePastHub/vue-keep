@@ -5,7 +5,7 @@ function resetComponentsName(router, isChildren) {
   const routerVersion = router.constructor.version?.replace(/\.(\d+)$/, '$1');
 
   if (routerVersion < 3.5) {
-    console.error('vue-keep-router-view: vue-router version is lower than 3.5.0, please upgrade vue-router');
+    console.error('vue-keep: vue-router version is lower than 3.5.0, please upgrade vue-router');
     return;
   }
 

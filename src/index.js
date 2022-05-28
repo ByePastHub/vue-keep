@@ -3,17 +3,13 @@ import { beforeGuards } from './history/routerChange';
 import KeepRouterView from './KeepRouterView';
 import { destroy } from './destroy';
 
-console.log('beforeGuards', beforeGuards);
-
 export { KeepRouterView, extendRouter, destroy };
 export let Vue;
-export let Router;
 export const beforeEach = beforeGuards.add;
 export default {
   beforeEach: beforeEach,
   install(app, router) {
     Vue = app;
-    Router = router;
     extendRouter(router);
     app.component('KeepRouterView', KeepRouterView);
 

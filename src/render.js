@@ -5,7 +5,7 @@ export function render2x() {
   const h = vm.$createElement;
   const c = vm._self.c || h;
   return c(
-    'keep-alive-test',
+    'keep-alive',
     {
       attrs: {
         include: [].concat(vm.includeList),

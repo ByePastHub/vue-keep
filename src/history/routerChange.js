@@ -12,16 +12,20 @@ let from = Object.create(null);
 let isRouter4xPush;
 let isNotTriggerBeforeEach;
 let historyStack = JSON.parse(sessionStorage.getItem('keep_history_stack') || '[]');
-let popstateBack;
+let isPopstateBack;
 
-window.addEventListener('popstate', async function(ev) {
+
+window.addEventListener('popstate', function(ev) {
+  // 手动触发时，进入 history 劫持，如果不 return，会触发2次 routerChange
+  if (isNotTriggerBeforeEach) {
+    isNotTriggerBeforeEach = false;
+    return;
+  };
   keepPosition = ev.state.keepPosition;
   const direction = keepPosition <= prevPosition ? 'back' : 'forward';
   const absolutePath = getAbsolutePath();
-  direction === 'back' && (popstateBack = true);
-  // 更新该页面前进/后退路径
+  direction === 'back' && (isPopstateBack = true);
   history.replaceState(history.state, absolutePath);
-  routerChange(direction, 'popstate');
   prevPosition = keepPosition;
 });
 
@@ -38,7 +42,22 @@ export function historyJumpExtend(router) {
     new Promise(resolve => resolve())
       .then(() => routerChange('forward', 'popstate'));
   }
-  hijackList.forEach(key => {
+
+  function getToLocation() {
+    let toLocation;
+    if (to?.name || to?.path) {
+      toLocation = toLocationResolve($router, to);
+    }
+    if (!toLocation) {
+      const base = getBase($router);
+      toLocation = { path: createCurrentLocation(base) };
+    }
+    return toLocation;
+  }
+
+  hijackList.forEach(key => hijackHistoryMethod(key));
+
+  function hijackHistoryMethod(key) {
     history.constructor.prototype[key] = function() {
       prevPosition = keepPosition;
       // 如果空跳转
@@ -51,54 +70,59 @@ export function historyJumpExtend(router) {
         case 'go':
           keepPosition = keepPosition + arguments[0];
       }
-      let toLocation;
-      if (to?.name || to?.path) {
-        toLocation = toLocationResolve($router, to);
+      const toLocation = getToLocation();
+      const path = toLocation.fullPath || toLocation.path;
+
+      // 为了更新是否有前进最新状态
+      let temporaryHistoryStack = Array.from(historyStack);
+      if (key === 'pushState') {
+        temporaryHistoryStack[keepPosition] = path;
+        temporaryHistoryStack = historyStack.slice(0, keepPosition);
       }
-      if (!toLocation) {
-        const base = getBase($router);
-        toLocation = { path: createCurrentLocation(base) };
-      }
+
       if (!(['go', 'forward', 'back'].includes(key))) {
         const current = (['forward', 'pushState'].includes(key)
           ? historyStack[keepPosition - 1]
-          : historyStack[keepPosition]) || toLocation.path;
+          : historyStack[keepPosition]) || path;
 
         const state = {
           keepPosition,
           keepBack: historyStack[keepPosition - 1],
           keepCurrent: current,
-          keepNext: toLocation.path,
-          keepForward: historyStack[keepPosition + 1],
+          keepNext: path,
+          keepForward: temporaryHistoryStack[keepPosition + 1],
         };
         arguments[0] = assign(arguments[0], state);
       }
-      if (popstateBack && historyStack.length > length) {
+
+      if (isPopstateBack && historyStack.length > history.length) {
         const positionOffset = Math.abs(historyStack.length - history.length - keepPosition);
-        console.log('positionOffset', positionOffset, historyStack[positionOffset - 1]);
-        arguments[0] = assign(arguments[0], history.state, { keepBack: historyStack[positionOffset - 1] });
-        popstateBack = false;
+        // console.log('positionOffset', positionOffset, historyStack[positionOffset - 1]);
+        arguments[0] = assign(arguments[0], history.state, {
+          keepBack: historyStack[positionOffset - 1]
+        });
+        isPopstateBack = false;
       }
       historyJumpMethods[key].call(this, ...arguments);
       if (['pushState', 'replaceState'].includes(key)) {
         // vue-router4.x push 方法会先执行 replaceState, 然后再次执行 pushState
         if (isRouter4xPush && key === 'replaceState') return;
         routerChange('forward', key);
+      } else {
+        routerChange(isPopstateBack ? 'back' : 'forward', 'popstate');
       }
 
-      console.log(history.state);
-
+      // console.log({ keepPosition: history.state.keepPosition, keepBack: history.state.keepBack, keepCurrent: history.state.keepCurrent, keepNext: history.state.keepNext, keepForward: history.state.keepForward });
       isRouter4xPush = false;
     };
-  });
+  }
 
   function routerBeforeCallback(method, toLocation) {
     isNotTriggerBeforeEach = true;
     method === 'push' && (isRouter4xPush = true);
     if (typeof toLocation === 'string') {
       toLocation = { path: toLocation };
-    }
-    if (typeof toLocation === 'number') {
+    } else if (typeof toLocation === 'number') {
       toLocation = { delta: toLocation };
     }
     to = assign({ method }, toLocation);
@@ -122,8 +146,8 @@ function triggerBeforeEach(mergeToLocation) {
   }
 }
 
-function dispatch(eventName, direction, toLocation) {
-  const mergeToLocation = assign({ direction, triggerType: eventName }, to, toLocation);
+function dispatch(eventName, direction, toLocation = {}) {
+  const mergeToLocation = assign({ direction, triggerType: eventName, state: history.state }, to, toLocation);
   if (eventName === KEEP_BEFORE_ROUTE_CHANGE) {
     triggerBeforeEach(mergeToLocation);
   }
@@ -136,7 +160,7 @@ function dispatch(eventName, direction, toLocation) {
     direction,
     destroy: mergeToLocation?.destroy,
     cache: mergeToLocation?.cache,
-    toLocation
+    toLocation: toLocation
   };
 
   const event = new CustomEvent(eventName, options);
@@ -165,7 +189,6 @@ function beforeRouterChange(direction, method) {
         index = keepPosition;
     }
     _to = historyStack[index];
-    console.log('path', keepPosition, _to);
     if (!_to) {
       isEmptyJump = true;
       new Promise(resolve => resolve()).then(() => (isEmptyJump = false));
@@ -173,6 +196,7 @@ function beforeRouterChange(direction, method) {
     };
   }
   const toLocation = toLocationResolve($router, _to);
+
   dispatch(KEEP_BEFORE_ROUTE_CHANGE, direction, toLocation);
 }
 
@@ -183,23 +207,25 @@ function routerChange(direction, method) {
   handleHistoryStack(mergeToLocation, method);
   from = mergeToLocation;
   to = null;
-  isNotTriggerBeforeEach = false;
+  setTimeout(() => (isNotTriggerBeforeEach = false), 0);
 }
 
 function handleHistoryStack(toLocation, method) {
   const { keepPosition } = history.state;
   const stackLength = historyStack.length;
+  const path = toLocation.fullPath || toLocation.path;
 
   if (stackLength === 0) {
-    historyStack[0] = toLocation.path;
+    historyStack[0] = path;
   } else if (method === 'replaceState') {
-    historyStack[keepPosition] = toLocation.path;
+    historyStack[keepPosition] = path;
   } else if (method === 'pushState') {
-    historyStack.push(toLocation.path);
+    historyStack[keepPosition] = path;
+    historyStack.push(path);
     historyStack = historyStack.slice(0, keepPosition + 1);
   }
 
   sessionStorage.setItem('keep_history_stack', JSON.stringify(historyStack));
 
-  console.log('historyStack', keepPosition, history.length, method, historyStack);
+  // console.log('historyStack', keepPosition, history.length, method, historyStack);
 }
