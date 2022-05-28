@@ -9,12 +9,12 @@ import { BASE } from './src/config/index';
 export default defineConfig({
   input: './src/index.js',
   output: [
-    { file: 'dist/vue-keep-router-view.cjs.js' },
-    // { file: "dist/vue-keep-router-view.cjs.min.js", plugins: [terser()] },
-    { file: 'dist/vue-keep-router-view.esm.js', format: 'esm' },
-    { file: 'dist/vue-keep-router-view.umd.js', format: 'umd', name: 'index' }
+    { file: 'dist/vue-keep.cjs.js' },
+    // { file: "dist/vue-keep.cjs.min.js", plugins: [terser()] },
+    { file: 'dist/vue-keep.esm.js', format: 'esm' },
+    { file: 'dist/vue-keep.umd.js', format: 'umd', name: 'index' }
   ],
-  // base: '/example/',
+  base: BASE,
   build: {
     sourcemap: true, // 输出.map文件
   },

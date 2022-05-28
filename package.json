@@ -1,15 +1,15 @@
 {
-  "name": "vue-keep-router-view",
+  "name": "vue-keep",
   "version": "0.1.1",
   "description": "enhance keep-alive component",
-  "main": "dist/vue-keep-router-view.cjs.js",
-  "module": "dist/vue-keep-router-view.esm.js",
+  "main": "dist/vue-keep.cjs.js",
+  "module": "dist/vue-keep.esm.js",
   "scripts": {
     "dev": "rollup -cw"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ByePastHub/vue-keep-router-view.git"
+    "url": "https://github.com/ByePastHub/vue-keep.git"
   },
   "keywords": [
     "vue",

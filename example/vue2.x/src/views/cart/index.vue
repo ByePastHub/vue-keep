@@ -4,8 +4,9 @@
       left-icon="volume-o"
       wrapable
       text="tips: 点击一个商品进去，首次会加载页面，然后不要销毁购物车页面，重新回到购物车页面，在不销毁商品页面的前提下，再次点击同样的商品则不会重新加载新页面，点击一下试试吧"
-      @click="$router.forward()"
+      @click="$router.forward({type: 'forward', cache: true})"
     />
+    <!-- @click="$router.jump({type: 'forward', cache: true})" -->
     <van-checkbox-group class="card-goods" v-model="checkedGoods">
       <van-checkbox
         class="card-goods__item"

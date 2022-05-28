@@ -32,6 +32,18 @@
       </van-cell>
     </van-cell-group>
 
+    <van-cell-group class="user-group">
+      <van-cell style="background-color: lavender;" icon="cart" title="陕西蜜梨" is-link @click="$router.push({path: '/goods', query: {id: 2}, cache: true})">
+        <van-tag class="goods-tag" type="danger">点击</van-tag>
+      </van-cell>
+      <van-cell style="background-color: lavender;" icon="cart" title="陕西蜜梨(重新加载)" is-link @click="$router.push({path: '/goods', query: {id: 2} })">
+        <van-tag class="goods-tag" type="danger">点击</van-tag>
+      </van-cell>
+      <van-cell style="background-color: lavender;" icon="cart" title="陕西蜜梨(强制重新加载)" is-link @click="$router.push({path: '/goods', query: {id: 2}, destroy: 'goods' })">
+        <van-tag class="goods-tag" type="danger">点击</van-tag>
+      </van-cell>
+    </van-cell-group>
+
     <van-cell-group>
       <van-cell icon="points" title="我的积分" />
       <van-cell icon="gold-coin-o" title="我的优惠券" />
@@ -54,7 +66,7 @@ export default {
   },
 
   beforeCreate() {
-    console.log('User beforeCreate')
+    // console.log('User beforeCreate')
   },
 
   // created() {
@@ -70,7 +82,7 @@ export default {
   },
 
   activated() {
-    console.log("User activated")
+    // console.log("User activated")
   },
 };
 </script>

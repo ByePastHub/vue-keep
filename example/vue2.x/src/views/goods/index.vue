@@ -1,7 +1,7 @@
 <template>
   <div class="goods">
     <van-swipe class="goods-swipe" :autoplay="3000">
-      <van-swipe-item v-for="thumb in goods.thumb" :key="thumb">
+      <van-swipe-item v-for="thumb in goods.thumb" :key="thumb" @click="$router.push({name: 'cart', cache: true})">
         <img :src="thumb" />
       </van-swipe-item>
     </van-swipe>
@@ -11,7 +11,7 @@
         <div class="goods-title">{{ goods.title }}</div>
         <div class="goods-price">{{ formatPrice(goods.price) }}</div>
       </van-cell>
-      <van-cell class="goods-express" @click="$router.go(-1)">
+      <van-cell class="goods-express" @click="$router.jump(-1, { cache: true })">
         <van-col span="10">运费：{{ goods.express }}</van-col>
         <van-col span="14">剩余：{{ goods.remain }}</van-col>
       </van-cell>

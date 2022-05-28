@@ -6,6 +6,7 @@
       text="tips: 点击一个商品进去，首次会加载页面，然后不要销毁购物车页面，重新回到购物车页面，在不销毁商品页面的前提下，再次点击同样的商品则不会重新加载新页面，点击一下试试吧"
       @click="$router.forward()"
     />
+    <!-- @click="$router.jump({type: 'forward', cache: true })" -->
     <van-checkbox-group class="card-goods" v-model="checkedGoods">
       <van-checkbox
         class="card-goods__item"
@@ -13,13 +14,21 @@
         :key="item.id"
         :name="item.id"
       >
-        <van-card
+        <!-- <van-card
           :title="item.title"
           :desc="item.desc"
           :num="item.num"
           :price="formatPrice(item.price)"
           :thumb="item.thumb"
           @click.stop="$router.push({name: 'goods', query: { id: item.id }})"
+        /> -->
+        <van-card
+          :title="item.title"
+          :desc="item.desc"
+          :num="item.num"
+          :price="formatPrice(item.price)"
+          :thumb="item.thumb"
+          @click.stop="$router.jump({type: 'push', name: 'goods', query: { id: item.id } })"
         />
       </van-checkbox>
     </van-checkbox-group>
@@ -74,7 +83,7 @@ export default {
   },
 
   beforeCreate() {
-    console.log('Cart beforeCreate')
+    // console.log('Cart beforeCreate')
   },
 
   // created() {
@@ -90,7 +99,7 @@ export default {
   },
 
   activated() {
-    console.log("Cart activated")
+    // console.log("Cart activated")
   },
 
   computed: {

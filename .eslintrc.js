@@ -16,16 +16,6 @@ module.exports = {
     ecmaVersion: 2020,
     sourceType: 'module',
   },
-  globals: {
-    wx: true,
-    App: true,
-    Page: true,
-    getCurrentPages: true,
-    getApp: true,
-    Component: true,
-    requirePlugin: true,
-    requireMiniProgram: true,
-  },
   // extends: 'eslint:recommended',
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',

@@ -12,13 +12,19 @@
         <div class="goods-price">{{ formatPrice(goods.price) }}</div>
       </van-cell>
       <van-cell class="goods-express">
-        <van-col span="10" @click="$router.go(-1)">运费go：{{ goods.express }}</van-col>
+        <van-col span="10" @click="$router.jump(-1, {cache: true})">运费go：{{ goods.express }}</van-col>
         <van-col span="14" @click="$router.back()">剩余back：{{ goods.remain }}</van-col>
       </van-cell>
     </van-cell-group>
 
     <van-cell-group class="goods-cell-group">
-      <van-cell value="进入购物车" icon="cart" is-link @click="$router.push({name: 'cart', cache: true})">
+      <van-cell value="进入购物车" icon="cart" is-link @click="$router.jump({type: 'push', name: 'user', cache: true})">
+        <template #title>
+          <span class="van-cell-text">不销毁user，跳转回user</span>
+          <van-tag class="goods-tag" type="danger">点击</van-tag>
+        </template>
+      </van-cell>
+      <van-cell value="进入购物车" icon="cart" is-link @click="$router.jump({type: 'push', name: 'cart', cache: true})">
         <template #title>
           <span class="van-cell-text">不销毁购物车页面，跳转回购物车</span>
           <van-tag class="goods-tag" type="danger">点击</van-tag>
@@ -137,10 +143,13 @@ export default {
     this.getGoods()
     const query = this.$route.query
 
-    this.beforeEach = this.$keepRouter.beforeEach('goods', to => {
+    this.beforeEach = this.$keepRouter.beforeEach('goods', (to, form) => {
+      console.log('to', to, form)
       if (to.query.id !== query.id) {
+        // 重新加载
         return to.cache = false
       }
+      // 旧页面
       to.cache = true
     })
   },
@@ -154,12 +163,12 @@ export default {
   },
 
   activated() {
-    console.log("Goods activated")
+    // console.log("Goods activated")
   },
 
   beforeUnmount() {
     this.beforeEach()
-    console.log('GoodsBeforeUnmount')
+    // console.log('GoodsBeforeUnmount')
   },
 
   methods: {
