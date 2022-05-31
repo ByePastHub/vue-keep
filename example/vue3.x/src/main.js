@@ -1,7 +1,8 @@
 import { createApp } from 'vue';
 import App from './App.vue';
-import keepRouterView from '../../../dist/vue-keep.esm.js';
 import router from './router/index.js';
+// import keepRouterView from 'vue-keep';
+import keepRouterView from '../../../dist/vue-keep.esm.js';
 import { Toast } from 'vant';
 
 // keepRouterView.beforeEach((to) => {

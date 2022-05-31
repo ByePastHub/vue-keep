@@ -1,4 +1,5 @@
-import { resolveComponent, openBlock, createBlock, withCtx, KeepAlive, resolveDynamicComponent } from 'vue';
+// import { resolveComponent, openBlock, createBlock, withCtx, KeepAlive, resolveDynamicComponent } from 'vue';
+import * as Vue from 'vue';
 
 export function render2x() {
   const vm = this;
@@ -19,7 +20,14 @@ export function render2x() {
 }
 
 export function render3x(ctx, cache, props, setup, data) {
-  const componentRouterView = resolveComponent('router-view');
+  // 避免Vue2.x提示找不到以下参数
+  const _Vue = Vue;
+  const componentRouterView = _Vue.resolveComponent('router-view');
+  const openBlock = _Vue.openBlock;
+  const createBlock = _Vue.createBlock;
+  const withCtx = _Vue.withCtx;
+  const KeepAlive = _Vue.KeepAlive;
+  const resolveDynamicComponent = _Vue.resolveDynamicComponent;
 
   return (openBlock(), createBlock(componentRouterView, { key: 0 }, {
     default: withCtx(function(ref) {

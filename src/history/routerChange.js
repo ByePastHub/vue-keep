@@ -1,6 +1,6 @@
 import { KEEP_BEFORE_ROUTE_CHANGE, KEEP_ROUTE_CHANGE } from '../constants';
 import { assign, createCurrentLocation, getBase, getAbsolutePath, useCallbacks, getToLocation, toLocationResolve } from '../utils/index';
-import { router3x, router4x } from './extendRouterJump';
+import { router3x, router4x } from './routerExtend';
 export const beforeGuards = useCallbacks();
 
 let $router;

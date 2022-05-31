@@ -13,7 +13,7 @@ export default {
     { file: 'dist/vue-keep.cjs.js' },
     { file: 'dist/vue-keep.cjs.min.js', plugins: [terser()] },
     { file: 'dist/vue-keep.esm.js', format: 'esm' },
-    { file: 'dist/vue-keep.umd.js', format: 'umd', name: 'index' }
+    { file: 'dist/vue-keep.global.js', format: 'iife', name: 'keep' }
   ],
   plugins: [
     vue({

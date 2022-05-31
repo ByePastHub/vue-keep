@@ -1,6 +1,6 @@
 import Vue from "vue";
 import App from "./App.vue";
-import keepRouterView, { beforeEach } from "../../../dist/vue-keep.umd";
+import keepRouterView from "../../../dist/vue-keep.cjs";
 import router from "./router";
 import { Toast } from "vant";
 // import keepRouterView from "vue-with-keep-alive";
