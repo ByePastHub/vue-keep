@@ -1,7 +1,5 @@
 import babel from 'rollup-plugin-babel';
 import resolve from '@rollup/plugin-node-resolve';
-import vue from 'rollup-plugin-vue';
-// import vue2 from 'rollup-plugin-vue2';
 import { terser } from 'rollup-plugin-terser';
 import commonjs from '@rollup/plugin-commonjs';
 import { eslint } from 'rollup-plugin-eslint';
@@ -16,15 +14,7 @@ export default {
     { file: 'dist/vue-keep.global.js', format: 'iife', name: 'keep' }
   ],
   plugins: [
-    vue({
-      css: true,
-      compileTemplate: true
-    }),
     eslint({}),
-    // vue2({
-    //   css: true,
-    //   compileTemplate: true
-    // }),
     babel({
       exclude: 'node_modules/**', // 排除node_modules所有文件
       runtimeHelpers: true,

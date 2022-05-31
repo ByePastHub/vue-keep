@@ -65,13 +65,10 @@ export default {
     [CellGroup.name]: CellGroup
   },
 
-  beforeCreate() {
-    // console.log('User beforeCreate')
-  },
 
-  // created() {
-  //   console.log("User created")
-  // },
+  created() {
+    console.log("User created")
+  },
 
   mounted() {
     this.$toast.loading({
@@ -82,7 +79,7 @@ export default {
   },
 
   activated() {
-    // console.log("User activated")
+    console.log("User activated")
   },
 };
 </script>

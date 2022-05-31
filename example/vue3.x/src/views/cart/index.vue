@@ -82,13 +82,9 @@ export default {
     };
   },
 
-  beforeCreate() {
-    // console.log('Cart beforeCreate')
+  created() {
+    console.log("Cart created")
   },
-
-  // created() {
-  //   console.log("Cart created")
-  // },
 
   mounted() {
     this.$toast.loading({
@@ -99,7 +95,7 @@ export default {
   },
 
   activated() {
-    // console.log("Cart activated")
+    console.log("Cart activated")
   },
 
   computed: {

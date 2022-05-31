@@ -140,6 +140,7 @@ export default {
   },
 
   created() {
+    console.log('Goods created')
     this.getGoods()
     const query = this.$route.query
 
@@ -163,12 +164,11 @@ export default {
   },
 
   activated() {
-    // console.log("Goods activated")
+    console.log("Goods activated")
   },
 
   beforeUnmount() {
     this.beforeEach()
-    // console.log('GoodsBeforeUnmount')
   },
 
   methods: {

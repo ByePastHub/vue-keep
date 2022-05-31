@@ -22,6 +22,14 @@ const routes = [
     meta: {
       title: '购物车',
     },
+  },
+  {
+    name: 'goods',
+    path: '/goods',
+    component: () => import('../views/goods/index.vue'),
+    meta: {
+      title: '商品详情',
+    },
   }
 ];
 
@@ -30,17 +38,16 @@ const router = createRouter({
   history: createWebHistory('/example/'),
 });
 
-setTimeout(() => {
-  router.addRoute({
-    name: 'goods',
-    path: '/goods',
-    component: () => import('../views/goods/index.vue'),
-    meta: {
-      title: '商品详情',
-    },
-  });
-  console.log(router.getRoutes());
-}, 1000);
+// setTimeout(() => {
+//   router.addRoute({
+//     name: 'goods',
+//     path: '/goods',
+//     component: () => import('../views/goods/index.vue'),
+//     meta: {
+//       title: '商品详情',
+//     },
+//   });
+// }, 1000);
 
 
 router.beforeEach((to, from, next) => {

@@ -1,4 +1,4 @@
-import { assign, isObject } from '../utils/index';
+import { assign } from '../utils/index';
 
 function resetComponentsName(router, isChildren) {
   const routerVersion = router.constructor.version?.replace(/\.(\d+)$/, '$1');
@@ -48,7 +48,6 @@ function addRoute(router) {
     if (!waiting) {
       waiting = true;
       Promise.resolve().then(() => {
-        console.log('resetComponentsName');
         resetComponentsName(router);
       });
 

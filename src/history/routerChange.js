@@ -97,7 +97,6 @@ export function historyJumpExtend(router) {
 
       if (isPopstateBack && historyStack.length > history.length) {
         const positionOffset = Math.abs(historyStack.length - history.length - keepPosition);
-        // console.log('positionOffset', positionOffset, historyStack[positionOffset - 1]);
         arguments[0] = assign(arguments[0], history.state, {
           keepBack: historyStack[positionOffset - 1]
         });
@@ -112,7 +111,6 @@ export function historyJumpExtend(router) {
         routerChange(isPopstateBack ? 'back' : 'forward', 'popstate');
       }
 
-      // console.log({ keepPosition: history.state.keepPosition, keepBack: history.state.keepBack, keepCurrent: history.state.keepCurrent, keepNext: history.state.keepNext, keepForward: history.state.keepForward });
       isRouter4xPush = false;
     };
   }
@@ -226,6 +224,4 @@ function handleHistoryStack(toLocation, method) {
   }
 
   sessionStorage.setItem('keep_history_stack', JSON.stringify(historyStack));
-
-  // console.log('historyStack', keepPosition, history.length, method, historyStack);
 }

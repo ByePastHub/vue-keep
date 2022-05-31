@@ -63,7 +63,6 @@ export default {
         this.includeList = [];
       }
       this.handelDestroy(destroy);
-      console.log('toLocation.name', toLocation.name);
       if (!toLocation.name) {
         console.warn('keep-router-view: Please pay attention to whether the router base path you configured is correct!');
       }
