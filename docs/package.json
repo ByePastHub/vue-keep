@@ -1,0 +1,26 @@
+{
+  "name": "docs",
+  "version": "0.1.0",
+  "description": "vue-keep docs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vuepress dev src",
+    "build": "vuepress build src --clean-cache"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@vue/component-compiler-utils": "^3.3.0",
+    "@vuepress/plugin-docsearch": "^2.0.0-alpha.1",
+    "@vuepress/plugin-google-analytics": "^1.9.7",
+    "@vuepress/plugin-register-components": "^1.9.7",
+    "@vuepress/plugin-search": "^2.0.0-beta.36",
+    "@vuepress/plugin-shiki": "^2.0.0-beta.5",
+    "@vuepress/shared-utils": "^1.9.7",
+    "lru-cache": "^7.5.1"
+  },
+  "directories": {
+    "doc": "src"
+  }
+}

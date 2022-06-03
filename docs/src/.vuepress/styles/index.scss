@@ -1,0 +1,27 @@
+:root {
+  scroll-behavior: smooth;
+  --content-width: 940px;
+}
+
+@mixin linear-gradient-text {
+  background: -webkit-linear-gradient(315deg, #42d392 25%, #647eff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+#main-title {
+  @include linear-gradient-text;
+}
+
+html.dark {
+  --c-bg: #1a1a1a;
+  --c-text: rgba(255, 255, 255, 0.87);
+  --c-text-light: rgba(255, 255, 255, 0.87);
+  --c-text-lighter: rgba(235, 235, 235, 0.60);
+  --c-text-lightest: #8094a8;
+  .language-bash, .language-json, .language-text, .line-numbers-mode {
+    background-color: rgb(36,36,36);
+  }
+  .description {
+    @include linear-gradient-text;
+  }
+}
