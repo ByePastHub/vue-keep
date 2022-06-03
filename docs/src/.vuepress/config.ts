@@ -4,7 +4,8 @@ import { path } from '@vuepress/utils'
 import { navbar, sidebar } from './configs'
 
 const isProd = process.env.NODE_ENV === 'production'
-const base: '/' | `/${string}/` = process.env.NODE_ENV === 'production' ? '/vue-keep/' : '/'
+// const base: '/' | `/${string}/` = process.env.NODE_ENV === 'production' ? '/vue-keep/' : '/'
+const base: '/' | `/${string}/` = process.env.NODE_ENV === 'production' ? '/' : '/'
 
 export default defineUserConfig<DefaultThemeOptions>({
   base: base,

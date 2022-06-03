@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { beforeEach } from '../../../../dist/vue-keep.esm';
+import { beforeEach } from '../vue-keep.esm';
 
 const routes = [
   {
@@ -50,8 +50,8 @@ const router = createRouter({
 //   });
 // }, 1000);
 
-beforeEach((to) => {
-  console.log('beforeEachbeforeEach', to);
+beforeEach((to, from) => {
+  console.log('beforeEachbeforeEach', to, from);
 });
 
 router.beforeEach((to, from, next) => {
