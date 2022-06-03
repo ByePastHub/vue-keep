@@ -13,7 +13,7 @@
       </van-cell>
       <van-cell class="goods-express">
         <van-col span="10" @click="$router.jump(-1, {cache: true})">运费go：{{ goods.express }}</van-col>
-        <van-col span="14" @click="$router.back()">剩余back：{{ goods.remain }}</van-col>
+        <van-col span="14" @click="$router.back({cache: true})">剩余back：{{ goods.remain }}</van-col>
       </van-cell>
     </van-cell-group>
 
@@ -142,11 +142,10 @@ export default {
   created() {
     console.log('Goods created')
     this.getGoods()
-    const query = this.$route.query
+    const { id } = this.$route.query
 
-    this.beforeEach = this.$keepRouter.beforeEach('goods', (to, form) => {
-      console.log('to', to, form)
-      if (to.query.id !== query.id) {
+    this.unBeforeEach = this.$keepRouter.beforeEach('goods', to => {
+      if (to.query.id !== id) {
         // 重新加载
         return to.cache = false
       }
@@ -168,7 +167,7 @@ export default {
   },
 
   beforeUnmount() {
-    this.beforeEach()
+    this.unBeforeEach()
   },
 
   methods: {

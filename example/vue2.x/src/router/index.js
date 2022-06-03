@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import { beforeEach } from "../../../../dist/vue-keep.cjs";
 
 Vue.use(VueRouter);
 
@@ -42,12 +43,19 @@ const router = new VueRouter({
   // mode: 'history'
 });
 
+beforeEach((to) => {
+  console.log('beforeEachbeforeEach', to)
+})
+
 router.beforeEach(async (to, from, next) => {
+  console.log('router.beforeEach')
   const title = to.meta && to.meta.title;
   if (title) {
     document.title = title;
   }
   next();
 });
+
+
 
 export default router;

@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { beforeEach } from '../../../../dist/vue-keep.esm';
 
 const routes = [
   {
@@ -48,7 +49,6 @@ const router = createRouter({
 //     },
 //   });
 // }, 1000);
-
 
 router.beforeEach((to, from, next) => {
   const title = to.meta && to.meta.title;

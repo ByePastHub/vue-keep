@@ -2,7 +2,7 @@
 
 ## 介绍
 
->`vue-keep`可以帮助你实现前进刷新，返回时之前的页面还处于激活的状态，可以像`app`一样的体验。哪里需要缓存，把`router-view`组件使用`keep-router-view`来替换。
+>`vue-keep`可以帮助你实现前进刷新，返回时之前的页面还处于激活的状态，可以优化比`app`还要好的体验。哪里需要缓存，把`router-view`组件使用`keep-router-view`来替换。
 
 ## language
 
@@ -11,12 +11,7 @@
 
 ### 安装
 
-vue2.x
-```
-npm install vue-keep@2
-```
-
-vue3.x
+支持 `vue2.x`/`vue3.x`
 ```
 npm install vue-keep
 ```

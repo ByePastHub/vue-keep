@@ -2,7 +2,7 @@
 
 ## introduce
 
->`vue-keep` can help you achieve forward refresh, the previous page is still active when you return, and you can experience the same as `app`. Where caching is needed, replace the `router-view` component with `keep-router-view`.
+>`vue-keep` can help you achieve forward refresh, and the previous page is still active when returning, which can optimize the experience better than `app`. Where caching is needed, replace the `router-view` component with `keep-router-view`
 
 ## language
 
@@ -11,12 +11,7 @@
 
 ### Install
 
-vue2.x
-```
-npm install vue-keep@2
-```
-
-vue3.x
+Support `vue2.x`/`vue3.x`
 ```
 npm install vue-keep
 ```
