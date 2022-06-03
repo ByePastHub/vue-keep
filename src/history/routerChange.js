@@ -39,8 +39,6 @@ export function historyJumpExtend(router) {
   if (router.constructor.version) {
     // 如果是vue-router3.x版本才会手动触发，vue-router4.x内部会自己触发一次
     Promise.resolve().then(() => routerChange('forward', 'popstate'));
-  } else {
-    setTimeout(() => (isBeforeRouterChange = true), 0);
   }
 
   function getToLocation(position, method) {
@@ -122,6 +120,7 @@ export function historyJumpExtend(router) {
         // vue-router4.x push 方法会先执行 replaceState, 然后再次执行 pushState
         if (isRouter4xPush && key === 'replaceState') return;
         routerChange(isPopstateBack ? 'back' : 'forward', key);
+        isBeforeRouterChange = false;
       }
 
       isPopstateBack = false;
@@ -193,7 +192,7 @@ function dispatch(eventName, direction, toLocation = {}) {
 
   const event = new CustomEvent(eventName, options);
   window.dispatchEvent(event);
-  setTimeout(() => (isBeforeRouterChange = false), 0);
+  // setTimeout(() => (isBeforeRouterChange = false), 0);
 
   return mergeToLocation;
 }

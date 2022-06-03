@@ -50,7 +50,12 @@ const router = createRouter({
 //   });
 // }, 1000);
 
+beforeEach((to) => {
+  console.log('beforeEachbeforeEach', to);
+});
+
 router.beforeEach((to, from, next) => {
+  console.log('router.beforeEach');
   const title = to.meta && to.meta.title;
   if (title) {
     document.title = title;
