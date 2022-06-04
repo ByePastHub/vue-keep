@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { BASE } from '../config/index';
 import { beforeEach } from '../vue-keep.esm';
 
 const routes = [
@@ -36,7 +37,7 @@ const routes = [
 
 const router = createRouter({
   routes,
-  history: createWebHistory('/example/'),
+  history: createWebHistory(BASE),
 });
 
 // setTimeout(() => {
