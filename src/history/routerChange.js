@@ -13,7 +13,7 @@ let isRouter4xPush;
 let historyStack = JSON.parse(sessionStorage.getItem('keep_history_stack') || '[]');
 let isPopstateBack;
 let isBeforeRouterChange;
-const beforeState = Object.create(null);
+let beforeState = Object.create(null);
 
 window.addEventListener('popstate', function(ev) {
   keepPosition = ev.state.keepPosition;
@@ -63,12 +63,12 @@ export function historyJumpExtend(router) {
 
     // 为了更新是否有前进最新状态
     let temporaryHistoryStack = Array.from(historyStack);
-    if (method === 'pushState') {
+    if (['pushState', 'push'].includes(method)) {
       temporaryHistoryStack[position] = path;
       temporaryHistoryStack = historyStack.slice(0, position);
     }
 
-    const current = (['forward', 'pushState'].includes(method)
+    const current = (['forward', 'pushState', 'push', 'replace'].includes(method)
       ? historyStack[position - 1]
       : historyStack[position]) || path;
 
@@ -139,9 +139,11 @@ export function historyJumpExtend(router) {
 
     isBeforeRouterChange = true;
     method === 'push' && (isRouter4xPush = true);
-    const isBack = method === 'back' || toLocation?.delta < 0;
+    const isBack = method === 'back' || to.delta < 0;
     const direction = isBack ? 'back' : 'forward';
     isPopstateBack = !!isBack;
+    const nextPosition = method === 'go' ? keepPosition + to.delta : keepPosition + (isBack ? -1 : 1);
+    beforeState = buildState(nextPosition, method);
     beforeRouterChange(direction, method);
   }
 
@@ -172,7 +174,6 @@ function dispatch(eventName, direction, toLocation = {}) {
     triggerType = 'change';
     state = history.state;
   }
-  state = history.state;
 
   const mergeToLocation = assign({ direction, triggerType, state }, to, toLocation);
   if (eventName === KEEP_BEFORE_ROUTE_CHANGE) {
@@ -218,7 +219,7 @@ function beforeRouterChange(direction, method) {
     }
     _to = historyStack[index];
     if (!_to) {
-      console.log('空跳转');
+      console.warn('vue-keep:', 'empty jump');
       isEmptyJump = true;
       new Promise(resolve => resolve()).then(() => (isEmptyJump = false));
       return;

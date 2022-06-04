@@ -64,7 +64,8 @@ function jump(router, callback) {
       if (typeof params !== 'object') return;
       type = params.type || 'go';
       callback(type, assign({ delta: arguments[0] || 0 }, params));
-      return router[params.type || 'go'].call(this, arguments[0] || 0);
+      router[params.type || 'go'].call(this, arguments[0] || 0);
+      return (isJump = false);
     }
     callback(type, arguments[0]);
     router[type].call(this, ...arguments);
