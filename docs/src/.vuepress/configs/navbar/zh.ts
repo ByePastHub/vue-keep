@@ -7,6 +7,6 @@ export const zh: NavbarConfig = [
   },
   {
     text: '示例',
-    link: 'https://byepasthub.github.io/vue-keep/example/index.html#/cart'
+    link: 'https://byepasthub.github.io/vue-keep/example/'
   }
 ]

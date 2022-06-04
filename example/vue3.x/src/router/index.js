@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router';
 import { BASE } from '../config/index';
 import { beforeEach } from '../vue-keep.esm';
 
@@ -37,7 +37,7 @@ const routes = [
 
 const router = createRouter({
   routes,
-  history: createWebHistory(BASE),
+  history: createWebHashHistory(BASE),
 });
 
 // setTimeout(() => {
