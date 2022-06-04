@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import { BASE } from '../config/index';
-import { beforeEach } from '../vue-keep.esm';
+import { beforeEach } from '@bye_past/vue-keep';
 
 const routes = [
   {

@@ -6,7 +6,7 @@
 
 你可以使用 keepRouter.beforeEach 注册一个全局前置守卫：
 ```js
-import { beforeEach } from 'vue-keep'
+import { beforeEach } from '@bye_past/vue-keep'
 
 const unBeforeEach = beforeEach((to, from) => {
   // 当router发生跳转时就会触发

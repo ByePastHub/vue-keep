@@ -13,7 +13,7 @@
 
 支持 `vue2.x`/`vue3.x`
 ```
-npm install vue-keep
+npm install @bye_past/vue-keep
 ```
 
 ## 快速上手

@@ -1,6 +1,6 @@
 {
-  "name": "vue-keep",
-  "version": "0.1.1",
+  "name": "@bye_past/vue-keep",
+  "version": "1.0.0RC",
   "description": "enhance keep-alive component",
   "main": "dist/vue-keep.cjs.js",
   "pkg": "dist/vue-keep.global.js",
@@ -21,6 +21,10 @@
     "keep-router-view",
     "vue2.x",
     "vue3.x"
+  ],
+  "files": [
+    "dist",
+    "src"
   ],
   "author": "ByePast",
   "license": "MIT",

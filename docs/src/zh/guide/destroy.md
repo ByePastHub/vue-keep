@@ -37,7 +37,7 @@
 ---
 
 ```js
-import { destroy } from 'vue-keep';
+import { destroy } from '@bye_past/vue-keep';
 
 destroy(['Page1', 'Page2']);
 ```

@@ -5722,7 +5722,7 @@
   dependencies:
     "mime-db" "1.51.0"
 
-"mime@^1.4.1":
+"mime@^1.4.1", "mime@1.6.0":
   "integrity" "sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg=="
   "resolved" "https://registry.npmjs.org/mime/-/mime-1.6.0.tgz"
   "version" "1.6.0"
@@ -5731,11 +5731,6 @@
   "integrity" "sha1-oqaCqVzU0MsdYlfij4PafjWAA2c="
   "resolved" "https://registry.npmmirror.com/mime/download/mime-2.6.0.tgz"
   "version" "2.6.0"
-
-"mime@1.6.0":
-  "integrity" "sha1-Ms2eXGRVO9WNGaVor0Uqz/BJgbE="
-  "resolved" "https://registry.npmmirror.com/mime/download/mime-1.6.0.tgz"
-  "version" "1.6.0"
 
 "mimic-fn@^1.0.0":
   "integrity" "sha512-jf84uxzwiuiIVKiOLpfYk7N46TSy8ubTonmneY9vrpHNAnp0QBt2BxWV9dO3/j+BoVAb+a5G6YDPW3M5HOdMWQ=="
@@ -7899,18 +7894,9 @@
   dependencies:
     "safe-buffer" "~5.1.0"
 
-"string-width@^3.0.0":
+"string-width@^3.0.0", "string-width@^3.1.0":
   "integrity" "sha512-vafcv6KjVZKSgz06oM/H6GDBrAtz8vdhQakGjFIvNrHA6y3HCF1CInLy+QLq8dTJPQ1b+KDUqDFctkdRW44e1w=="
   "resolved" "https://registry.npmjs.org/string-width/-/string-width-3.1.0.tgz"
-  "version" "3.1.0"
-  dependencies:
-    "emoji-regex" "^7.0.1"
-    "is-fullwidth-code-point" "^2.0.0"
-    "strip-ansi" "^5.1.0"
-
-"string-width@^3.1.0":
-  "integrity" "sha1-InZ74htirxCBV0MG9prFG2IgOWE="
-  "resolved" "https://registry.npmmirror.com/string-width/download/string-width-3.1.0.tgz"
   "version" "3.1.0"
   dependencies:
     "emoji-regex" "^7.0.1"

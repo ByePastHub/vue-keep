@@ -7,7 +7,7 @@
 
   ```js
   import Vue from 'vue';
-  import keep from 'vue-keep'
+  import keep from '@bye_past/vue-keep'
   import App from './App.vue';
   import router from './router';
 
@@ -25,7 +25,7 @@
 
   ```js
   import { createApp } from 'vue';
-  import keep from 'vue-keep'
+  import keep from '@bye_past/vue-keep'
   import router from './router/index';
   import App from './App.vue';
 

@@ -37,7 +37,7 @@ If you need to destroy the cached page components, you can use destroy to destro
 ---
 
 ```js
-import { destroy } from 'vue-keep';
+import { destroy } from '@bye_past/vue-keep';
 
 destroy(['Page1', 'Page2']);
 ```
