@@ -52,7 +52,7 @@ const router = createRouter({
 // }, 1000);
 
 beforeEach((to, from) => {
-  console.log('beforeEachbeforeEach', to, from);
+  console.log('keepBeforeEach', to, from);
 });
 
 router.beforeEach((to, from, next) => {

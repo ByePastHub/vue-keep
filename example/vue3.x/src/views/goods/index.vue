@@ -12,8 +12,8 @@
         <div class="goods-price">{{ formatPrice(goods.price) }}</div>
       </van-cell>
       <van-cell class="goods-express">
-        <van-col span="10" @click="$router.jump(-1, {cache: true})">运费go：{{ goods.express }}</van-col>
-        <van-col span="14" @click="$router.back({cache: true})">剩余back：{{ goods.remain }}</van-col>
+        <van-col span="24" @click="$router.jump(-1, {cache: true})">运费go(-1)：返回时使用缓存</van-col>
+        <van-col span="24" @click="$router.back({cache: true})">剩余back：返回时使用缓存</van-col>
       </van-cell>
     </van-cell-group>
 

@@ -43,8 +43,8 @@ const router = new VueRouter({
   // mode: 'history'
 });
 
-beforeEach((to) => {
-  console.log('beforeEachbeforeEach', to)
+beforeEach((to, from) => {
+  console.log('keepBeforeEach', to, from)
 })
 
 router.beforeEach(async (to, from, next) => {
