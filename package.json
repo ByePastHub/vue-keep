@@ -1,6 +1,6 @@
 {
   "name": "@bye_past/vue-keep",
-  "version": "1.0.0RC",
+  "version": "1.0.0",
   "description": "enhance keep-alive component",
   "main": "dist/vue-keep.cjs.js",
   "pkg": "dist/vue-keep.global.js",
