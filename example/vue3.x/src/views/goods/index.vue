@@ -18,12 +18,6 @@
     </van-cell-group>
 
     <van-cell-group class="goods-cell-group">
-      <van-cell value="进入购物车" icon="cart" is-link @click="$router.jump({type: 'push', name: 'user', cache: true})">
-        <template #title>
-          <span class="van-cell-text">不销毁user，跳转回user</span>
-          <van-tag class="goods-tag" type="danger">点击</van-tag>
-        </template>
-      </van-cell>
       <van-cell value="进入购物车" icon="cart" is-link @click="$router.jump({type: 'push', name: 'cart', cache: true})">
         <template #title>
           <span class="van-cell-text">不销毁购物车页面，跳转回购物车</span>
@@ -33,6 +27,12 @@
       <van-cell title="线下门店" icon="cart" is-link @click="$router.push({name: 'cart'})">
         <template #title>
           <span class="van-cell-text">销毁购物车页面，跳转回购物车</span>
+          <van-tag class="goods-tag" type="danger">点击</van-tag>
+        </template>
+      </van-cell>
+      <van-cell value="进入购物车" icon="cart" is-link @click="$router.jump({type: 'push', name: 'user', cache: true})">
+        <template #title>
+          <span class="van-cell-text">不销毁user，跳转回user</span>
           <van-tag class="goods-tag" type="danger">点击</van-tag>
         </template>
       </van-cell>

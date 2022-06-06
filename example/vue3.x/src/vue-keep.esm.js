@@ -1053,6 +1053,10 @@ function handleHistoryStack(toLocation, method) {
   if (method === 'pushState') {
     historyStack.push(path);
     historyStack = historyStack.slice(0, keepPosition + 1);
+  } else if (!history.state.keepBack) {
+    historyStack = historyStack.map(function (path, index) {
+      return index < keepPosition ? null : path;
+    });
   }
   sessionStorage.setItem('keep_history_stack', JSON.stringify(historyStack));
 }
