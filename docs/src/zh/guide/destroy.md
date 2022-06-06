@@ -8,7 +8,7 @@
 ### 在Vue实例内部销毁
 ---
 
-```vue
+```html
 <router-link :to="{name: 'Home', destroy: 'About'}">
   跳转到Home页面，并销毁About页面
 </router-link>

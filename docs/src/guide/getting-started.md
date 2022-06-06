@@ -39,6 +39,9 @@
 </CodeGroup>
 
 **App.vue**
+::: tip
+Where you need to cache page components, replace `<router-view />` with `<keep-router-view />`
+:::
 ```vue
 <template>
   <keep-router-view />

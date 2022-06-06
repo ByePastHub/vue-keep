@@ -40,6 +40,9 @@
 </CodeGroup>
 
 **App.vue**
+::: tip
+在需要缓存页面组件的地方，将 `<router-view />` 替换为 `<keep-router-view />`
+:::
 ```vue
 <template>
   <keep-router-view />
