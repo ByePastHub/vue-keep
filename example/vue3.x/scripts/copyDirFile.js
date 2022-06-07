@@ -9,8 +9,8 @@ const endFileDirectory = path.resolve(__dirname, '../../../docs/src/.vuepress/pu
 
 // 删除复制执行
 rmDirFile(endFileDirectory, () => {
-  console.log('全部删除完成，开始复制');
-  copyDir(startFileDirectory, endFileDirectory, (res) => {
+  console.log('开始复制');
+  copyDir(startFileDirectory, endFileDirectory, () => {
     console.log('全部复制完成');
   });
 });
@@ -120,5 +120,4 @@ function copyDir(srcDir, tarDir, cb) {
       copyDir(srcDir, tarDir, cb);
     });
   }
-
 }
