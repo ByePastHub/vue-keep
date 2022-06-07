@@ -1,5 +1,6 @@
 .DS_Store
 node_modules
+docs/src/.vuepress/public/example
 
 # Logs
 logs

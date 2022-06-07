@@ -35,7 +35,7 @@ function rmDirFile(path, cb) {
       }
     });
     // 如果删除文件夹为放置文件夹根目录  不执行删除
-    if (path == endFileDirectory) {
+    if (path == endFileDirectory || endFileDirectory.indexOf('vue')) {
       // console.log('删除文件夹完成', path);
     } else {
       fs.rmdirSync(path);
@@ -74,13 +74,6 @@ function copyFile(srcPath, tarPath, cb) {
 
 // 复制文件夹所有
 function copyDir(srcDir, tarDir, cb) {
-  console.log('srcDir', srcDir, tarDir);
-  rmDirFile(tarDir, () => {
-    console.log('全部删除完成，开始复制');
-    // copyDir(startFileDirectory, endFileDirectory, (res) => {
-    //   console.log('全部复制完成');
-    // });
-  });
   if (fs.existsSync(tarDir)) {
     fs.readdir(srcDir, function(err, files) {
       var count = 0;
