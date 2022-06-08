@@ -4,6 +4,6 @@
 
 ## How It Works?
 
-Extending on the basis of the `keep-alive` component, rewriting some methods of `vue-router` and `history`, 1:1 re-engraving the browser history, so as to accurately judge whether to go forward or backward, use Whether to cache page components or destroy page components.
+Extending on the basis of the `keep-alive` component, rewriting some methods of `vue-router` and `history`, 1:1 re-engraving the browser history stack, so as to accurately judge whether to go forward or backward, use Whether to cache page components or destroy page components.
 
-In order to make it easier for developers to use, vueKeep will export the `name` of the page components you write in the route and will use the route.name `to overwrite`, to avoid some users who do not have components without exporting the name, or write errors that cause no cache to change Page components, while making it easier to optimize older projects.
+In order to make it easier for developers to use, VueKeep will overwrite the `name` in the page component in routes with `route.name` to avoid some users who do not have components without exporting the name, or write mistakes, resulting in no cache to Changed page components, while making it easier to optimize old projects.

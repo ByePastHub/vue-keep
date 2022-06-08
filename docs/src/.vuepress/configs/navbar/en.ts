@@ -7,6 +7,6 @@ export const en: NavbarConfig = [
   },
   {
     text: 'Example',
-    link: 'https://byepasthub.github.io/vue-keep/example/index.html#/cart'
+    link: 'https://byepasthub.github.io/vue-keep/example/'
   }
 ]

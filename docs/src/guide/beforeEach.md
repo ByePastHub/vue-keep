@@ -6,7 +6,7 @@ The **beforeEach** method is somewhat similar to the **beforeEach** in `router`,
 
 You can use keepRouter.beforeEach to register a global front guard:
 ```js
-import { beforeEach } from 'vue-keep'
+import { beforeEach } from '@bye_past/vue-keep'
 
 const unBeforeEach = beforeEach((to, from) => {
   // Triggered when the router jumps

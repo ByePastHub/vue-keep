@@ -7,7 +7,7 @@
 
   ```js
   import Vue from 'vue';
-  import keep from 'vue-keep'
+  import keep from '@bye_past/vue-keep'
   import App from './App.vue';
   import router from './router';
 
@@ -25,7 +25,7 @@
 
   ```js
   import { createApp } from 'vue';
-  import keep from 'vue-keep'
+  import keep from '@bye_past/vue-keep'
   import router from './router/index';
   import App from './App.vue';
 
@@ -39,6 +39,9 @@
 </CodeGroup>
 
 **App.vue**
+::: tip
+Where you need to cache page components, replace `<router-view />` with `<keep-router-view />`
+:::
 ```vue
 <template>
   <keep-router-view />

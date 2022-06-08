@@ -6,7 +6,7 @@
 
 你可以使用 keepRouter.beforeEach 注册一个全局前置守卫：
 ```js
-import { beforeEach } from 'vue-keep'
+import { beforeEach } from '@bye_past/vue-keep'
 
 const unBeforeEach = beforeEach((to, from) => {
   // 当router发生跳转时就会触发
@@ -63,12 +63,16 @@ destroy() {
 }
 ```
 
-+ `VueKeep`中的 beforeEach 并不打算提供`next`方法。
-+ `VueKeep`中的 beforeEach 同样提供了跟`router.beforeEach`中的`to`跟`from`参数。
+### 与VueRouter中beforeEach差异
 ---
++ **VueKeep中 beforeEach 并不打算提供`next`方法。**
++ **VueKeep中 beforeEach 同样提供了跟`router.beforeEach`中的`to`跟`from`参数。**
++ **VueKeep中 beforeEach 对`to`跟`from`的基础参数增添以下内容：**
+
   - **`triggerType`(String)**: 触发类型分别是: beforeChange/change
-    >+ **`beforeChange`**: 路由还没发生变化，基本上属于`javaScript`触发跳转的是beforeChange
-    >+ **`change`**: 路由已经发生变化，基本上不属于`javaScript`触发跳转的是change
+    + **`beforeChange`**: 路由还没发生变化，基本上属于`javaScript`触发跳转的是beforeChange
+    + **`change`**: 路由已经发生变化，基本上不属于`javaScript`手动触发跳转的是change
+
   - **`cache`(Boolean)**: 该跳转是否使用缓存页面(如果已经缓存过)，如果`triggerType`属于`beforeChange`，那么你可以手动动态修改是否使用缓存。
   - **`direction`(String)**: 该跳转属于forward/back。
   - **`method`(String)**: 触发跳转的方法。

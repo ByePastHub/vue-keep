@@ -8,7 +8,7 @@
 
   ```js
   import Vue from 'vue';
-  import keep from 'vue-keep'
+  import keep from '@bye_past/vue-keep'
   import App from './App.vue';
   import router from './router';
 
@@ -26,7 +26,7 @@
 
   ```js
   import { createApp } from 'vue';
-  import keep from 'vue-keep'
+  import keep from '@bye_past/vue-keep'
   import router from './router/index';
   import App from './App.vue';
 
@@ -40,6 +40,9 @@
 </CodeGroup>
 
 **App.vue**
+::: tip
+在需要缓存页面组件的地方，将 `<router-view />` 替换为 `<keep-router-view />`
+:::
 ```vue
 <template>
   <keep-router-view />

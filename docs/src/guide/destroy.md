@@ -8,7 +8,7 @@ If you need to destroy the cached page components, you can use destroy to destro
 ### Destroy inside Vue instance
 ---
 
-```vue
+```html
 <router-link :to="{name: 'Home', destroy: 'About'}">
   Jump to the Home page and destroy the About page
 </router-link>
@@ -37,7 +37,7 @@ If you need to destroy the cached page components, you can use destroy to destro
 ---
 
 ```js
-import { destroy } from 'vue-keep';
+import { destroy } from '@bye_past/vue-keep';
 
 destroy(['Page1', 'Page2']);
 ```
