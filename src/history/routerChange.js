@@ -68,7 +68,7 @@ export function historyJumpExtend(router) {
       temporaryHistoryStack = historyStack.slice(0, position);
     }
 
-    const current = (['forward', 'pushState', 'push', 'replace'].includes(method)
+    const current = (['forward', 'pushState', 'push'].includes(method)
       ? historyStack[position - 1]
       : historyStack[position]) || path;
 
@@ -141,8 +141,20 @@ export function historyJumpExtend(router) {
     method === 'push' && (isRouter4xPush = true);
     const isBack = method === 'back' || to.delta < 0;
     const direction = isBack ? 'back' : 'forward';
+    let nextPosition;
     isPopstateBack = !!isBack;
-    const nextPosition = method === 'go' ? keepPosition + to.delta : keepPosition + (isBack ? -1 : 1);
+
+    switch (method) {
+      case 'go':
+        nextPosition = keepPosition + to.delta;
+        break;
+      case 'replace':
+        nextPosition = keepPosition;
+        break;
+      default:
+        nextPosition = keepPosition + (isBack ? -1 : 1);
+    }
+
     beforeState = buildState(nextPosition, method);
     beforeRouterChange(direction, method);
   }
@@ -193,7 +205,6 @@ function dispatch(eventName, direction, toLocation = {}) {
 
   const event = new CustomEvent(eventName, options);
   window.dispatchEvent(event);
-  // setTimeout(() => (isBeforeRouterChange = false), 0);
 
   return mergeToLocation;
 }

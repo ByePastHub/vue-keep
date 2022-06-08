@@ -7,7 +7,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@bye_past/vue-keep": "^1.0.0-RC",
+    "@bye_past/vue-keep": "^1.0.2",
     "vant": "^3.4.6",
     "vue": "^3.2.31",
     "vue-router": "^4.0.14",
