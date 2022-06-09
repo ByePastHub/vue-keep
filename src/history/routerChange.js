@@ -1,6 +1,7 @@
 import { KEEP_BEFORE_ROUTE_CHANGE, KEEP_ROUTE_CHANGE } from '../constants';
 import { assign, createCurrentLocation, getBase, getAbsolutePath, useCallbacks, getToLocation, toLocationResolve } from '../utils/index';
 import { router3x, router4x } from './routerExtend';
+import { POPSTATE, RouterJumpMethods, HistoryJumpMethods, NavigationDirection } from './types.js';
 export const beforeGuards = useCallbacks();
 
 let $router;
@@ -15,11 +16,11 @@ let isPopstateBack;
 let isBeforeRouterChange;
 let beforeState = Object.create(null);
 
-window.addEventListener('popstate', function(ev) {
+window.addEventListener(POPSTATE, function(ev) {
   keepPosition = ev.state.keepPosition;
-  const direction = keepPosition <= prevPosition ? 'back' : 'forward';
+  const direction = keepPosition <= prevPosition ? NavigationDirection.back : NavigationDirection.forward;
   const absolutePath = getAbsolutePath();
-  direction === 'back' && (isPopstateBack = true);
+  direction === NavigationDirection.back && (isPopstateBack = true);
   history.replaceState(history.state, absolutePath);
   prevPosition = keepPosition;
 });
@@ -32,18 +33,18 @@ export function historyJumpExtend(router) {
   const absolutePath = getAbsolutePath();
 
   // 初始化页面state
-  history.replaceState(buildState(keepPosition, 'replaceState'), absolutePath);
+  history.replaceState(buildState(keepPosition, HistoryJumpMethods.replaceState), absolutePath);
   // 手动提前更新一次
-  routerChange('forward', 'popstate');
+  routerChange(NavigationDirection.forward, POPSTATE);
   isBeforeRouterChange = true;
   if (router.constructor.version) {
     // 如果是vue-router3.x版本才会手动触发，vue-router4.x内部会自己触发一次
-    Promise.resolve().then(() => routerChange('forward', 'popstate'));
+    Promise.resolve().then(() => routerChange(NavigationDirection.forward, POPSTATE));
   }
 
   function getToLocation(position, method) {
     let toLocation;
-    if (['go', 'forward', 'back'].includes(method)) {
+    if ([RouterJumpMethods.go, RouterJumpMethods.forward, RouterJumpMethods.back].includes(method)) {
       to = assign({}, to);
       to.path = historyStack[position];
     }
@@ -57,27 +58,29 @@ export function historyJumpExtend(router) {
     return toLocation;
   }
 
-  function buildState(position, method) {
+  function buildState(position, method, isBack) {
     const toLocation = getToLocation(position, method);
     const path = toLocation.fullPath || toLocation.path;
 
     // 为了更新是否有前进最新状态
     let temporaryHistoryStack = Array.from(historyStack);
-    if (['pushState', 'push'].includes(method)) {
+    if ([HistoryJumpMethods.pushState, RouterJumpMethods.push].includes(method)) {
       temporaryHistoryStack[position] = path;
       temporaryHistoryStack = historyStack.slice(0, position);
     }
 
-    const current = (['forward', 'pushState', 'push'].includes(method)
+    const current = ([RouterJumpMethods.forward, HistoryJumpMethods.pushState, RouterJumpMethods.push].includes(method)
       ? historyStack[position - 1]
       : historyStack[position]) || path;
 
     return {
-      keepPosition,
+      keepPosition: position,
       keepBack: historyStack[position - 1],
       keepCurrent: current,
       keepNext: path,
       keepForward: temporaryHistoryStack[position + 1],
+      keepReplace: !!beforeState?.keepReplace,
+      keepDirection: isBack ? NavigationDirection.back : NavigationDirection.forward
     };
   }
 
@@ -89,24 +92,24 @@ export function historyJumpExtend(router) {
       // 如果空跳转
       if (isEmptyJump) return;
       switch (key) {
-        case 'pushState':
-        case 'forward':
+        case HistoryJumpMethods.pushState:
+        case RouterJumpMethods.forward:
           keepPosition = keepPosition + 1;
           break;
-        case 'go':
+        case RouterJumpMethods.go:
           keepPosition = keepPosition + arguments[0];
           break;
-        case 'back':
+        case RouterJumpMethods.back:
           keepPosition = keepPosition - 1;
       }
 
       // 如果是 'go', 'forward', 'back' 先更新 keepPosition，会再次执行一遍，使用 replaceState 方法
-      if (['go', 'forward', 'back'].includes(key)) {
+      if ([RouterJumpMethods.go, RouterJumpMethods.forward, RouterJumpMethods.back].includes(key)) {
         historyJumpMethods[key].call(this, ...arguments);
         return;
       }
 
-      const state = buildState(keepPosition, key);
+      const state = buildState(keepPosition, key, isPopstateBack);
       arguments[0] = assign(arguments[0], state);
 
       if (isPopstateBack && historyStack.length > history.length) {
@@ -116,11 +119,12 @@ export function historyJumpExtend(router) {
         });
       }
       historyJumpMethods[key].call(this, ...arguments);
-      if (['pushState', 'replaceState'].includes(key)) {
+      if ([HistoryJumpMethods.pushState, HistoryJumpMethods.replaceState].includes(key)) {
         // vue-router4.x push 方法会先执行 replaceState, 然后再次执行 pushState
-        if (isRouter4xPush && key === 'replaceState') return;
-        routerChange(isPopstateBack ? 'back' : 'forward', key);
+        if (isRouter4xPush && key === HistoryJumpMethods.replaceState) return;
+        routerChange(isPopstateBack ? NavigationDirection.back : NavigationDirection.forward, key);
         isBeforeRouterChange = false;
+        beforeState = null;
       }
 
       isPopstateBack = false;
@@ -138,28 +142,29 @@ export function historyJumpExtend(router) {
     if (to.name === from?.name || to.path === from?.path) return;
 
     isBeforeRouterChange = true;
-    method === 'push' && (isRouter4xPush = true);
-    const isBack = method === 'back' || to.delta < 0;
-    const direction = isBack ? 'back' : 'forward';
+    const isBack = method === RouterJumpMethods.back || to.delta < 0;
+    const direction = isBack ? NavigationDirection.back : NavigationDirection.forward;
     let nextPosition;
     isPopstateBack = !!isBack;
 
     switch (method) {
-      case 'go':
+      case RouterJumpMethods.go:
         nextPosition = keepPosition + to.delta;
         break;
-      case 'replace':
+      case RouterJumpMethods.replace:
         nextPosition = keepPosition;
         break;
       default:
         nextPosition = keepPosition + (isBack ? -1 : 1);
     }
 
-    beforeState = buildState(nextPosition, method);
+    beforeState = buildState(nextPosition, method, isBack);
+    method === RouterJumpMethods.push && (isRouter4xPush = true);
+    method === RouterJumpMethods.replace && (beforeState.keepReplace = true);
     beforeRouterChange(direction, method);
   }
 
-  if (Object.prototype.hasOwnProperty.call(router, 'push')) {
+  if (Object.prototype.hasOwnProperty.call(router, RouterJumpMethods.push)) {
     return router4x(router, routerBeforeCallback);
   }
 
@@ -255,7 +260,7 @@ function handleHistoryStack(toLocation, method) {
   const path = toLocation.fullPath || toLocation.path;
 
   historyStack[keepPosition] = path;
-  if (method === 'pushState') {
+  if (method === HistoryJumpMethods.pushState) {
     historyStack.push(path);
     historyStack = historyStack.slice(0, keepPosition + 1);
   } else if (!history.state.keepBack) {
