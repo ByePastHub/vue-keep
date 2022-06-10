@@ -154,7 +154,7 @@ export default {
 
     const query = this.$route.query
 
-    this.unBeforeEach = this.$keepRouter.beforeEach(to => {
+    this.unBeforeEach = this.$keepRouter.beforeEach('goods', to => {
       console.log('keepRouter.beforeEach')
       if (to.query.id !== query.id) {
         return to.cache = false

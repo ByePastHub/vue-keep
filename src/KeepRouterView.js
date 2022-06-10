@@ -1,6 +1,6 @@
 import { KEEP_BEFORE_ROUTE_CHANGE, KEEP_COMPONENT_DESTROY, KEEP_ROUTE_CHANGE, DESTROY_ALL } from './constants';
 import { render2x, render3x } from './render';
-import { Vue } from './index';
+import { vueApp } from './index';
 
 export default {
   name: 'KeepRouteView',
@@ -38,7 +38,7 @@ export default {
 
   data() {
     return {
-      vueNext: Number(Vue.version.slice(0, 3)) >= 3,
+      vueNext: Number(vueApp.version.slice(0, 3)) >= 3,
       includeList: [],
     };
   },

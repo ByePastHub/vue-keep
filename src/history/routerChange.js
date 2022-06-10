@@ -2,6 +2,7 @@ import { KEEP_BEFORE_ROUTE_CHANGE, KEEP_ROUTE_CHANGE } from '../constants';
 import { assign, createCurrentLocation, getBase, getAbsolutePath, useCallbacks, getToLocation, toLocationResolve } from '../utils/index';
 import { router3x, router4x } from './routerExtend';
 import { POPSTATE, RouterJumpMethods, HistoryJumpMethods, NavigationDirection } from './types.js';
+import { historyRecord, handleHistoryRecord } from './historyRecord';
 export const beforeGuards = useCallbacks();
 
 let $router;
@@ -11,7 +12,6 @@ let isEmptyJump;
 let to;
 let from = Object.create(null);
 let isRouter4xPush;
-let historyStack = JSON.parse(sessionStorage.getItem('keep_history_stack') || '[]');
 let isPopstateBack;
 let isBeforeRouterChange;
 let beforeState = Object.create(null);
@@ -46,7 +46,7 @@ export function historyJumpExtend(router) {
     let toLocation;
     if ([RouterJumpMethods.go, RouterJumpMethods.forward, RouterJumpMethods.back].includes(method)) {
       to = assign({}, to);
-      to.path = historyStack[position];
+      to.path = historyRecord[position];
     }
     if (to?.name || to?.path) {
       toLocation = toLocationResolve($router, to);
@@ -63,22 +63,27 @@ export function historyJumpExtend(router) {
     const path = toLocation.fullPath || toLocation.path;
 
     // 为了更新是否有前进最新状态
-    let temporaryHistoryStack = Array.from(historyStack);
+    let temporaryHistoryStack = Array.from(historyRecord);
     if ([HistoryJumpMethods.pushState, RouterJumpMethods.push].includes(method)) {
       temporaryHistoryStack[position] = path;
-      temporaryHistoryStack = historyStack.slice(0, position);
+      temporaryHistoryStack = historyRecord.slice(0, position);
     }
 
     const current = ([RouterJumpMethods.forward, HistoryJumpMethods.pushState, RouterJumpMethods.push].includes(method)
-      ? historyStack[position - 1]
-      : historyStack[position]) || path;
+      ? historyRecord[position - 1]
+      : historyRecord[position]) || path;
 
-    let keepBack = historyStack[position - 1];
+    let keepBack = historyRecord[position - 1];
 
     // 如果是返回，并且历史记录已经超过浏览器最大的历史记录后
-    if (isPopstateBack && historyStack.length > history.length) {
-      const positionOffset = Math.abs(historyStack.length - history.length - keepPosition);
-      !historyStack[positionOffset - 1] && (keepBack = null);
+    if (isPopstateBack && historyRecord.length > history.length) {
+      if (method === RouterJumpMethods.replace) {
+        const maxBrowserHistory = historyRecord.map((path, index) => index < keepPosition ? null : path);
+        keepBack = maxBrowserHistory[position - 1];
+      }
+
+      const positionOffset = Math.abs(historyRecord.length - history.length - keepPosition);
+      !historyRecord[positionOffset - 1] && (keepBack = null);
     }
 
     return {
@@ -235,7 +240,7 @@ function beforeRouterChange(direction, method) {
       default:
         index = keepPosition;
     }
-    _to = historyStack[index];
+    _to = historyRecord[index];
     if (!_to) {
       console.warn('vue-keep:', 'empty jump');
       isEmptyJump = true;
@@ -252,20 +257,7 @@ function routerChange(direction, method) {
   const toLocation = getToLocation($router);
 
   const mergeToLocation = dispatch(KEEP_ROUTE_CHANGE, direction, toLocation);
-  handleHistoryStack(mergeToLocation, method);
+  handleHistoryRecord(mergeToLocation, method);
   from = mergeToLocation;
   to = null;
-}
-
-function handleHistoryStack(toLocation, method) {
-  const { keepPosition } = history.state;
-  const path = toLocation.fullPath || toLocation.path;
-
-  historyStack[keepPosition] = path;
-  if (method === HistoryJumpMethods.pushState) {
-    historyStack.push(path);
-    historyStack = historyStack.slice(0, keepPosition + 1);
-  }
-
-  sessionStorage.setItem('keep_history_stack', JSON.stringify(historyStack));
 }
