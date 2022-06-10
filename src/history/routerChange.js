@@ -73,9 +73,17 @@ export function historyJumpExtend(router) {
       ? historyStack[position - 1]
       : historyStack[position]) || path;
 
+    let keepBack = historyStack[position - 1];
+
+    // 如果是返回，并且历史记录已经超过浏览器最大的历史记录后
+    if (isPopstateBack && historyStack.length > history.length) {
+      const positionOffset = Math.abs(historyStack.length - history.length - keepPosition);
+      !historyStack[positionOffset - 1] && (keepBack = null);
+    }
+
     return {
       keepPosition: position,
-      keepBack: historyStack[position - 1],
+      keepBack,
       keepCurrent: current,
       keepNext: path,
       keepForward: temporaryHistoryStack[position + 1],
@@ -112,12 +120,6 @@ export function historyJumpExtend(router) {
       const state = buildState(keepPosition, key, isPopstateBack);
       arguments[0] = assign(arguments[0], state);
 
-      if (isPopstateBack && historyStack.length > history.length) {
-        const positionOffset = Math.abs(historyStack.length - history.length - keepPosition);
-        arguments[0] = assign(arguments[0], history.state, {
-          keepBack: historyStack[positionOffset - 1]
-        });
-      }
       historyJumpMethods[key].call(this, ...arguments);
       if ([HistoryJumpMethods.pushState, HistoryJumpMethods.replaceState].includes(key)) {
         // vue-router4.x push 方法会先执行 replaceState, 然后再次执行 pushState
@@ -263,8 +265,6 @@ function handleHistoryStack(toLocation, method) {
   if (method === HistoryJumpMethods.pushState) {
     historyStack.push(path);
     historyStack = historyStack.slice(0, keepPosition + 1);
-  } else if (!history.state.keepBack) {
-    historyStack = historyStack.map((path, index) => index < keepPosition ? null : path);
   }
 
   sessionStorage.setItem('keep_history_stack', JSON.stringify(historyStack));
