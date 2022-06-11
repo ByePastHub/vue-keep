@@ -9,43 +9,11 @@ const endFileDirectory = path.resolve(__dirname, '../../../docs/src/.vuepress/pu
 
 // 删除复制执行
 rmDirFile(endFileDirectory, () => {
-  console.log('开始复制');
-});
-copyFile(startFileDirectory, endFileDirectory, () => {
-  console.log('全部复制完成');
+  console.log('开始复制...');
+  copyFile(startFileDirectory, endFileDirectory, []);
+  console.log('复制完成');
 });
 
-// 删除
-// function rmDirFile(path, cb) {
-//   let files = [];
-//   if (fs.existsSync(path)) {
-//     var count = 0;
-//     var checkEnd = function() {
-//       ++count == files.length && cb && cb();
-//     };
-//     files = fs.readdirSync(path);
-//     files.forEach(function(file, index) {
-//       const curPath = path + '/' + file;
-//       if (fs.statSync(curPath).isDirectory()) {
-//         console.log('遇到文件夹', curPath);
-//         rmDirFile(curPath, checkEnd);
-//       } else {
-//         fs.unlinkSync(curPath);
-//         checkEnd();
-//       }
-//     });
-//     // 如果删除文件夹为放置文件夹根目录  不执行删除
-//     if (path == endFileDirectory) {
-//       // console.log('删除文件夹完成', path);
-//     } else {
-//       fs.rmdirSync(path);
-//     }
-//     // 为空时直接回调
-//     files.length === 0 && cb && cb();
-//   } else {
-//     cb && cb();
-//   }
-// }
 function rmDirFile(directoryPath, callback) {
   async function rmdirAsync(directoryPath) {
     try {
@@ -63,15 +31,19 @@ function rmDirFile(directoryPath, callback) {
       console.error(e);
     }
   }
-  fs.existsSync(directoryPath) && rmdirAsync(directoryPath).then(() => {
-    // 确保文件/文件夹均已删除 => 回调
+  if (!fs.existsSync(directoryPath)) {
     callback && callback();
-  });
+  } else {
+    rmdirAsync(directoryPath).then(() => {
+      // 确保文件/文件夹均已删除 => 回调
+      callback && callback();
+    });
+  }
 }
 
 function copyFile(srcPath, tarPath, filter = []) {
   fs.access(tarPath, err => {
-    !err && fs.mkdir(tarPath, { recursive: true }, err => {
+    err && fs.mkdir(tarPath, { recursive: true }, err => {
       if (err) throw err;
     });
   });
@@ -85,10 +57,10 @@ function copyFile(srcPath, tarPath, filter = []) {
             const isFile = stats.isFile();
             if (isFile) { // 复制文件
               const destPath = path.join(tarPath, filename);
-              fs.copyFile(filedir, destPath, err => console.log('err', err));
+              fs.copyFile(filedir, destPath, err => err && console.log('err', err));
             } else { // 创建文件夹
               const tarFiledir = path.join(tarPath, filename);
-              fs.mkdir(tarFiledir, err => console.log('err', err));
+              fs.mkdir(tarFiledir, err => err && console.log('err', err));
               copyFile(filedir, tarFiledir, filter);
             }
           });
