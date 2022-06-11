@@ -1,6 +1,6 @@
 {
   "name": "@bye_past/vue-keep",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "缓存你的页面组件, 使得可以比手机APP更好的体验效果",
   "main": "dist/vue-keep.cjs.js",
   "pkg": "dist/vue-keep.global.js",
