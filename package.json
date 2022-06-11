@@ -6,7 +6,10 @@
   "pkg": "dist/vue-keep.global.js",
   "module": "dist/vue-keep.esm.js",
   "scripts": {
-    "dev": "rollup -cw"
+    "dev": "rollup -cw",
+    "dev2x": "sh scripts/vue2xDev.sh",
+    "dev3x": "sh scripts/vue3xDev.sh",
+    "build:example": "sh scripts/buildExample.sh"
   },
   "repository": {
     "type": "git",
