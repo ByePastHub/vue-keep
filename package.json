@@ -7,7 +7,7 @@
   "module": "dist/vue-keep.esm.js",
   "scripts": {
     "dev": "rollup -cw",
-    "build:docs": "node scripts/buildDocs.js"
+    "build:docs": "sh scripts/buildDocs.sh"
   },
   "repository": {
     "type": "git",
