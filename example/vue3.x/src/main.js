@@ -1,15 +1,14 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router/index.js';
-// import keep from '../../../dist/vue-keep.esm.js';
-// import keep from './vue-keep.esm.js';
-// import keep from './vue-keep.esm.js';
-import keep from '@bye_past/vue-keep';
+// import keep, { beforeEach } from '../../../dist/vue-keep.esm.js';
+import keep, { beforeEach } from './vue-keep.esm.js';
+// import keep, { beforeEach } from '@bye_past/vue-keep';
 import { Toast } from 'vant';
 
-// keep.beforeEach((to) => {
-//   console.log('to', to);
-// });
+beforeEach((to, from) => {
+  console.log('keepBeforeEach', to, from);
+});
 
 const app = createApp(App);
 app.use(keep, router);

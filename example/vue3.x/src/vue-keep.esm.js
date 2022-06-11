@@ -1,4 +1,4 @@
-import * as Vue$1 from 'vue';
+import * as Vue from 'vue';
 
 var KEEP_BEFORE_ROUTE_CHANGE = 'KEEP_BEFORE_ROUTE_CHANGE';
 var KEEP_ROUTE_CHANGE = 'KEEP_ROUTE_CHANGE';
@@ -6,11 +6,11 @@ var KEEP_COMPONENT_DESTROY = 'KEEP_COMPONENT_DESTROY';
 var DESTROY_ALL = 'ALL';
 
 function _typeof(obj) {
-  "@babel/helpers - typeof";
-  return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) {
+  '@babel/helpers - typeof';
+  return _typeof = typeof Symbol === 'function' && typeof Symbol.iterator === 'symbol' ? function(obj) {
     return typeof obj;
-  } : function (obj) {
-    return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+  } : function(obj) {
+    return obj && typeof Symbol === 'function' && obj.constructor === Symbol && obj !== Symbol.prototype ? 'symbol' : typeof obj;
   }, _typeof(obj);
 }
 
@@ -22,7 +22,7 @@ function useCallbacks() {
       handler: handler
     };
     handlers.push(obj);
-    return function () {
+    return function() {
       var i = handlers.indexOf(obj);
       if (i > -1) {
         handlers.splice(i, 1);
@@ -46,10 +46,10 @@ function stripBase(pathname, base) {
   return pathname.slice(base.length) || '/';
 }
 function createCurrentLocation(base) {
-  var _location = location,
-      pathname = _location.pathname,
-      search = _location.search,
-      hash = _location.hash;
+  var _location = location;
+  var pathname = _location.pathname;
+  var search = _location.search;
+  var hash = _location.hash;
   var hashPos = base.indexOf('#');
   if (hashPos > -1) {
     var slicePos = hash.includes(base.slice(hashPos)) ? base.slice(hashPos).length : 1;
@@ -63,10 +63,10 @@ function createCurrentLocation(base) {
   return (path + search + hash).replace(/^\/#/, '');
 }
 function getAbsolutePath() {
-  var _window$location = window.location,
-      protocol = _window$location.protocol,
-      host = _window$location.host,
-      href = _window$location.href;
+  var _window$location = window.location;
+  var protocol = _window$location.protocol;
+  var host = _window$location.host;
+  var href = _window$location.href;
   var protocolAndPath = protocol + '//' + host;
   return href.replace(protocolAndPath, '');
 }
@@ -112,20 +112,20 @@ function _arrayWithoutHoles(arr) {
 }
 
 function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
+  if (typeof Symbol !== 'undefined' && iter[Symbol.iterator] != null || iter['@@iterator'] != null) return Array.from(iter);
 }
 
 function _unsupportedIterableToArray$1(o, minLen) {
   if (!o) return;
-  if (typeof o === "string") return _arrayLikeToArray$1(o, minLen);
+  if (typeof o === 'string') return _arrayLikeToArray$1(o, minLen);
   var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$1(o, minLen);
+  if (n === 'Object' && o.constructor) n = o.constructor.name;
+  if (n === 'Map' || n === 'Set') return Array.from(o);
+  if (n === 'Arguments' || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray$1(o, minLen);
 }
 
 function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  throw new TypeError('Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.');
 }
 
 function _toConsumableArray(arr) {
@@ -147,524 +147,524 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
   }
 }
 function _asyncToGenerator(fn) {
-  return function () {
-    var self = this,
-        args = arguments;
-    return new Promise(function (resolve, reject) {
+  return function() {
+    var self = this;
+    var args = arguments;
+    return new Promise(function(resolve, reject) {
       var gen = fn.apply(self, args);
       function _next(value) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, 'next', value);
       }
       function _throw(err) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, 'throw', err);
       }
       _next(undefined);
     });
   };
 }
 
-var runtime = {exports: {}};
+var runtime = { exports: {}};
 
-(function (module) {
-var runtime = (function (exports) {
-  var Op = Object.prototype;
-  var hasOwn = Op.hasOwnProperty;
-  var undefined$1;
-  var $Symbol = typeof Symbol === "function" ? Symbol : {};
-  var iteratorSymbol = $Symbol.iterator || "@@iterator";
-  var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
-  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
-  function define(obj, key, value) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-    return obj[key];
-  }
-  try {
-    define({}, "");
-  } catch (err) {
-    define = function(obj, key, value) {
-      return obj[key] = value;
-    };
-  }
-  function wrap(innerFn, outerFn, self, tryLocsList) {
-    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
-    var generator = Object.create(protoGenerator.prototype);
-    var context = new Context(tryLocsList || []);
-    generator._invoke = makeInvokeMethod(innerFn, self, context);
-    return generator;
-  }
-  exports.wrap = wrap;
-  function tryCatch(fn, obj, arg) {
-    try {
-      return { type: "normal", arg: fn.call(obj, arg) };
-    } catch (err) {
-      return { type: "throw", arg: err };
+(function(module) {
+  var runtime = (function(exports) {
+    var Op = Object.prototype;
+    var hasOwn = Op.hasOwnProperty;
+    var undefined$1;
+    var $Symbol = typeof Symbol === 'function' ? Symbol : {};
+    var iteratorSymbol = $Symbol.iterator || '@@iterator';
+    var asyncIteratorSymbol = $Symbol.asyncIterator || '@@asyncIterator';
+    var toStringTagSymbol = $Symbol.toStringTag || '@@toStringTag';
+    function define(obj, key, value) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+      return obj[key];
     }
-  }
-  var GenStateSuspendedStart = "suspendedStart";
-  var GenStateSuspendedYield = "suspendedYield";
-  var GenStateExecuting = "executing";
-  var GenStateCompleted = "completed";
-  var ContinueSentinel = {};
-  function Generator() {}
-  function GeneratorFunction() {}
-  function GeneratorFunctionPrototype() {}
-  var IteratorPrototype = {};
-  define(IteratorPrototype, iteratorSymbol, function () {
-    return this;
-  });
-  var getProto = Object.getPrototypeOf;
-  var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
-  if (NativeIteratorPrototype &&
+    try {
+      define({}, '');
+    } catch (err) {
+      define = function(obj, key, value) {
+        return obj[key] = value;
+      };
+    }
+    function wrap(innerFn, outerFn, self, tryLocsList) {
+      var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
+      var generator = Object.create(protoGenerator.prototype);
+      var context = new Context(tryLocsList || []);
+      generator._invoke = makeInvokeMethod(innerFn, self, context);
+      return generator;
+    }
+    exports.wrap = wrap;
+    function tryCatch(fn, obj, arg) {
+      try {
+        return { type: 'normal', arg: fn.call(obj, arg) };
+      } catch (err) {
+        return { type: 'throw', arg: err };
+      }
+    }
+    var GenStateSuspendedStart = 'suspendedStart';
+    var GenStateSuspendedYield = 'suspendedYield';
+    var GenStateExecuting = 'executing';
+    var GenStateCompleted = 'completed';
+    var ContinueSentinel = {};
+    function Generator() {}
+    function GeneratorFunction() {}
+    function GeneratorFunctionPrototype() {}
+    var IteratorPrototype = {};
+    define(IteratorPrototype, iteratorSymbol, function() {
+      return this;
+    });
+    var getProto = Object.getPrototypeOf;
+    var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+    if (NativeIteratorPrototype &&
       NativeIteratorPrototype !== Op &&
       hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
-    IteratorPrototype = NativeIteratorPrototype;
-  }
-  var Gp = GeneratorFunctionPrototype.prototype =
-    Generator.prototype = Object.create(IteratorPrototype);
-  GeneratorFunction.prototype = GeneratorFunctionPrototype;
-  define(Gp, "constructor", GeneratorFunctionPrototype);
-  define(GeneratorFunctionPrototype, "constructor", GeneratorFunction);
-  GeneratorFunction.displayName = define(
-    GeneratorFunctionPrototype,
-    toStringTagSymbol,
-    "GeneratorFunction"
-  );
-  function defineIteratorMethods(prototype) {
-    ["next", "throw", "return"].forEach(function(method) {
-      define(prototype, method, function(arg) {
-        return this._invoke(method, arg);
-      });
-    });
-  }
-  exports.isGeneratorFunction = function(genFun) {
-    var ctor = typeof genFun === "function" && genFun.constructor;
-    return ctor
-      ? ctor === GeneratorFunction ||
-        (ctor.displayName || ctor.name) === "GeneratorFunction"
-      : false;
-  };
-  exports.mark = function(genFun) {
-    if (Object.setPrototypeOf) {
-      Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
-    } else {
-      genFun.__proto__ = GeneratorFunctionPrototype;
-      define(genFun, toStringTagSymbol, "GeneratorFunction");
+      IteratorPrototype = NativeIteratorPrototype;
     }
-    genFun.prototype = Object.create(Gp);
-    return genFun;
-  };
-  exports.awrap = function(arg) {
-    return { __await: arg };
-  };
-  function AsyncIterator(generator, PromiseImpl) {
-    function invoke(method, arg, resolve, reject) {
-      var record = tryCatch(generator[method], generator, arg);
-      if (record.type === "throw") {
-        reject(record.arg);
+    var Gp = GeneratorFunctionPrototype.prototype =
+    Generator.prototype = Object.create(IteratorPrototype);
+    GeneratorFunction.prototype = GeneratorFunctionPrototype;
+    define(Gp, 'constructor', GeneratorFunctionPrototype);
+    define(GeneratorFunctionPrototype, 'constructor', GeneratorFunction);
+    GeneratorFunction.displayName = define(
+      GeneratorFunctionPrototype,
+      toStringTagSymbol,
+      'GeneratorFunction'
+    );
+    function defineIteratorMethods(prototype) {
+      ['next', 'throw', 'return'].forEach(function(method) {
+        define(prototype, method, function(arg) {
+          return this._invoke(method, arg);
+        });
+      });
+    }
+    exports.isGeneratorFunction = function(genFun) {
+      var ctor = typeof genFun === 'function' && genFun.constructor;
+      return ctor
+        ? ctor === GeneratorFunction ||
+        (ctor.displayName || ctor.name) === 'GeneratorFunction'
+        : false;
+    };
+    exports.mark = function(genFun) {
+      if (Object.setPrototypeOf) {
+        Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
       } else {
-        var result = record.arg;
-        var value = result.value;
-        if (value &&
-            typeof value === "object" &&
-            hasOwn.call(value, "__await")) {
-          return PromiseImpl.resolve(value.__await).then(function(value) {
-            invoke("next", value, resolve, reject);
-          }, function(err) {
-            invoke("throw", err, resolve, reject);
+        genFun.__proto__ = GeneratorFunctionPrototype;
+        define(genFun, toStringTagSymbol, 'GeneratorFunction');
+      }
+      genFun.prototype = Object.create(Gp);
+      return genFun;
+    };
+    exports.awrap = function(arg) {
+      return { __await: arg };
+    };
+    function AsyncIterator(generator, PromiseImpl) {
+      function invoke(method, arg, resolve, reject) {
+        var record = tryCatch(generator[method], generator, arg);
+        if (record.type === 'throw') {
+          reject(record.arg);
+        } else {
+          var result = record.arg;
+          var value = result.value;
+          if (value &&
+            typeof value === 'object' &&
+            hasOwn.call(value, '__await')) {
+            return PromiseImpl.resolve(value.__await).then(function(value) {
+              invoke('next', value, resolve, reject);
+            }, function(err) {
+              invoke('throw', err, resolve, reject);
+            });
+          }
+          return PromiseImpl.resolve(value).then(function(unwrapped) {
+            result.value = unwrapped;
+            resolve(result);
+          }, function(error) {
+            return invoke('throw', error, resolve, reject);
           });
         }
-        return PromiseImpl.resolve(value).then(function(unwrapped) {
-          result.value = unwrapped;
-          resolve(result);
-        }, function(error) {
-          return invoke("throw", error, resolve, reject);
-        });
       }
-    }
-    var previousPromise;
-    function enqueue(method, arg) {
-      function callInvokeWithMethodAndArg() {
-        return new PromiseImpl(function(resolve, reject) {
-          invoke(method, arg, resolve, reject);
-        });
-      }
-      return previousPromise =
+      var previousPromise;
+      function enqueue(method, arg) {
+        function callInvokeWithMethodAndArg() {
+          return new PromiseImpl(function(resolve, reject) {
+            invoke(method, arg, resolve, reject);
+          });
+        }
+        return previousPromise =
         previousPromise ? previousPromise.then(
           callInvokeWithMethodAndArg,
           callInvokeWithMethodAndArg
         ) : callInvokeWithMethodAndArg();
+      }
+      this._invoke = enqueue;
     }
-    this._invoke = enqueue;
-  }
-  defineIteratorMethods(AsyncIterator.prototype);
-  define(AsyncIterator.prototype, asyncIteratorSymbol, function () {
-    return this;
-  });
-  exports.AsyncIterator = AsyncIterator;
-  exports.async = function(innerFn, outerFn, self, tryLocsList, PromiseImpl) {
-    if (PromiseImpl === void 0) PromiseImpl = Promise;
-    var iter = new AsyncIterator(
-      wrap(innerFn, outerFn, self, tryLocsList),
-      PromiseImpl
-    );
-    return exports.isGeneratorFunction(outerFn)
-      ? iter
-      : iter.next().then(function(result) {
+    defineIteratorMethods(AsyncIterator.prototype);
+    define(AsyncIterator.prototype, asyncIteratorSymbol, function() {
+      return this;
+    });
+    exports.AsyncIterator = AsyncIterator;
+    exports.async = function(innerFn, outerFn, self, tryLocsList, PromiseImpl) {
+      if (PromiseImpl === void 0) PromiseImpl = Promise;
+      var iter = new AsyncIterator(
+        wrap(innerFn, outerFn, self, tryLocsList),
+        PromiseImpl
+      );
+      return exports.isGeneratorFunction(outerFn)
+        ? iter
+        : iter.next().then(function(result) {
           return result.done ? result.value : iter.next();
         });
-  };
-  function makeInvokeMethod(innerFn, self, context) {
-    var state = GenStateSuspendedStart;
-    return function invoke(method, arg) {
-      if (state === GenStateExecuting) {
-        throw new Error("Generator is already running");
-      }
-      if (state === GenStateCompleted) {
-        if (method === "throw") {
-          throw arg;
-        }
-        return doneResult();
-      }
-      context.method = method;
-      context.arg = arg;
-      while (true) {
-        var delegate = context.delegate;
-        if (delegate) {
-          var delegateResult = maybeInvokeDelegate(delegate, context);
-          if (delegateResult) {
-            if (delegateResult === ContinueSentinel) continue;
-            return delegateResult;
-          }
-        }
-        if (context.method === "next") {
-          context.sent = context._sent = context.arg;
-        } else if (context.method === "throw") {
-          if (state === GenStateSuspendedStart) {
-            state = GenStateCompleted;
-            throw context.arg;
-          }
-          context.dispatchException(context.arg);
-        } else if (context.method === "return") {
-          context.abrupt("return", context.arg);
-        }
-        state = GenStateExecuting;
-        var record = tryCatch(innerFn, self, context);
-        if (record.type === "normal") {
-          state = context.done
-            ? GenStateCompleted
-            : GenStateSuspendedYield;
-          if (record.arg === ContinueSentinel) {
-            continue;
-          }
-          return {
-            value: record.arg,
-            done: context.done
-          };
-        } else if (record.type === "throw") {
-          state = GenStateCompleted;
-          context.method = "throw";
-          context.arg = record.arg;
-        }
-      }
     };
-  }
-  function maybeInvokeDelegate(delegate, context) {
-    var method = delegate.iterator[context.method];
-    if (method === undefined$1) {
-      context.delegate = null;
-      if (context.method === "throw") {
-        if (delegate.iterator["return"]) {
-          context.method = "return";
+    function makeInvokeMethod(innerFn, self, context) {
+      var state = GenStateSuspendedStart;
+      return function invoke(method, arg) {
+        if (state === GenStateExecuting) {
+          throw new Error('Generator is already running');
+        }
+        if (state === GenStateCompleted) {
+          if (method === 'throw') {
+            throw arg;
+          }
+          return doneResult();
+        }
+        context.method = method;
+        context.arg = arg;
+        while (true) {
+          var delegate = context.delegate;
+          if (delegate) {
+            var delegateResult = maybeInvokeDelegate(delegate, context);
+            if (delegateResult) {
+              if (delegateResult === ContinueSentinel) continue;
+              return delegateResult;
+            }
+          }
+          if (context.method === 'next') {
+            context.sent = context._sent = context.arg;
+          } else if (context.method === 'throw') {
+            if (state === GenStateSuspendedStart) {
+              state = GenStateCompleted;
+              throw context.arg;
+            }
+            context.dispatchException(context.arg);
+          } else if (context.method === 'return') {
+            context.abrupt('return', context.arg);
+          }
+          state = GenStateExecuting;
+          var record = tryCatch(innerFn, self, context);
+          if (record.type === 'normal') {
+            state = context.done
+              ? GenStateCompleted
+              : GenStateSuspendedYield;
+            if (record.arg === ContinueSentinel) {
+              continue;
+            }
+            return {
+              value: record.arg,
+              done: context.done
+            };
+          } else if (record.type === 'throw') {
+            state = GenStateCompleted;
+            context.method = 'throw';
+            context.arg = record.arg;
+          }
+        }
+      };
+    }
+    function maybeInvokeDelegate(delegate, context) {
+      var method = delegate.iterator[context.method];
+      if (method === undefined$1) {
+        context.delegate = null;
+        if (context.method === 'throw') {
+          if (delegate.iterator['return']) {
+            context.method = 'return';
+            context.arg = undefined$1;
+            maybeInvokeDelegate(delegate, context);
+            if (context.method === 'throw') {
+              return ContinueSentinel;
+            }
+          }
+          context.method = 'throw';
+          context.arg = new TypeError(
+            "The iterator does not provide a 'throw' method");
+        }
+        return ContinueSentinel;
+      }
+      var record = tryCatch(method, delegate.iterator, context.arg);
+      if (record.type === 'throw') {
+        context.method = 'throw';
+        context.arg = record.arg;
+        context.delegate = null;
+        return ContinueSentinel;
+      }
+      var info = record.arg;
+      if (!info) {
+        context.method = 'throw';
+        context.arg = new TypeError('iterator result is not an object');
+        context.delegate = null;
+        return ContinueSentinel;
+      }
+      if (info.done) {
+        context[delegate.resultName] = info.value;
+        context.next = delegate.nextLoc;
+        if (context.method !== 'return') {
+          context.method = 'next';
           context.arg = undefined$1;
-          maybeInvokeDelegate(delegate, context);
-          if (context.method === "throw") {
+        }
+      } else {
+        return info;
+      }
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+    defineIteratorMethods(Gp);
+    define(Gp, toStringTagSymbol, 'Generator');
+    define(Gp, iteratorSymbol, function() {
+      return this;
+    });
+    define(Gp, 'toString', function() {
+      return '[object Generator]';
+    });
+    function pushTryEntry(locs) {
+      var entry = { tryLoc: locs[0] };
+      if (1 in locs) {
+        entry.catchLoc = locs[1];
+      }
+      if (2 in locs) {
+        entry.finallyLoc = locs[2];
+        entry.afterLoc = locs[3];
+      }
+      this.tryEntries.push(entry);
+    }
+    function resetTryEntry(entry) {
+      var record = entry.completion || {};
+      record.type = 'normal';
+      delete record.arg;
+      entry.completion = record;
+    }
+    function Context(tryLocsList) {
+      this.tryEntries = [{ tryLoc: 'root' }];
+      tryLocsList.forEach(pushTryEntry, this);
+      this.reset(true);
+    }
+    exports.keys = function(object) {
+      var keys = [];
+      for (var key in object) {
+        keys.push(key);
+      }
+      keys.reverse();
+      return function next() {
+        while (keys.length) {
+          var key = keys.pop();
+          if (key in object) {
+            next.value = key;
+            next.done = false;
+            return next;
+          }
+        }
+        next.done = true;
+        return next;
+      };
+    };
+    function values(iterable) {
+      if (iterable) {
+        var iteratorMethod = iterable[iteratorSymbol];
+        if (iteratorMethod) {
+          return iteratorMethod.call(iterable);
+        }
+        if (typeof iterable.next === 'function') {
+          return iterable;
+        }
+        if (!isNaN(iterable.length)) {
+          var i = -1; var next = function next() {
+            while (++i < iterable.length) {
+              if (hasOwn.call(iterable, i)) {
+                next.value = iterable[i];
+                next.done = false;
+                return next;
+              }
+            }
+            next.value = undefined$1;
+            next.done = true;
+            return next;
+          };
+          return next.next = next;
+        }
+      }
+      return { next: doneResult };
+    }
+    exports.values = values;
+    function doneResult() {
+      return { value: undefined$1, done: true };
+    }
+    Context.prototype = {
+      constructor: Context,
+      reset: function(skipTempReset) {
+        this.prev = 0;
+        this.next = 0;
+        this.sent = this._sent = undefined$1;
+        this.done = false;
+        this.delegate = null;
+        this.method = 'next';
+        this.arg = undefined$1;
+        this.tryEntries.forEach(resetTryEntry);
+        if (!skipTempReset) {
+          for (var name in this) {
+            if (name.charAt(0) === 't' &&
+              hasOwn.call(this, name) &&
+              !isNaN(+name.slice(1))) {
+              this[name] = undefined$1;
+            }
+          }
+        }
+      },
+      stop: function() {
+        this.done = true;
+        var rootEntry = this.tryEntries[0];
+        var rootRecord = rootEntry.completion;
+        if (rootRecord.type === 'throw') {
+          throw rootRecord.arg;
+        }
+        return this.rval;
+      },
+      dispatchException: function(exception) {
+        if (this.done) {
+          throw exception;
+        }
+        var context = this;
+        function handle(loc, caught) {
+          record.type = 'throw';
+          record.arg = exception;
+          context.next = loc;
+          if (caught) {
+            context.method = 'next';
+            context.arg = undefined$1;
+          }
+          return !!caught;
+        }
+        for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+          var entry = this.tryEntries[i];
+          var record = entry.completion;
+          if (entry.tryLoc === 'root') {
+            return handle('end');
+          }
+          if (entry.tryLoc <= this.prev) {
+            var hasCatch = hasOwn.call(entry, 'catchLoc');
+            var hasFinally = hasOwn.call(entry, 'finallyLoc');
+            if (hasCatch && hasFinally) {
+              if (this.prev < entry.catchLoc) {
+                return handle(entry.catchLoc, true);
+              } else if (this.prev < entry.finallyLoc) {
+                return handle(entry.finallyLoc);
+              }
+            } else if (hasCatch) {
+              if (this.prev < entry.catchLoc) {
+                return handle(entry.catchLoc, true);
+              }
+            } else if (hasFinally) {
+              if (this.prev < entry.finallyLoc) {
+                return handle(entry.finallyLoc);
+              }
+            } else {
+              throw new Error('try statement without catch or finally');
+            }
+          }
+        }
+      },
+      abrupt: function(type, arg) {
+        for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+          var entry = this.tryEntries[i];
+          if (entry.tryLoc <= this.prev &&
+            hasOwn.call(entry, 'finallyLoc') &&
+            this.prev < entry.finallyLoc) {
+            var finallyEntry = entry;
+            break;
+          }
+        }
+        if (finallyEntry &&
+          (type === 'break' ||
+           type === 'continue') &&
+          finallyEntry.tryLoc <= arg &&
+          arg <= finallyEntry.finallyLoc) {
+          finallyEntry = null;
+        }
+        var record = finallyEntry ? finallyEntry.completion : {};
+        record.type = type;
+        record.arg = arg;
+        if (finallyEntry) {
+          this.method = 'next';
+          this.next = finallyEntry.finallyLoc;
+          return ContinueSentinel;
+        }
+        return this.complete(record);
+      },
+      complete: function(record, afterLoc) {
+        if (record.type === 'throw') {
+          throw record.arg;
+        }
+        if (record.type === 'break' ||
+          record.type === 'continue') {
+          this.next = record.arg;
+        } else if (record.type === 'return') {
+          this.rval = this.arg = record.arg;
+          this.method = 'return';
+          this.next = 'end';
+        } else if (record.type === 'normal' && afterLoc) {
+          this.next = afterLoc;
+        }
+        return ContinueSentinel;
+      },
+      finish: function(finallyLoc) {
+        for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+          var entry = this.tryEntries[i];
+          if (entry.finallyLoc === finallyLoc) {
+            this.complete(entry.completion, entry.afterLoc);
+            resetTryEntry(entry);
             return ContinueSentinel;
           }
         }
-        context.method = "throw";
-        context.arg = new TypeError(
-          "The iterator does not provide a 'throw' method");
-      }
-      return ContinueSentinel;
-    }
-    var record = tryCatch(method, delegate.iterator, context.arg);
-    if (record.type === "throw") {
-      context.method = "throw";
-      context.arg = record.arg;
-      context.delegate = null;
-      return ContinueSentinel;
-    }
-    var info = record.arg;
-    if (! info) {
-      context.method = "throw";
-      context.arg = new TypeError("iterator result is not an object");
-      context.delegate = null;
-      return ContinueSentinel;
-    }
-    if (info.done) {
-      context[delegate.resultName] = info.value;
-      context.next = delegate.nextLoc;
-      if (context.method !== "return") {
-        context.method = "next";
-        context.arg = undefined$1;
-      }
-    } else {
-      return info;
-    }
-    context.delegate = null;
-    return ContinueSentinel;
-  }
-  defineIteratorMethods(Gp);
-  define(Gp, toStringTagSymbol, "Generator");
-  define(Gp, iteratorSymbol, function() {
-    return this;
-  });
-  define(Gp, "toString", function() {
-    return "[object Generator]";
-  });
-  function pushTryEntry(locs) {
-    var entry = { tryLoc: locs[0] };
-    if (1 in locs) {
-      entry.catchLoc = locs[1];
-    }
-    if (2 in locs) {
-      entry.finallyLoc = locs[2];
-      entry.afterLoc = locs[3];
-    }
-    this.tryEntries.push(entry);
-  }
-  function resetTryEntry(entry) {
-    var record = entry.completion || {};
-    record.type = "normal";
-    delete record.arg;
-    entry.completion = record;
-  }
-  function Context(tryLocsList) {
-    this.tryEntries = [{ tryLoc: "root" }];
-    tryLocsList.forEach(pushTryEntry, this);
-    this.reset(true);
-  }
-  exports.keys = function(object) {
-    var keys = [];
-    for (var key in object) {
-      keys.push(key);
-    }
-    keys.reverse();
-    return function next() {
-      while (keys.length) {
-        var key = keys.pop();
-        if (key in object) {
-          next.value = key;
-          next.done = false;
-          return next;
-        }
-      }
-      next.done = true;
-      return next;
-    };
-  };
-  function values(iterable) {
-    if (iterable) {
-      var iteratorMethod = iterable[iteratorSymbol];
-      if (iteratorMethod) {
-        return iteratorMethod.call(iterable);
-      }
-      if (typeof iterable.next === "function") {
-        return iterable;
-      }
-      if (!isNaN(iterable.length)) {
-        var i = -1, next = function next() {
-          while (++i < iterable.length) {
-            if (hasOwn.call(iterable, i)) {
-              next.value = iterable[i];
-              next.done = false;
-              return next;
+      },
+      'catch': function(tryLoc) {
+        for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+          var entry = this.tryEntries[i];
+          if (entry.tryLoc === tryLoc) {
+            var record = entry.completion;
+            if (record.type === 'throw') {
+              var thrown = record.arg;
+              resetTryEntry(entry);
             }
+            return thrown;
           }
-          next.value = undefined$1;
-          next.done = true;
-          return next;
+        }
+        throw new Error('illegal catch attempt');
+      },
+      delegateYield: function(iterable, resultName, nextLoc) {
+        this.delegate = {
+          iterator: values(iterable),
+          resultName: resultName,
+          nextLoc: nextLoc
         };
-        return next.next = next;
-      }
-    }
-    return { next: doneResult };
-  }
-  exports.values = values;
-  function doneResult() {
-    return { value: undefined$1, done: true };
-  }
-  Context.prototype = {
-    constructor: Context,
-    reset: function(skipTempReset) {
-      this.prev = 0;
-      this.next = 0;
-      this.sent = this._sent = undefined$1;
-      this.done = false;
-      this.delegate = null;
-      this.method = "next";
-      this.arg = undefined$1;
-      this.tryEntries.forEach(resetTryEntry);
-      if (!skipTempReset) {
-        for (var name in this) {
-          if (name.charAt(0) === "t" &&
-              hasOwn.call(this, name) &&
-              !isNaN(+name.slice(1))) {
-            this[name] = undefined$1;
-          }
+        if (this.method === 'next') {
+          this.arg = undefined$1;
         }
-      }
-    },
-    stop: function() {
-      this.done = true;
-      var rootEntry = this.tryEntries[0];
-      var rootRecord = rootEntry.completion;
-      if (rootRecord.type === "throw") {
-        throw rootRecord.arg;
-      }
-      return this.rval;
-    },
-    dispatchException: function(exception) {
-      if (this.done) {
-        throw exception;
-      }
-      var context = this;
-      function handle(loc, caught) {
-        record.type = "throw";
-        record.arg = exception;
-        context.next = loc;
-        if (caught) {
-          context.method = "next";
-          context.arg = undefined$1;
-        }
-        return !! caught;
-      }
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        var record = entry.completion;
-        if (entry.tryLoc === "root") {
-          return handle("end");
-        }
-        if (entry.tryLoc <= this.prev) {
-          var hasCatch = hasOwn.call(entry, "catchLoc");
-          var hasFinally = hasOwn.call(entry, "finallyLoc");
-          if (hasCatch && hasFinally) {
-            if (this.prev < entry.catchLoc) {
-              return handle(entry.catchLoc, true);
-            } else if (this.prev < entry.finallyLoc) {
-              return handle(entry.finallyLoc);
-            }
-          } else if (hasCatch) {
-            if (this.prev < entry.catchLoc) {
-              return handle(entry.catchLoc, true);
-            }
-          } else if (hasFinally) {
-            if (this.prev < entry.finallyLoc) {
-              return handle(entry.finallyLoc);
-            }
-          } else {
-            throw new Error("try statement without catch or finally");
-          }
-        }
-      }
-    },
-    abrupt: function(type, arg) {
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        if (entry.tryLoc <= this.prev &&
-            hasOwn.call(entry, "finallyLoc") &&
-            this.prev < entry.finallyLoc) {
-          var finallyEntry = entry;
-          break;
-        }
-      }
-      if (finallyEntry &&
-          (type === "break" ||
-           type === "continue") &&
-          finallyEntry.tryLoc <= arg &&
-          arg <= finallyEntry.finallyLoc) {
-        finallyEntry = null;
-      }
-      var record = finallyEntry ? finallyEntry.completion : {};
-      record.type = type;
-      record.arg = arg;
-      if (finallyEntry) {
-        this.method = "next";
-        this.next = finallyEntry.finallyLoc;
         return ContinueSentinel;
       }
-      return this.complete(record);
-    },
-    complete: function(record, afterLoc) {
-      if (record.type === "throw") {
-        throw record.arg;
-      }
-      if (record.type === "break" ||
-          record.type === "continue") {
-        this.next = record.arg;
-      } else if (record.type === "return") {
-        this.rval = this.arg = record.arg;
-        this.method = "return";
-        this.next = "end";
-      } else if (record.type === "normal" && afterLoc) {
-        this.next = afterLoc;
-      }
-      return ContinueSentinel;
-    },
-    finish: function(finallyLoc) {
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        if (entry.finallyLoc === finallyLoc) {
-          this.complete(entry.completion, entry.afterLoc);
-          resetTryEntry(entry);
-          return ContinueSentinel;
-        }
-      }
-    },
-    "catch": function(tryLoc) {
-      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-        var entry = this.tryEntries[i];
-        if (entry.tryLoc === tryLoc) {
-          var record = entry.completion;
-          if (record.type === "throw") {
-            var thrown = record.arg;
-            resetTryEntry(entry);
-          }
-          return thrown;
-        }
-      }
-      throw new Error("illegal catch attempt");
-    },
-    delegateYield: function(iterable, resultName, nextLoc) {
-      this.delegate = {
-        iterator: values(iterable),
-        resultName: resultName,
-        nextLoc: nextLoc
-      };
-      if (this.method === "next") {
-        this.arg = undefined$1;
-      }
-      return ContinueSentinel;
+    };
+    return exports;
+  }(
+    module.exports
+  ));
+  try {
+    regeneratorRuntime = runtime;
+  } catch (accidentalStrictMode) {
+    if (typeof globalThis === 'object') {
+      globalThis.regeneratorRuntime = runtime;
+    } else {
+      Function('r', 'regeneratorRuntime = r')(runtime);
     }
-  };
-  return exports;
-}(
-  module.exports 
-));
-try {
-  regeneratorRuntime = runtime;
-} catch (accidentalStrictMode) {
-  if (typeof globalThis === "object") {
-    globalThis.regeneratorRuntime = runtime;
-  } else {
-    Function("r", "regeneratorRuntime = r")(runtime);
   }
-}
 }(runtime));
 
 var regenerator = runtime.exports;
@@ -677,7 +677,7 @@ function resetComponentsName(router, isChildren) {
     return;
   }
   var routes = isChildren ? router : router.getRoutes();
-  routes.forEach(function (route) {
+  routes.forEach(function(route) {
     var _route$components, _route$children;
     if (!(route !== null && route !== void 0 && (_route$components = route.components) !== null && _route$components !== void 0 && _route$components.default)) return;
     if (((_route$children = route.children) === null || _route$children === void 0 ? void 0 : _route$children.length) > 0) {
@@ -685,7 +685,7 @@ function resetComponentsName(router, isChildren) {
     }
     if (typeof route.components.default === 'function') {
       var oldComponent = route.components.default;
-      return route.components.default = _asyncToGenerator( regenerator.mark(function _callee() {
+      return route.components.default = _asyncToGenerator(regenerator.mark(function _callee() {
         var newComponent;
         return regenerator.wrap(function _callee$(_context) {
           while (1) {
@@ -696,9 +696,9 @@ function resetComponentsName(router, isChildren) {
               case 2:
                 newComponent = _context.sent;
                 newComponent.default.name = route.name;
-                return _context.abrupt("return", newComponent);
+                return _context.abrupt('return', newComponent);
               case 5:
-              case "end":
+              case 'end':
                 return _context.stop();
             }
           }
@@ -730,7 +730,7 @@ function addRoute(router) {
     (_oldAddRoute = oldAddRoute).call.apply(_oldAddRoute, [this].concat(Array.prototype.slice.call(arguments)));
     if (!waiting) {
       waiting = true;
-      Promise.resolve().then(function () {
+      Promise.resolve().then(function() {
         resetComponentsName(router);
       });
     }
@@ -738,11 +738,11 @@ function addRoute(router) {
 }
 var isJump;
 function jump(router, callback) {
-  return function () {
+  return function() {
     var _router$type;
-    var _ref2 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-        _ref2$type = _ref2.type,
-        type = _ref2$type === void 0 ? 'push' : _ref2$type;
+    var _ref2 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var _ref2$type = _ref2.type;
+    var type = _ref2$type === void 0 ? 'push' : _ref2$type;
     isJump = true;
     if (typeof arguments[0] === 'number') {
       var params = arguments[1];
@@ -760,24 +760,24 @@ function jump(router, callback) {
   };
 }
 function router3x(router, callback) {
-  var _getBaseOptions = getBaseOptions(),
-      extendList = _getBaseOptions.extendList,
-      obj = _getBaseOptions.obj;
+  var _getBaseOptions = getBaseOptions();
+  var extendList = _getBaseOptions.extendList;
+  var obj = _getBaseOptions.obj;
   var historyPrototype = router.history.constructor.prototype;
   var routerPrototype = router.constructor.prototype;
   addRoute(router);
   routerPrototype.jump = jump(router, callback);
-  extendList.forEach(function (key) {
-    obj[key] = historyPrototype[key] || function () {
+  extendList.forEach(function(key) {
+    obj[key] = historyPrototype[key] || function() {
       return historyPrototype.go(1);
     };
-    historyPrototype[key] = function () {
-      var _arguments = arguments,
-          _this = this;
+    historyPrototype[key] = function() {
+      var _arguments = arguments;
+      var _this = this;
       isJump || callback.apply(void 0, [key].concat(Array.prototype.slice.call(arguments)));
-      new Promise(function (resolve) {
+      new Promise(function(resolve) {
         return resolve();
-      }).then(function () {
+      }).then(function() {
         var _obj$key;
         return (_obj$key = obj[key]).call.apply(_obj$key, [_this].concat(_toConsumableArray(_arguments)));
       });
@@ -786,23 +786,62 @@ function router3x(router, callback) {
   return router;
 }
 function router4x(router, callback) {
-  var _getBaseOptions2 = getBaseOptions(),
-      extendList = _getBaseOptions2.extendList,
-      obj = _getBaseOptions2.obj;
+  var _getBaseOptions2 = getBaseOptions();
+  var extendList = _getBaseOptions2.extendList;
+  var obj = _getBaseOptions2.obj;
   addRoute(router);
   router.jump = jump(router, callback);
-  extendList.forEach(function (key) {
+  extendList.forEach(function(key) {
     obj[key] = router[key];
-    router[key] = function (to) {
+    router[key] = function(to) {
       isJump || callback.apply(void 0, [key].concat(Array.prototype.slice.call(arguments)));
       obj[key](to);
     };
   });
 }
 
+var replaceState = 'replaceState';
+var pushState = 'pushState';
+var push = 'push';
+var replace = 'replace';
+var forward = 'forward';
+var go = 'go';
+var back = 'back';
+var POPSTATE = 'popstate';
+var RouterJumpMethods = {
+  push: push,
+  replace: replace,
+  go: go,
+  forward: forward,
+  back: back
+};
+var HistoryJumpMethods = {
+  replaceState: replaceState,
+  pushState: pushState,
+  go: go,
+  forward: forward,
+  back: back
+};
+var NavigationDirection = {
+  back: back,
+  forward: forward
+};
+
+var historyRecord = JSON.parse(sessionStorage.getItem('keep_history_record') || '[]');
+function handleHistoryRecord(toLocation, method) {
+  var keepPosition = history.state.keepPosition;
+  var path = toLocation.fullPath || toLocation.path;
+  historyRecord[keepPosition] = path;
+  if (method === HistoryJumpMethods.pushState) {
+    historyRecord.push(path);
+    historyRecord = historyRecord.slice(0, keepPosition + 1);
+  }
+  sessionStorage.setItem('keep_history_record', JSON.stringify(historyRecord));
+}
+
 var _history$state;
-function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== 'undefined' && o[Symbol.iterator] || o['@@iterator']; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === 'number') { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError('Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.'); } var normalCompletion = true; var didErr = false; var err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === 'string') return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === 'Object' && o.constructor) n = o.constructor.name; if (n === 'Map' || n === 'Set') return Array.from(o); if (n === 'Arguments' || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 var beforeGuards = useCallbacks();
 var $router;
@@ -812,26 +851,25 @@ var isEmptyJump;
 var to;
 var from = Object.create(null);
 var isRouter4xPush;
-var historyStack = JSON.parse(sessionStorage.getItem('keep_history_stack') || '[]');
 var isPopstateBack;
 var isBeforeRouterChange;
 var beforeState = Object.create(null);
-window.addEventListener('popstate', function (ev) {
+window.addEventListener(POPSTATE, function(ev) {
   keepPosition = ev.state.keepPosition;
-  var direction = keepPosition <= prevPosition ? 'back' : 'forward';
+  var direction = keepPosition <= prevPosition ? NavigationDirection.back : NavigationDirection.forward;
   var absolutePath = getAbsolutePath();
-  direction === 'back' && (isPopstateBack = true);
+  direction === NavigationDirection.back && (isPopstateBack = true);
   history.replaceState(history.state, absolutePath);
   prevPosition = keepPosition;
 });
 function historyJumpExtend(router) {
   $router = router;
-  var _history$constructor$ = history.constructor.prototype,
-      back = _history$constructor$.back,
-      forward = _history$constructor$.forward,
-      go = _history$constructor$.go,
-      pushState = _history$constructor$.pushState,
-      replaceState = _history$constructor$.replaceState;
+  var _history$constructor$ = history.constructor.prototype;
+  var back = _history$constructor$.back;
+  var forward = _history$constructor$.forward;
+  var go = _history$constructor$.go;
+  var pushState = _history$constructor$.pushState;
+  var replaceState = _history$constructor$.replaceState;
   var historyJumpMethods = {
     back: back,
     forward: forward,
@@ -841,20 +879,20 @@ function historyJumpExtend(router) {
   };
   var hijackList = Object.keys(historyJumpMethods);
   var absolutePath = getAbsolutePath();
-  history.replaceState(buildState(keepPosition, 'replaceState'), absolutePath);
-  routerChange('forward', 'popstate');
+  history.replaceState(buildState(keepPosition, HistoryJumpMethods.replaceState), absolutePath);
+  routerChange(NavigationDirection.forward, POPSTATE);
   isBeforeRouterChange = true;
   if (router.constructor.version) {
-    Promise.resolve().then(function () {
-      return routerChange('forward', 'popstate');
+    Promise.resolve().then(function() {
+      return routerChange(NavigationDirection.forward, POPSTATE);
     });
   }
   function getToLocation(position, method) {
     var _to2, _to3;
     var toLocation;
-    if (['go', 'forward', 'back'].includes(method)) {
+    if ([RouterJumpMethods.go, RouterJumpMethods.forward, RouterJumpMethods.back].includes(method)) {
       to = assign({}, to);
-      to.path = historyStack[position];
+      to.path = historyRecord[position];
     }
     if ((_to2 = to) !== null && _to2 !== void 0 && _to2.name || (_to3 = to) !== null && _to3 !== void 0 && _to3.path) {
       toLocation = toLocationResolve($router, to);
@@ -867,60 +905,69 @@ function historyJumpExtend(router) {
     }
     return toLocation;
   }
-  function buildState(position, method) {
+  function buildState(position, method, isBack) {
+    var _beforeState;
     var toLocation = getToLocation(position, method);
     var path = toLocation.fullPath || toLocation.path;
-    var temporaryHistoryStack = Array.from(historyStack);
-    if (['pushState', 'push'].includes(method)) {
+    var temporaryHistoryStack = Array.from(historyRecord);
+    if ([HistoryJumpMethods.pushState, RouterJumpMethods.push].includes(method)) {
       temporaryHistoryStack[position] = path;
-      temporaryHistoryStack = historyStack.slice(0, position);
+      temporaryHistoryStack = historyRecord.slice(0, position);
     }
-    var current = (['forward', 'pushState', 'push', 'replace'].includes(method) ? historyStack[position - 1] : historyStack[position]) || path;
+    var current = ([RouterJumpMethods.forward, HistoryJumpMethods.pushState, RouterJumpMethods.push].includes(method) ? historyRecord[position - 1] : historyRecord[position]) || path;
+    var keepBack = historyRecord[position - 1];
+    if (isPopstateBack && historyRecord.length > history.length) {
+      if (method === RouterJumpMethods.replace) {
+        var maxBrowserHistory = historyRecord.map(function(path, index) {
+          return index < keepPosition ? null : path;
+        });
+        keepBack = maxBrowserHistory[position - 1];
+      }
+      var positionOffset = Math.abs(historyRecord.length - history.length - keepPosition);
+      !historyRecord[positionOffset - 1] && (keepBack = null);
+    }
     return {
-      keepPosition: keepPosition,
-      keepBack: historyStack[position - 1],
+      keepPosition: position,
+      keepBack: keepBack,
       keepCurrent: current,
       keepNext: path,
-      keepForward: temporaryHistoryStack[position + 1]
+      keepForward: temporaryHistoryStack[position + 1],
+      keepReplace: !!((_beforeState = beforeState) !== null && _beforeState !== void 0 && _beforeState.keepReplace),
+      keepDirection: isBack ? NavigationDirection.back : NavigationDirection.forward
     };
   }
-  hijackList.forEach(function (key) {
+  hijackList.forEach(function(key) {
     return hijackHistoryMethod(key);
   });
   function hijackHistoryMethod(key) {
-    history.constructor.prototype[key] = function () {
+    history.constructor.prototype[key] = function() {
       var _historyJumpMethods$k2;
       prevPosition = keepPosition;
       if (isEmptyJump) return;
       switch (key) {
-        case 'pushState':
-        case 'forward':
+        case HistoryJumpMethods.pushState:
+        case RouterJumpMethods.forward:
           keepPosition = keepPosition + 1;
           break;
-        case 'go':
+        case RouterJumpMethods.go:
           keepPosition = keepPosition + arguments[0];
           break;
-        case 'back':
+        case RouterJumpMethods.back:
           keepPosition = keepPosition - 1;
       }
-      if (['go', 'forward', 'back'].includes(key)) {
+      if ([RouterJumpMethods.go, RouterJumpMethods.forward, RouterJumpMethods.back].includes(key)) {
         var _historyJumpMethods$k;
         (_historyJumpMethods$k = historyJumpMethods[key]).call.apply(_historyJumpMethods$k, [this].concat(Array.prototype.slice.call(arguments)));
         return;
       }
-      var state = buildState(keepPosition, key);
+      var state = buildState(keepPosition, key, isPopstateBack);
       arguments[0] = assign(arguments[0], state);
-      if (isPopstateBack && historyStack.length > history.length) {
-        var positionOffset = Math.abs(historyStack.length - history.length - keepPosition);
-        arguments[0] = assign(arguments[0], history.state, {
-          keepBack: historyStack[positionOffset - 1]
-        });
-      }
       (_historyJumpMethods$k2 = historyJumpMethods[key]).call.apply(_historyJumpMethods$k2, [this].concat(Array.prototype.slice.call(arguments)));
-      if (['pushState', 'replaceState'].includes(key)) {
-        if (isRouter4xPush && key === 'replaceState') return;
-        routerChange(isPopstateBack ? 'back' : 'forward', key);
+      if ([HistoryJumpMethods.pushState, HistoryJumpMethods.replaceState].includes(key)) {
+        if (isRouter4xPush && key === HistoryJumpMethods.replaceState) return;
+        routerChange(isPopstateBack ? NavigationDirection.back : NavigationDirection.forward, key);
         isBeforeRouterChange = false;
+        beforeState = null;
       }
       isPopstateBack = false;
       isRouter4xPush = false;
@@ -942,22 +989,33 @@ function historyJumpExtend(router) {
     }, toLocation);
     if (to.name === ((_from = from) === null || _from === void 0 ? void 0 : _from.name) || to.path === ((_from2 = from) === null || _from2 === void 0 ? void 0 : _from2.path)) return;
     isBeforeRouterChange = true;
-    method === 'push' && (isRouter4xPush = true);
-    var isBack = method === 'back' || to.delta < 0;
-    var direction = isBack ? 'back' : 'forward';
+    var isBack = method === RouterJumpMethods.back || to.delta < 0;
+    var direction = isBack ? NavigationDirection.back : NavigationDirection.forward;
+    var nextPosition;
     isPopstateBack = !!isBack;
-    var nextPosition = method === 'go' ? keepPosition + to.delta : keepPosition + (isBack ? -1 : 1);
-    beforeState = buildState(nextPosition, method);
+    switch (method) {
+      case RouterJumpMethods.go:
+        nextPosition = keepPosition + to.delta;
+        break;
+      case RouterJumpMethods.replace:
+        nextPosition = keepPosition;
+        break;
+      default:
+        nextPosition = keepPosition + (isBack ? -1 : 1);
+    }
+    beforeState = buildState(nextPosition, method, isBack);
+    method === RouterJumpMethods.push && (isRouter4xPush = true);
+    method === RouterJumpMethods.replace && (beforeState.keepReplace = true);
     beforeRouterChange(direction, method);
   }
-  if (Object.prototype.hasOwnProperty.call(router, 'push')) {
+  if (Object.prototype.hasOwnProperty.call(router, RouterJumpMethods.push)) {
     return router4x(router, routerBeforeCallback);
   }
   return router3x(router, routerBeforeCallback);
 }
 function triggerBeforeEach(mergeToLocation) {
-  var _iterator = _createForOfIteratorHelper(beforeGuards.list()),
-      _step;
+  var _iterator = _createForOfIteratorHelper(beforeGuards.list());
+  var _step;
   try {
     for (_iterator.s(); !(_step = _iterator.n()).done;) {
       var guard = _step.value;
@@ -1024,13 +1082,13 @@ function beforeRouterChange(direction, method) {
       default:
         index = _keepPosition;
     }
-    _to = historyStack[index];
+    _to = historyRecord[index];
     if (!_to) {
       console.warn('vue-keep:', 'empty jump');
       isEmptyJump = true;
-      new Promise(function (resolve) {
+      new Promise(function(resolve) {
         return resolve();
-      }).then(function () {
+      }).then(function() {
         return isEmptyJump = false;
       });
       return;
@@ -1042,29 +1100,15 @@ function beforeRouterChange(direction, method) {
 function routerChange(direction, method) {
   var toLocation = getToLocation($router);
   var mergeToLocation = dispatch(KEEP_ROUTE_CHANGE, direction, toLocation);
-  handleHistoryStack(mergeToLocation, method);
+  handleHistoryRecord(mergeToLocation, method);
   from = mergeToLocation;
   to = null;
 }
-function handleHistoryStack(toLocation, method) {
-  var keepPosition = history.state.keepPosition;
-  var path = toLocation.fullPath || toLocation.path;
-  historyStack[keepPosition] = path;
-  if (method === 'pushState') {
-    historyStack.push(path);
-    historyStack = historyStack.slice(0, keepPosition + 1);
-  } else if (!history.state.keepBack) {
-    historyStack = historyStack.map(function (path, index) {
-      return index < keepPosition ? null : path;
-    });
-  }
-  sessionStorage.setItem('keep_history_stack', JSON.stringify(historyStack));
-}
 
-var extendRouter = (function (router) {
+var extendRouter = function(router) {
   resetComponentsName(router);
   historyJumpExtend(router);
-});
+};
 
 function render2x() {
   var vm = this;
@@ -1079,7 +1123,7 @@ function render2x() {
   }, [c('router-view')], 1);
 }
 function render3x(ctx, cache, props, setup, data) {
-  var _Vue = Vue$1;
+  var _Vue = Vue;
   var componentRouterView = _Vue.resolveComponent('router-view');
   var openBlock = _Vue.openBlock;
   var createBlock = _Vue.createBlock;
@@ -1089,7 +1133,7 @@ function render3x(ctx, cache, props, setup, data) {
   return openBlock(), createBlock(componentRouterView, {
     key: 0
   }, {
-    default: withCtx(function (ref) {
+    default: withCtx(function(ref) {
       var Component = ref.Component;
       return [(openBlock(), createBlock(KeepAlive, {
         include: data.includeList,
@@ -1140,7 +1184,7 @@ var KeepRouterView = {
   },
   data: function data() {
     return {
-      vueNext: Number(Vue.version.slice(0, 3)) >= 3,
+      vueNext: Number(vueApp.version.slice(0, 3)) >= 3,
       includeList: []
     };
   },
@@ -1156,7 +1200,7 @@ var KeepRouterView = {
     },
     beforeRouteChangeEvent: function beforeRouteChangeEvent(params) {
       var _this = this;
-      return _asyncToGenerator( regenerator.mark(function _callee() {
+      return _asyncToGenerator(regenerator.mark(function _callee() {
         var _params$detail, direction, destroy, cache, toLocation;
         return regenerator.wrap(function _callee$(_context) {
           while (1) {
@@ -1167,7 +1211,7 @@ var KeepRouterView = {
                   _context.next = 3;
                   break;
                 }
-                return _context.abrupt("return");
+                return _context.abrupt('return');
               case 3:
                 cache || _this.destroyTraverse(toLocation.name);
                 if (destroy === DESTROY_ALL) {
@@ -1178,7 +1222,7 @@ var KeepRouterView = {
                   console.warn('keep-router-view: Please pay attention to whether the router base path you configured is correct!');
                 }
               case 7:
-              case "end":
+              case 'end':
                 return _context.stop();
             }
           }
@@ -1209,7 +1253,7 @@ var KeepRouterView = {
       if (typeof destroy === 'string' && destroy) {
         destroyTraverse(destroy);
       } else if (Array.isArray(destroy)) {
-        destroy.forEach(function (name) {
+        destroy.forEach(function(name) {
           return destroyTraverse(name);
         });
       }
@@ -1233,12 +1277,12 @@ function destroy(value) {
   window.dispatchEvent(destroyEvent);
 }
 
-var Vue;
+var vueApp;
 var beforeEach = beforeGuards.add;
 var index = {
   beforeEach: beforeEach,
   install: function install(app, router) {
-    Vue = app;
+    vueApp = app;
     extendRouter(router);
     app.component('KeepRouterView', KeepRouterView);
     var keepRouter = {
@@ -1253,4 +1297,4 @@ var index = {
   }
 };
 
-export { KeepRouterView, Vue, beforeEach, index as default, destroy, extendRouter };
+export { KeepRouterView, beforeEach, index as default, destroy, extendRouter, vueApp };
