@@ -9,6 +9,7 @@
     "dev": "rollup -cw",
     "dev2x": "sh scripts/vue2xDev.sh",
     "dev3x": "sh scripts/vue3xDev.sh",
+    "docs": "sh scripts/docsDev.sh",
     "build:example": "sh scripts/buildExample.sh"
   },
   "repository": {
