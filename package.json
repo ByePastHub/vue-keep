@@ -11,7 +11,7 @@
     "dev3x": "sh scripts/vue3xDev.sh",
     "docs": "sh scripts/docsDev.sh",
     "build:example": "sh scripts/buildExample.sh",
-    "commit": "cz"
+    "commit": "npx cz"
   },
   "repository": {
     "type": "git",
@@ -35,8 +35,7 @@
   "license": "MIT",
   "config": {
     "commitizen": {
-      "path": "node_modules/cz-git",
-      "czConfig": "./config/cz.config.js"
+      "path": "node_modules/cz-git"
     }
   },
   "devDependencies": {
@@ -46,7 +45,7 @@
     "@rollup/plugin-babel": "^5.3.0",
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-node-resolve": "^13.0.6",
-    "cz-customizable": "^6.7.0",
+    "commitizen": "^4.2.4",
     "cz-git": "^1.3.8",
     "husky": "^7.0.4",
     "rollup": "^2.61.1",

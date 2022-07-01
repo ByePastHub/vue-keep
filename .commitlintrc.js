@@ -1,21 +1,21 @@
 const { execSync } = require('child_process')
 
-let changeFiles = execSync('git status --porcelain || true').toString().split('\n')
-const gitAddFiles = []
+const changeFiles = execSync('git status --porcelain || true').toString().split('\n');
+const gitAddFiles = [];
 changeFiles.forEach(fileName => {
-  const reg = /^[A-Z]\s{2}(?!\s)/
+  const reg = /^[A-Z]\s{2}(?!\s)/;
   if (reg.test(fileName)) {
-    const dirReg = /\/(.+?)\//
+    const dirReg = /\/(.+?)\//;
     if (dirReg.test(fileName)) {
-      return gitAddFiles.push(fileName.match(dirReg)[1])
+      return gitAddFiles.push(fileName.match(dirReg)[1]);
     }
-    gitAddFiles.push(fileName.replace(reg, ''))
+    gitAddFiles.push(fileName.replace(reg, ''));
   }
-})
+});
 
 module.exports = {
   prompt: {
-    scopes: gitAddFiles,
+    scopes: [...new Set(gitAddFiles)],
     customScopesAlign: !gitAddFiles ? 'top-bottom' : 'bottom',
     enableMultipleScopes: true,
     scopeEnumSeparator: ",",

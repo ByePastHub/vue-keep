@@ -1,5 +1,4 @@
 // cz.config.js
-// eslint-disable-next-line no-undef
 module.exports = {
   messages: {
     type: '选择你要提交的类型 :',
