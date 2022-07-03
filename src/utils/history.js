@@ -57,3 +57,39 @@ export function getToLocation(router) {
 
   return toLocation;
 }
+
+export function decode(text) {
+  try {
+    return decodeURIComponent('' + text);
+  } catch (err) {
+    console.warn(`Error decoding "${text}". Using original value`);
+  }
+  return '' + text;
+}
+
+export function parseQuery(search) {
+  const query = {};
+  // 避免创建具有空键和空值的对象
+  // 因为 split('&')
+  if (search === '' || search === '?') return query;
+  const hasLeadingIM = search[0] === '?';
+  const searchParams = (hasLeadingIM ? search.slice(1) : search).split('&');
+  for (let i = 0; i < searchParams.length; ++i) {
+    const searchParam = searchParams[i].replace(/\+/g, ' ');
+    // 允许 = 字符
+    const eqPos = searchParam.indexOf('=');
+    const key = decode(eqPos < 0 ? searchParam : searchParam.slice(0, eqPos));
+    const value = eqPos < 0 ? null : decode(searchParam.slice(eqPos + 1));
+
+    if (key in query) {
+      let currentValue = query[key];
+      if (!Array.isArray(currentValue)) {
+        currentValue = query[key] = [currentValue];
+      }
+      currentValue.push(value);
+    } else {
+      query[key] = value;
+    }
+  }
+  return query;
+}
