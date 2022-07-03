@@ -3,15 +3,14 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build":"vite build && node scripts/copyDirFile.js",
+    "build": "vite build && node scripts/copyDirFile.js",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@bye_past/vue-keep": "^1.0.2",
+    "@bye_past/vue-keep": "^1.1.1",
     "vant": "^3.4.6",
     "vue": "^3.2.31",
-    "vue-router": "^4.0.14",
-    "vue-with-keep-alive": "^3.3.2"
+    "vue-router": "^4.0.14"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.0.0",

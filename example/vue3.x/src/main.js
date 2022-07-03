@@ -2,8 +2,8 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router/index.js';
 // import keep, { beforeEach } from '../../../dist/vue-keep.esm.js';
-import keep, { beforeEach } from './vue-keep.esm.js';
-// import keep, { beforeEach } from '@bye_past/vue-keep';
+// import keep, { beforeEach } from './vue-keep.esm.js';
+import keep, { beforeEach } from '@bye_past/vue-keep';
 import { Toast } from 'vant';
 
 beforeEach((to, from) => {
