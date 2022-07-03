@@ -1,5 +1,5 @@
 import { KEEP_BEFORE_ROUTE_CHANGE, KEEP_ROUTE_CHANGE } from '../constants';
-import { assign, createCurrentLocation, getBase, getAbsolutePath, useCallbacks, getToLocation, toLocationResolve } from '../utils/index';
+import { assign, createCurrentLocation, getBase, getAbsolutePath, useCallbacks, getToLocation, toLocationResolve, parseQuery } from '../utils/index';
 import { router3x, router4x } from './routerExtend';
 import { POPSTATE, RouterJumpMethods, HistoryJumpMethods, NavigationDirection } from './types.js';
 import { historyRecord, handleHistoryRecord } from './historyRecord';
@@ -47,6 +47,7 @@ export function historyJumpExtend(router) {
     if ([RouterJumpMethods.go, RouterJumpMethods.forward, RouterJumpMethods.back].includes(method)) {
       to = assign({}, to);
       to.path = historyRecord[position];
+      return (toLocation = to);
     }
     if (to?.name || to?.path) {
       toLocation = toLocationResolve($router, to);
@@ -194,6 +195,11 @@ function dispatch(eventName, direction, toLocation = {}) {
   if (eventName === KEEP_BEFORE_ROUTE_CHANGE) {
     triggerType = 'beforeChange';
     state = beforeState;
+    const existSearchReg = /^.+\?/;
+    if (beforeState.keepNext && existSearchReg.test(beforeState.keepNext)) {
+      const query = parseQuery(beforeState.keepNext?.replace(existSearchReg, ''));
+      toLocation.query = assign(query, toLocation.query);
+    }
   } else {
     triggerType = 'change';
     state = history.state;
