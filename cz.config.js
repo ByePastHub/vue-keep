@@ -23,6 +23,7 @@ module.exports = {
     { value: 'build', name: 'build:         📦️构建 | 构建流程、外部依赖变更（如升级 npm 包、修改 webpack 配置等）', emoji: ':package:' },
     { value: 'ci', name: 'ci:               🎡集成 | 修改 CI 配置、脚本', emoji: ':ferris_wheel:' },
     { value: 'revert', name: 'revert:       ⏪️回退 | 回滚 commit', emoji: ':hammer:' },
+    { value: 'release', name: 'release:     发布 | 发布新版本', emoji: '' },
     { value: 'chore', name: 'chore:         🔨其他 | 对构建过程或辅助工具和库的更改（不影响源文件、测试用例）', emoji: ':rewind:' }
   ],
   useEmoji: true,
