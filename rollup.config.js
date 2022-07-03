@@ -37,7 +37,7 @@ export default {
       'plugins': [
         ['@babel/plugin-transform-runtime', {
           regenerator: true,
-          absoluteRuntime: false,
+          absoluteRuntime: true,
           useESModules: false,
         }]
       ]
