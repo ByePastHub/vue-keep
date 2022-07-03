@@ -13,6 +13,7 @@
     "build:example": "sh scripts/buildExample.sh",
     "commit": "npx cz"
   },
+  "homepage": "https://byepasthub.github.io/vue-keep/zh",
   "repository": {
     "type": "git",
     "url": "https://github.com/ByePastHub/vue-keep.git"
