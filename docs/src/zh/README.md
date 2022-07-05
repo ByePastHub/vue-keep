@@ -18,3 +18,8 @@ features:
     details: 内部识别前进缓存新页面组件和后退销毁页面组件。
 footer: MIT Licensed | Copyright © 2022-present Past Bye
 ---
+
+---
+<a  style="display: block;" href="https://byepasthub.github.io/vue-keep/example/#/user">
+  <img style="display: block; margin: 0 auto" :src="$withBase('/images/example.gif')" alt="example.gif" />
+</a>
