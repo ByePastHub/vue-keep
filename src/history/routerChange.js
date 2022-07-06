@@ -189,7 +189,8 @@ function triggerBeforeEach(mergeToLocation) {
   }
 }
 
-function dispatch(eventName, direction, toLocation = {}) {
+function dispatch(eventName, direction, toLocation) {
+  toLocation = assign({}, toLocation);
   let triggerType;
   let state;
   if (eventName === KEEP_BEFORE_ROUTE_CHANGE) {
