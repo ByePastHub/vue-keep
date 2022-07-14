@@ -42,6 +42,11 @@ export function getBase(router) {
 }
 
 export function toLocationResolve(router, to) {
+  typeof to === 'string' && (to = { path: to });
+  if (to.path && !/^\//.test(to.path)) {
+    to.path = '/' + to.path;
+  }
+
   let toLocation = router.resolve(to);
   if (toLocation.resolved) {
     toLocation = toLocation.resolved;
