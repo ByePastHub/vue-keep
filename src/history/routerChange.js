@@ -1,4 +1,4 @@
-import { KEEP_BEFORE_ROUTE_CHANGE, KEEP_ROUTE_CHANGE } from '../constants';
+import { KEEP_BEFORE_ROUTE_CHANGE, KEEP_ROUTE_CHANGE, KEEP_SUBSCRIBE_COMPLETE } from '../constants';
 import { assign, createCurrentLocation, getBase, getAbsolutePath, useCallbacks, getToLocation, toLocationResolve, parseQuery } from '../utils/index';
 import { router3x, router4x } from './routerExtend';
 import { POPSTATE, RouterJumpMethods, HistoryJumpMethods, NavigationDirection } from './types.js';
@@ -15,6 +15,7 @@ let isRouter4xPush;
 let isPopstateBack;
 let isBeforeRouterChange;
 let beforeState = Object.create(null);
+let init = true;
 
 window.addEventListener(POPSTATE, function(ev) {
   keepPosition = ev.state.keepPosition;
@@ -147,7 +148,7 @@ export function historyJumpExtend(router) {
       toLocation = { delta: toLocation };
     }
     to = assign({ method }, toLocation);
-    if (to.name === from?.name || to.path === from?.path) return;
+    if (to.path === from?.path) return;
 
     isBeforeRouterChange = true;
     const isBack = method === RouterJumpMethods.back || to.delta < 0;
@@ -189,7 +190,7 @@ function triggerBeforeEach(mergeToLocation) {
   }
 }
 
-function dispatch(eventName, direction, toLocation) {
+async function dispatch(eventName, direction, toLocation) {
   toLocation = assign({}, toLocation);
   let triggerType;
   let state;
@@ -215,15 +216,36 @@ function dispatch(eventName, direction, toLocation) {
   }
 
   const options = Object.create(null);
+  let componentName;
+
+  if (!init) {
+    const matcheds = toLocation.matched;
+    const component = matcheds[matcheds.length - 1]?.components.default;
+    // 如果是类组件
+    if (component?.prototype) {
+      let name = component.name;
+      if (!component.name) {
+        const newComponent = await matcheds[matcheds.length - 1].components.default();
+        name = newComponent.default.name;
+      }
+      componentName = { name };
+    }
+  }
+
   options.detail = {
     direction,
     destroy: mergeToLocation?.destroy,
     cache: mergeToLocation?.cache,
-    toLocation: toLocation
+    toLocation: assign({}, toLocation, componentName)
   };
 
   const event = new CustomEvent(eventName, options);
-  window.dispatchEvent(event);
+  const listener = () => window.dispatchEvent(event);
+  listener();
+
+  // 避免嵌套 keep-router-view 组件初次加载时，组件还未进行初始化，事件就已经触发了，导致该 keep-router-view 首个初次未进行缓存
+  window.addEventListener(KEEP_SUBSCRIBE_COMPLETE, listener);
+  setTimeout(() => window.removeEventListener(KEEP_SUBSCRIBE_COMPLETE, listener), 300);
 
   return mergeToLocation;
 }
@@ -260,11 +282,12 @@ function beforeRouterChange(direction, method) {
   dispatch(KEEP_BEFORE_ROUTE_CHANGE, direction, toLocation);
 }
 
-function routerChange(direction, method) {
+async function routerChange(direction, method) {
   const toLocation = getToLocation($router);
 
-  const mergeToLocation = dispatch(KEEP_ROUTE_CHANGE, direction, toLocation);
+  const mergeToLocation = await dispatch(KEEP_ROUTE_CHANGE, direction, toLocation);
   handleHistoryRecord(mergeToLocation, method);
   from = mergeToLocation;
   to = null;
+  init = false;
 }

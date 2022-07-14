@@ -17,9 +17,13 @@ function resetComponentsName(router, isChildren) {
 
     if (typeof route.components.default === 'function') {
       const oldComponent = route.components.default;
+      if (oldComponent.prototype) return;
       return (route.components.default = async() => {
         const newComponent = await oldComponent();
-        newComponent.default.name = route.name;
+        const { writable: isOnly } = Object.getOwnPropertyDescriptor(newComponent.default, 'name') || { writable: true };
+        // 类组件无法设置只读属性 name
+        isOnly && (newComponent.default.name = route.name);
+
         return newComponent;
       });
     };
@@ -50,7 +54,6 @@ function addRoute(router) {
       Promise.resolve().then(() => {
         resetComponentsName(router);
       });
-
     }
   };
 }
@@ -101,7 +104,7 @@ function router4x(router, callback) {
     obj[key] = router[key];
     router[key] = function(to) {
       isJump || callback(key, ...arguments);
-      obj[key](to);
+      return obj[key](to);
     };
   });
 }

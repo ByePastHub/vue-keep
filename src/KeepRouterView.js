@@ -1,4 +1,4 @@
-import { KEEP_BEFORE_ROUTE_CHANGE, KEEP_COMPONENT_DESTROY, KEEP_ROUTE_CHANGE, DESTROY_ALL } from './constants';
+import { KEEP_BEFORE_ROUTE_CHANGE, KEEP_COMPONENT_DESTROY, KEEP_ROUTE_CHANGE, KEEP_SUBSCRIBE_COMPLETE, DESTROY_ALL } from './constants';
 import { render2x, render3x } from './render';
 import { vueApp } from './index';
 
@@ -53,6 +53,8 @@ export default {
       window.addEventListener(KEEP_BEFORE_ROUTE_CHANGE, this.beforeRouteChangeEvent);
       window.addEventListener(KEEP_ROUTE_CHANGE, this.routerChangeEvent);
       window.addEventListener(KEEP_COMPONENT_DESTROY, this.componentDestroyEvent);
+      const event = new CustomEvent(KEEP_SUBSCRIBE_COMPLETE);
+      window.dispatchEvent(event);
     },
 
     async beforeRouteChangeEvent(params) {
@@ -79,7 +81,8 @@ export default {
     },
 
     forward(name) {
-      const { includeList } = this;
+      const { includeList, exclude } = this;
+      if (exclude.includes(name)) return;
       if (includeList.includes(name)) {
         const index = includeList.indexOf(name);
         includeList.splice(index, 1);
