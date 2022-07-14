@@ -1,7 +1,15 @@
 import Vue, { App } from 'vue'
 import VueRouter, { Router, RouteRecord, RouteMeta } from 'vue-router'
 
-export declare function destroy(name: string | string[]): void;
+export declare function destroy(name: string | string[]): void
+export declare function beforeEach(guard: NavigationGuard): Function
+export declare function beforeEach(name: string, guard: NavigationGuard): Function
+
+export interface $KeepRouter {
+  destroy(name: string | string[]): void
+  beforeEach(guard: NavigationGuard): Function
+  beforeEach(name: string, guard: NavigationGuard): Function
+}
 
 export type Dictionary<T> = { [key: string]: T }
 export type Direction = 'forward' | 'back'
@@ -9,6 +17,7 @@ export type JumpMethod = 'push' | 'replace' | 'forward' | 'go' | 'back'
 export type TriggerType = 'beforeChange' | 'change'
 
 export interface KeepLocation {
+  type?: string
   cache?: boolean
   destory?: string | string[]
   name?: string
@@ -105,7 +114,7 @@ export declare const KeepRouterView: {
   };
 };
 
-export declare const vueApp: App
+export declare const vueApp: Vue | App
 
 declare namespace Keep {
   function install(app: typeof Vue, router: Router): void

@@ -1,19 +1,17 @@
-import { NavigationGuard, Dictionary, KeepRouter, destroy } from './vue-keep'
+import { $KeepRouter, KeepRouter } from './vue-keep'
 
 declare module 'vue/types/vue' {
   interface Vue {
-    $keepRouter: destroy
+    $keepRouter: $KeepRouter
     $router: KeepRouter
-    beforeEach(guard: NavigationGuard): Function
-    beforeEach(name: string, guard: NavigationGuard): Function
+    $xxx: string
   }
 }
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
-    $keepRouter: destroy
+    $keepRouter: $KeepRouter
     $router: KeepRouter
-    beforeEach(guard: NavigationGuard): Function
-    beforeEach(name: string, guard: NavigationGuard): Function
+    $xxx: string
   }
 }
