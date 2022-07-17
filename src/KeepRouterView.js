@@ -60,7 +60,7 @@ export default {
 
     routerChangeEvent(params) {
       const { toLocation } = params.detail;
-      this.forward(toLocation.name);
+      toLocation.name && this.forward(toLocation.name);
     },
 
     componentDestroyEvent(params) {
