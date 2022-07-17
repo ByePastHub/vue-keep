@@ -1,4 +1,5 @@
 import './vue'
+import './router'
 import Keep from './vue-keep'
 
 export default Keep
@@ -15,7 +16,6 @@ export {
   NavigationGuard,
   MatchPattern,
   KeepLocation,
-  Route,
   KeepRouter,
   $KeepRouter,
   vueApp

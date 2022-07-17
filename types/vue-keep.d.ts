@@ -1,12 +1,13 @@
-import Vue, { App } from 'vue'
-import VueRouter, { Router, RouteRecord, RouteMeta } from 'vue-router'
+import Vue, { App, NavigationFailure } from 'vue'
+import VueRouter, { Router, Route, RouteRecord, RouteMeta } from 'vue-router'
 
-export declare function destroy(name: string | string[]): void
+export type DestroyName = string | Array<string>
+export declare function destroy(name: DestroyName): void
 export declare function beforeEach(guard: NavigationGuard): Function
 export declare function beforeEach(name: string, guard: NavigationGuard): Function
 
 export interface $KeepRouter {
-  destroy(name: string | string[]): void
+  destroy(name: DestroyName): void
   beforeEach(guard: NavigationGuard): Function
   beforeEach(name: string, guard: NavigationGuard): Function
 }
@@ -19,7 +20,7 @@ export type TriggerType = 'beforeChange' | 'change'
 export interface KeepLocation {
   type?: string
   cache?: boolean
-  destory?: string | string[]
+  destroy?: DestroyName
   name?: string
   path?: string
   hash?: string
@@ -29,27 +30,34 @@ export interface KeepLocation {
   replace?: boolean
 }
 
-export interface Route {
-  path: string
-  name?: string | null
-  hash: string
-  query: Dictionary<string | (string | null)[]>
-  params: Dictionary<string>
-  fullPath: string
-  matched: RouteRecord[]
-  redirectedFrom?: string
-  meta?: RouteMeta
+type ErrorHandler = (err: Error) => void
+
+export interface OverloadRouter {
+  jump(location: KeepLocation): Promise<Route>
+  jump(location: KeepLocation): Promise<NavigationFailure | void | undefined>
+  jump(location: KeepLocation): void
+  jump(n: number, location: KeepLocation): Promise<Route>
+  jump(n: number, location: KeepLocation): Promise<NavigationFailure | void | undefined>
+  jump(n: number, location: KeepLocation): void
 }
 
-export interface KeepRouter extends Router, VueRouter {
+export interface KeepRouter extends OverloadRouter, Router, VueRouter {
   push(location: KeepLocation): Promise<Route>
-  replace(location: KeepLocation): Promise<Route>
-  jump(location: KeepLocation): Promise<Route>
-  jump(n: number, location: KeepLocation): Promise<Route>
+  push(location: KeepLocation): Promise<NavigationFailure | void | undefined>
   push(location: KeepLocation): void
+  push(
+    location: KeepLocation,
+    onComplete?: Function,
+    onAbort?: ErrorHandler
+  ): void
+  replace(location: KeepLocation): Promise<Route>
+  replace(location: KeepLocation): Promise<NavigationFailure | void | undefined>
   replace(location: KeepLocation): void
-  jump(location: KeepLocation): void
-  jump(n: number, location: KeepLocation): void
+  replace(
+    location: KeepLocation,
+    onComplete?: Function,
+    onAbort?: ErrorHandler
+  ): void
 }
 
 export interface State {
@@ -88,7 +96,6 @@ export type NavigationGuard = (
 export declare type MatchPattern = string | RegExp | (string | RegExp)[];
 
 export declare interface KeepAliveProps {
-  include?: MatchPattern;
   exclude?: MatchPattern;
   max?: number | string;
 }
