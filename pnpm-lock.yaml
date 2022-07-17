@@ -4,7 +4,6 @@ specifiers:
   '@babel/core': ^7.16.5
   '@babel/plugin-transform-runtime': ^7.17.0
   '@babel/preset-env': ^7.16.4
-  '@bye_past/vue-keep': ^1.2.0-bate.2
   '@rollup/plugin-babel': ^5.3.0
   '@rollup/plugin-commonjs': ^21.0.1
   '@rollup/plugin-node-resolve': ^13.0.6
@@ -18,9 +17,6 @@ specifiers:
   rollup-plugin-node-resolve: ^5.2.0
   rollup-plugin-terser: ^7.0.2
   vue-router: ^4.1.2
-
-dependencies:
-  '@bye_past/vue-keep': 1.2.0-bate.2
 
 devDependencies:
   '@babel/core': 7.18.6
@@ -1201,10 +1197,6 @@ packages:
       '@babel/helper-validator-identifier': 7.18.6
       to-fast-properties: 2.0.0
     dev: true
-
-  /@bye_past/vue-keep/1.2.0-bate.2:
-    resolution: {integrity: sha512-RYesFCINB75wmkjAY0Mbx0s6RuKnrLvmT1G9Ute84LZRYdqFWb95lECn2vsApuUZynt/vf3WFcKarjJOFMxN9A==}
-    dev: false
 
   /@commitlint/config-validator/17.0.3:
     resolution: {integrity: sha512-3tLRPQJKapksGE7Kee9axv+9z5I2GDHitDH4q63q7NmNA0wkB+DAorJ0RHz2/K00Zb1/MVdHzhCga34FJvDihQ==}
