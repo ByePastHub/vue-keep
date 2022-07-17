@@ -124,7 +124,9 @@ export declare const KeepRouterView: {
 export declare const vueApp: Vue | App
 
 declare namespace Keep {
-  function install(app: typeof Vue, router: Router): void
+  function beforeEach(guard: NavigationGuard): Function
+  function beforeEach(name: string, guard: NavigationGuard): Function
+  function install(app: typeof Vue | App, router: Router): void
 }
 
 export default Keep
