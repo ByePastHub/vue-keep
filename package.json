@@ -1,13 +1,13 @@
 {
   "name": "@bye_past/vue-keep",
-  "version": "1.2.0-alpha.1",
+  "version": "1.2.0-bate.2",
   "description": "缓存你的页面组件, 使得可以比手机APP更好的体验效果",
   "main": "dist/vue-keep.cjs.js",
   "pkg": "dist/vue-keep.global.js",
   "module": "dist/vue-keep.esm.js",
   "types": "types/index.d.ts",
   "scripts": {
-    "dev": "rollup -cw",
+    "dev": "rollup -cw --sourcemap",
     "dev2x": "sh scripts/vue2xDev.sh",
     "dev3x": "sh scripts/vue3xDev.sh",
     "docs": "sh scripts/docsDev.sh",
@@ -25,12 +25,12 @@
     "keep-router-view",
     "keepAlive",
     "keep-alive",
-    "keep-router-view",
     "vue2.x",
     "vue3.x"
   ],
   "files": [
     "dist",
+    "types",
     "src"
   ],
   "author": "ByePast",
