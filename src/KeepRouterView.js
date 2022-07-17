@@ -36,6 +36,22 @@ export default {
     this.addEvents();
   },
 
+  activated() {
+    this.addEvents();
+  },
+
+  deactivated() {
+    this.removeEvents();
+  },
+
+  beforeDestroy() {
+    this.removeEvents();
+  },
+
+  beforeUnmount() {
+    this.removeEvents();
+  },
+
   methods: {
     addEvents() {
       window.addEventListener(KEEP_BEFORE_ROUTE_CHANGE, this.beforeRouteChangeEvent);
@@ -45,22 +61,29 @@ export default {
       window.dispatchEvent(event);
     },
 
+    removeEvents() {
+      window.removeEventListener(KEEP_BEFORE_ROUTE_CHANGE, this.beforeRouteChangeEvent);
+      window.removeEventListener(KEEP_ROUTE_CHANGE, this.routerChangeEvent);
+      window.removeEventListener(KEEP_COMPONENT_DESTROY, this.componentDestroyEvent);
+    },
+
     async beforeRouteChangeEvent(params) {
       const { detail: { direction, destroy, cache, toLocation }} = params;
+
       if (direction !== 'forward') return;
       cache || this.destroyTraverse(toLocation.name);
       if (destroy === DESTROY_ALL) {
         this.includeList = [];
       }
       this.handelDestroy(destroy);
-      if (!toLocation.name) {
-        console.warn('keep-router-view: Please pay attention to whether the router base path you configured is correct!');
-      }
     },
 
     routerChangeEvent(params) {
       const { toLocation } = params.detail;
       toLocation.name && this.forward(toLocation.name);
+      if (!toLocation.name) {
+        console.warn('keep-router-view: Please pay attention to whether the router base path you configured is correct!');
+      }
     },
 
     componentDestroyEvent(params) {
