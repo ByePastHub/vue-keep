@@ -225,7 +225,7 @@ async function dispatch(eventName, direction, toLocation) {
     if (component?.prototype) {
       let name = component.name;
       if (!component.name) {
-        const newComponent = await matcheds[matcheds.length - 1].components.default();
+        const newComponent = await component();
         name = newComponent._canCoveredName ? null : newComponent.default.name;
       }
       componentName = { name };
@@ -243,11 +243,9 @@ async function dispatch(eventName, direction, toLocation) {
   const listener = () => window.dispatchEvent(event);
   listener();
 
-  if (!init) {
-    // 避免嵌套 keep-router-view 组件初次加载时，组件还未进行初始化，事件就已经触发了，导致该 keep-router-view 首个初次未进行缓存
-    window.addEventListener(KEEP_SUBSCRIBE_COMPLETE, listener);
-    setTimeout(() => window.removeEventListener(KEEP_SUBSCRIBE_COMPLETE, listener), 300);
-  }
+  // 避免嵌套 keep-router-view 组件初次加载时，组件还未进行初始化，事件就已经触发了，导致该 keep-router-view 首个初次未进行缓存
+  window.addEventListener(KEEP_SUBSCRIBE_COMPLETE, listener);
+  setTimeout(() => window.removeEventListener(KEEP_SUBSCRIBE_COMPLETE, listener), 300);
 
   return mergeToLocation;
 }

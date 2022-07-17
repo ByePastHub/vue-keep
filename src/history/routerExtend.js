@@ -21,9 +21,13 @@ function resetComponentsName(router, isChildren) {
       return (route.components.default = async() => {
         const newComponent = await oldComponent();
         const { writable: isOnly } = Object.getOwnPropertyDescriptor(newComponent.default, 'name') || { writable: true };
-        // 类组件无法设置只读属性 name
+        // vue2 vue-property-decorator Component 装饰器 设置过的类组件无法设置只读属性 name
         newComponent.default._canCoveredName = isOnly;
+
         isOnly && (newComponent.default.name = route.name);
+        if (isOnly && !route.name) {
+          console.error('vue-keep: this component is not cached, did you forget to set the name in the route?');
+        }
 
         return newComponent;
       });
