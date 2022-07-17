@@ -17,11 +17,12 @@ function resetComponentsName(router, isChildren) {
 
     if (typeof route.components.default === 'function') {
       const oldComponent = route.components.default;
-      if (oldComponent.prototype) return;
+
       return (route.components.default = async() => {
         const newComponent = await oldComponent();
         const { writable: isOnly } = Object.getOwnPropertyDescriptor(newComponent.default, 'name') || { writable: true };
         // 类组件无法设置只读属性 name
+        newComponent.default._canCoveredName = isOnly;
         isOnly && (newComponent.default.name = route.name);
 
         return newComponent;

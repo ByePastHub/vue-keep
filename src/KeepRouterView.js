@@ -21,18 +21,6 @@ export default {
     exclude: {
       type: [Array, RegExp, String],
       default: () => [],
-    },
-    matchClearList: {
-      type: Array,
-      default: () => [],
-    },
-    matchClearBehindList: {
-      type: Array,
-      default: () => [],
-    },
-    mode: {
-      type: String,
-      default: 'allKeepAlive',
     }
   },
 

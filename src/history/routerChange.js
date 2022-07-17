@@ -226,7 +226,7 @@ async function dispatch(eventName, direction, toLocation) {
       let name = component.name;
       if (!component.name) {
         const newComponent = await matcheds[matcheds.length - 1].components.default();
-        name = newComponent.default.name;
+        name = newComponent._canCoveredName ? null : newComponent.default.name;
       }
       componentName = { name };
     }
