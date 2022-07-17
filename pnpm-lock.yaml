@@ -4,6 +4,7 @@ specifiers:
   '@babel/core': ^7.16.5
   '@babel/plugin-transform-runtime': ^7.17.0
   '@babel/preset-env': ^7.16.4
+  '@bye_past/vue-keep': ^1.2.0-bate.2
   '@rollup/plugin-babel': ^5.3.0
   '@rollup/plugin-commonjs': ^21.0.1
   '@rollup/plugin-node-resolve': ^13.0.6
@@ -19,7 +20,7 @@ specifiers:
   vue-router: ^4.1.2
 
 dependencies:
-  vue-router: 4.1.2
+  '@bye_past/vue-keep': 1.2.0-bate.2
 
 devDependencies:
   '@babel/core': 7.18.6
@@ -37,6 +38,7 @@ devDependencies:
   rollup-plugin-eslint: 7.0.0
   rollup-plugin-node-resolve: 5.2.0_rollup@2.76.0
   rollup-plugin-terser: 7.0.2_rollup@2.76.0
+  vue-router: 4.1.2
 
 packages:
 
@@ -1200,6 +1202,10 @@ packages:
       to-fast-properties: 2.0.0
     dev: true
 
+  /@bye_past/vue-keep/1.2.0-bate.2:
+    resolution: {integrity: sha512-RYesFCINB75wmkjAY0Mbx0s6RuKnrLvmT1G9Ute84LZRYdqFWb95lECn2vsApuUZynt/vf3WFcKarjJOFMxN9A==}
+    dev: false
+
   /@commitlint/config-validator/17.0.3:
     resolution: {integrity: sha512-3tLRPQJKapksGE7Kee9axv+9z5I2GDHitDH4q63q7NmNA0wkB+DAorJ0RHz2/K00Zb1/MVdHzhCga34FJvDihQ==}
     engines: {node: '>=v14'}
@@ -1430,7 +1436,7 @@ packages:
 
   /@vue/devtools-api/6.2.0:
     resolution: {integrity: sha512-pF1G4wky+hkifDiZSWn8xfuLOJI1ZXtuambpBEYaf7Xaf6zC/pM29rvAGpd3qaGXnr4BAXU1Pxz/VfvBGwexGA==}
-    dev: false
+    dev: true
 
   /acorn-jsx/5.3.2_acorn@7.4.1:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
@@ -3262,7 +3268,7 @@ packages:
       vue: ^3.2.0
     dependencies:
       '@vue/devtools-api': 6.2.0
-    dev: false
+    dev: true
 
   /which/1.3.1:
     resolution: {integrity: sha512-HxJdYWq1MTIQbJ3nw0cqssHoTNU267KlrDuGZ1WYlxDStUtKUhOaJmh112/TZmHxxUfuJqPXSOm7tDyas0OSIQ==}

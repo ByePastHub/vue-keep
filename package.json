@@ -1,13 +1,13 @@
 {
   "name": "@bye_past/vue-keep",
-  "version": "1.2.0-bate.2",
+  "version": "1.2.0-bate.3",
   "description": "缓存你的页面组件, 使得可以比手机APP更好的体验效果",
   "main": "dist/vue-keep.cjs.js",
   "pkg": "dist/vue-keep.global.js",
   "module": "dist/vue-keep.esm.js",
   "types": "types/index.d.ts",
   "scripts": {
-    "dev": "rollup -cw --sourcemap",
+    "dev": "rollup -cw",
     "dev2x": "sh scripts/vue2xDev.sh",
     "dev3x": "sh scripts/vue3xDev.sh",
     "docs": "sh scripts/docsDev.sh",
@@ -57,5 +57,8 @@
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-terser": "^7.0.2",
     "vue-router": "^4.1.2"
+  },
+  "dependencies": {
+    "@bye_past/vue-keep": "^1.2.0-bate.2"
   }
 }
