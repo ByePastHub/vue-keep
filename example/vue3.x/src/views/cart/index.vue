@@ -28,7 +28,7 @@
           :num="item.num"
           :price="formatPrice(item.price)"
           :thumb="item.thumb"
-          @click.stop="$router.jump({type: 'push', name: 'goods', query: { id: item.id } })"
+          @click.stop="$router.push({name: 'goods', query: { id: item.id } })"
         />
       </van-checkbox>
     </van-checkbox-group>

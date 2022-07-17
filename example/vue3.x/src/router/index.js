@@ -1,3 +1,4 @@
+
 import { createRouter, createWebHashHistory } from 'vue-router';
 import { BASE } from '../config/index';
 
