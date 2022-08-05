@@ -64,15 +64,19 @@
 
 ## Router 对象
 
-- **`push/replace`**: 添加销毁页面组件跟是否缓存字段，分别是`destory`、`cache`。
+- **`Route`**: 添加(销毁/缓存)页面组件属性，分别是`destory`、`cache`、`constCache`。
   > **`destory`(String|Array)**: 跳转时是否要销毁某些页面组件(销毁全部`destory: 'ALL'`)，参数为`route.name`。
   > **`cache`(Boolean)**: 跳转到下一个页面是否使用缓存页面，如果`cache`没有提供，默认跳转都是属于新页面。
+  > **`constCache`(Boolean)**: `constCache`跟`cache`最大的区别是`cache`可以被动态改变的，constCache是跳转是强制缓存，一般是配合`beforeEach`做高度定制化缓存使用的。(v1.2.1)
 ```js
 // 跳转到 Goods 页面，该页面属于新页面
 $router.push({ name: 'Goods' });
 
 // 跳转到 Cart 页，如果Cart已经被缓存过，该页面属于缓存页面
 $router.replace({ name: 'Cart', cache: true });
+
+// 跳转到 Cart 页，如果Cart已经被缓存过，该页面属于缓存页面
+$router.replace({ name: 'Cart', cache: false, constCache: true });
 
 // 跳转到 Goods 页面 ，删除 Cart 页面组件，如果 Goods 已经被缓存过，该页面属于缓存页面
 $router.push({ name: 'Goods', destory: 'Cart', cache: true });

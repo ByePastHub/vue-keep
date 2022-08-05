@@ -63,9 +63,10 @@ Where you need to cache page components, replace `<router-view />` with `<keep-r
 
 ## Router object
 
-- **`push/replace`**: Add destroy page components and cache fields, respectively `destory`, `cache`.
+**`Route`**: Add (destroy/cache) page component properties, namely `destory`, `cache`, `constCache`.
    > **`destory`(String|Array)**: Whether to destroy some page components when jumping (destroy all `destory: 'ALL'`), the parameter is `route.name`.
    > **`cache`(Boolean)**: Whether to use the cached page to jump to the next page, if `cache` is not provided, the default jump will belong to the new page.
+   > **`constCache`(Boolean)**: The biggest difference between `constCache` and `cache` is that `cache` can be dynamically changed, constCache is a jump is a mandatory cache, usually with `beforeEach` for highly customized caching.
 ```js
 // Jump to the Goods page, which is a new page
 $router.push({ name: 'Goods' });
