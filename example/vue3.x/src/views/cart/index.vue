@@ -4,7 +4,7 @@
       left-icon="volume-o"
       wrapable
       text="tips: 商品详情页id发生变化时或手动销毁时才回重新加载，点击一下试试吧"
-      @click="$router.jump({type: 'forward', cache: true })"
+      @click="$router.jump({type: 'forward', constCache: true })"
     />
 
     <van-checkbox-group class="card-goods" v-model="checkedGoods">

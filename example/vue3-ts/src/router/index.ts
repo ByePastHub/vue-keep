@@ -10,6 +10,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/about',
     name: 'About1',
     component: () => import('../views/About.vue'),
+    redirect: '/about/a/',
     children: [
       {
         path: 'a',
