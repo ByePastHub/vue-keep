@@ -236,6 +236,7 @@ async function dispatch(eventName, direction, toLocation) {
     direction,
     destroy: mergeToLocation?.destroy,
     cache: mergeToLocation?.cache,
+    constCache: to?.constCache,
     toLocation: assign({}, toLocation, componentName)
   };
 

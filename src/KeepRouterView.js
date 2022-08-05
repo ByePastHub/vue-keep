@@ -68,10 +68,10 @@ export default {
     },
 
     async beforeRouteChangeEvent(params) {
-      const { detail: { direction, destroy, cache, toLocation }} = params;
+      const { detail: { direction, destroy, cache, constCache, toLocation }} = params;
 
       if (direction !== 'forward') return;
-      cache || this.destroyTraverse(toLocation.name);
+      cache || constCache || this.destroyTraverse(toLocation.name);
       if (destroy === DESTROY_ALL) {
         this.includeList = [];
       }
@@ -80,7 +80,12 @@ export default {
 
     routerChangeEvent(params) {
       const { toLocation } = params.detail;
-      toLocation.name && this.forward(toLocation.name);
+      const matched = toLocation.matched;
+      matched.forEach(item => {
+        const name = item.components?.default.name || toLocation.name;
+        if (this.includeList.includes(name)) return;
+        name && this.forward(name);
+      });
       if (!toLocation.name) {
         console.warn('keep-router-view: Please pay attention to whether the router base path you configured is correct!');
       }

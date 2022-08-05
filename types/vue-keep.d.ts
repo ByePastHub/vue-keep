@@ -72,6 +72,7 @@ export interface State {
 
 export interface KeepRoute {
   cache: boolean
+  constCache: boolean
   direction: Direction
   fullPath: string
   hash: string
