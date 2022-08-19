@@ -72,8 +72,8 @@ export default {
 
       if (direction !== 'forward') return;
       cache || constCache || this.destroyTraverse(toLocation.name);
-      if (destroy === DESTROY_ALL) {
-        this.includeList = [];
+      if (typeof destroy === 'string' && destroy === DESTROY_ALL) {
+        return (this.includeList = []);
       }
       this.handelDestroy(destroy);
     },
@@ -93,6 +93,9 @@ export default {
 
     componentDestroyEvent(params) {
       const { detail: destroy } = params;
+      if (destroy === DESTROY_ALL) {
+        return (this.includeList = []);
+      }
       this.handelDestroy(destroy);
     },
 
