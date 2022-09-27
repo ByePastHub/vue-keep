@@ -63,8 +63,8 @@ Where you need to cache page components, replace `<router-view />` with `<keep-r
 
 ## Router object
 
-**`Route`**: Add (destroy/cache) page component properties, namely `destory`, `cache`, `constCache`.
-   > **`destory`(String|Array)**: Whether to destroy some page components when jumping (destroy all `destory: 'ALL'`), the parameter is `route.name`.
+**`Route`**: Add (destroy/cache) page component properties, namely `destroy`, `cache`, `constCache`.
+   > **`destroy`(String|Array)**: Whether to destroy some page components when jumping (destroy all `destroy: 'ALL'`), the parameter is `route.name`.
    > **`cache`(Boolean)**: Whether to use the cached page to jump to the next page, if `cache` is not provided, the default jump will belong to the new page.
    > **`constCache`(Boolean)**: The biggest difference between `constCache` and `cache` is that `cache` can be dynamically changed, constCache is a jump is a mandatory cache, usually with `beforeEach` for highly customized caching.
 ```js
@@ -75,13 +75,13 @@ $router.push({ name: 'Goods' });
 $router.replace({ name: 'Cart', cache: true });
 
 // Jump to the Goods page, delete the Cart page component, if the Goods has been cached, the page belongs to the cached page
-$router.push({ name: 'Goods', destory: 'Cart', cache: true });
+$router.push({ name: 'Goods', destroy: 'Cart', cache: true });
 
 // Jump to the Goods page and delete the Cart and User page components. If the Goods has been cached, the page is a cached page
-$router.push({ name: 'Goods', destory: ['Cart', 'User'], cache: true });
+$router.push({ name: 'Goods', destroy: ['Cart', 'User'], cache: true });
 
 // Jump to the Goods page, delete all page caches, this page is a new page
-$router.push({ name: 'Goods', destory: 'ALL', cache: true });
+$router.push({ name: 'Goods', destroy: 'ALL', cache: true });
 ```
 
 
