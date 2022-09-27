@@ -64,8 +64,8 @@
 
 ## Router 对象
 
-- **`Route`**: 添加(销毁/缓存)页面组件属性，分别是`destory`、`cache`、`constCache`。
-  > **`destory`(String|Array)**: 跳转时是否要销毁某些页面组件(销毁全部`destory: 'ALL'`)，参数为`route.name`。
+- **`Route`**: 添加(销毁/缓存)页面组件属性，分别是`destroy`、`cache`、`constCache`。
+  > **`destroy`(String|Array)**: 跳转时是否要销毁某些页面组件(销毁全部`destroy: 'ALL'`)，参数为`route.name`。
   > **`cache`(Boolean)**: 跳转到下一个页面是否使用缓存页面，如果`cache`没有提供，默认跳转都是属于新页面。
   > **`constCache`(Boolean)**: `constCache`跟`cache`最大的区别是`cache`可以被动态改变的，constCache是跳转是强制缓存，一般是配合`beforeEach`做高度定制化缓存使用的。(v1.2.1)
 ```js
@@ -79,13 +79,13 @@ $router.replace({ name: 'Cart', cache: true });
 $router.replace({ name: 'Cart', cache: false, constCache: true });
 
 // 跳转到 Goods 页面 ，删除 Cart 页面组件，如果 Goods 已经被缓存过，该页面属于缓存页面
-$router.push({ name: 'Goods', destory: 'Cart', cache: true });
+$router.push({ name: 'Goods', destroy: 'Cart', cache: true });
 
 // 跳转到 Goods 页面 ，删除 Cart、User 页面组件，如果 Goods 已经被缓存过，该页面属于缓存页面
-$router.push({ name: 'Goods', destory: ['Cart', 'User'], cache: true });
+$router.push({ name: 'Goods', destroy: ['Cart', 'User'], cache: true });
 
 // 跳转到 Goods 页面，删除全部页面缓存，该页面属于新页面
-$router.push({ name: 'Goods', destory: 'ALL', cache: true });
+$router.push({ name: 'Goods', destroy: 'ALL', cache: true });
 ```
 
 
