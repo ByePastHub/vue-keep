@@ -4,12 +4,12 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'Home1',
-    component: () => import('../views/Home.vue')
+    component: () => import('@/views/Home.vue')
   },
   {
     path: '/about',
     name: 'About1',
-    component: () => import('../views/About.vue'),
+    component: () => import('@/views/About.vue'),
     redirect: '/about/a/',
     children: [
       {
@@ -29,6 +29,24 @@ const routes: Array<RouteRecordRaw> = [
       }
     ]
     // component: About,
+  },
+  {
+    path: '/container',
+    name: 'Container',
+    component: () => import('@/views/Container/index.vue'),
+    redirect: '/container/pagea/',
+    children: [
+      {
+        path: 'pagea',
+        name: 'PageA',
+        component: () => import('../views/Container/PageA.vue'),
+      },
+      {
+        path: 'pageb',
+        name: 'PageB',
+        component: () => import('../views/Container/PageB.vue')
+      }
+    ]
   },
   {
     path: '/test',

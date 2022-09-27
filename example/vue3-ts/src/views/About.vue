@@ -19,7 +19,7 @@
       &nbsp;&nbsp;
       <a href="#" @click.prevent="$router.jump({ type: 'push', path: '/about/c', cache: true })">C</a>
     </div>
-    <keep-router-view />
+    <keep-router-view :max="10" />
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>C</h2>
+    <h2 @click="destroyPageA">C</h2>
     <input v-model="value" />
   </div>
 </template>
@@ -19,6 +19,10 @@ export default class C extends Vue {
       forbidClick: true,
       duration: 1000
     })
+  }
+
+  private destroyPageA() {
+    this.$router.push({name: 'PageA'})
   }
 
   private activated() {
