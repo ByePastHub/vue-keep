@@ -18,7 +18,7 @@ let beforeState = Object.create(null);
 let init = true;
 
 window.addEventListener(POPSTATE, function(ev) {
-  keepPosition = ev.state.keepPosition;
+  keepPosition = ev.state?.keepPosition || history.length - 1;
   const direction = keepPosition <= prevPosition ? NavigationDirection.back : NavigationDirection.forward;
   const absolutePath = getAbsolutePath();
   direction === NavigationDirection.back && (isPopstateBack = true);
