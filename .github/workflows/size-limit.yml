@@ -10,9 +10,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # 不指定 version，让 action-setup 从 package.json 的 packageManager 字段读取
       - uses: pnpm/action-setup@v4
-        with:
-          version: 10
 
       - uses: actions/setup-node@v4
         with:
