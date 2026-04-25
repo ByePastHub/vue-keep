@@ -1,0 +1,21 @@
+[
+  {
+    "name": "ESM bundle (gzip)",
+    "path": "packages/core/dist/index.js",
+    "limit": "5 kB",
+    "gzip": true,
+    "import": "{ createKeepRouter, useKeepRouter }"
+  },
+  {
+    "name": "Full bundle (gzip)",
+    "path": "packages/core/dist/index.js",
+    "limit": "6 kB",
+    "gzip": true
+  },
+  {
+    "name": "CSS (gzip)",
+    "path": "packages/core/dist/animations.css",
+    "limit": "1 kB",
+    "gzip": true
+  }
+]

@@ -1,0 +1,141 @@
+/* slide-left：前进动画（新页面从右侧滑入） */
+.keep-slide-left-enter-active,
+.keep-slide-left-leave-active,
+.keep-slide-right-enter-active,
+.keep-slide-right-leave-active {
+  background: var(--vue-keep-page-bg, var(--color-bg, Canvas));
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100%;
+}
+.keep-slide-left-enter-active,
+.keep-slide-right-enter-active {
+  position: relative;
+}
+.keep-slide-left-leave-active,
+.keep-slide-right-leave-active {
+  position: absolute;
+  top: var(--vue-keep-leave-top, 0);
+  left: var(--vue-keep-leave-left, 0);
+}
+.keep-slide-left-enter-active,
+.keep-slide-right-leave-active {
+  z-index: 2;
+}
+.keep-slide-left-leave-active,
+.keep-slide-right-enter-active {
+  z-index: 1;
+}
+.keep-slide-left-enter-from {
+  transform: translateX(100%);
+}
+.keep-slide-left-leave-to {
+  transform: translateX(-30%);
+}
+
+/* slide-right：返回动画（旧页面从左侧滑入） */
+.keep-slide-right-enter-from {
+  transform: translateX(-30%);
+}
+.keep-slide-right-leave-to {
+  transform: translateX(100%);
+}
+
+/* fade */
+.keep-fade-enter-active,
+.keep-fade-leave-active {
+  background: var(--vue-keep-page-bg, var(--color-bg, Canvas));
+  transition: opacity 0.2s ease;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100%;
+}
+.keep-fade-enter-active {
+  position: relative;
+}
+.keep-fade-leave-active {
+  position: absolute;
+  top: var(--vue-keep-leave-top, 0);
+  left: var(--vue-keep-leave-left, 0);
+}
+.keep-fade-enter-active {
+  z-index: 2;
+}
+.keep-fade-leave-active {
+  z-index: 1;
+}
+.keep-fade-enter-from,
+.keep-fade-leave-to {
+  opacity: 0;
+}
+
+/* zoom-in：前进（新页面放大进入） */
+.keep-zoom-in-enter-active,
+.keep-zoom-in-leave-active,
+.keep-zoom-out-enter-active,
+.keep-zoom-out-leave-active {
+  background: var(--vue-keep-page-bg, var(--color-bg, Canvas));
+  transition:
+    transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.25s ease;
+  will-change: transform, opacity;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100%;
+}
+.keep-zoom-in-enter-active,
+.keep-zoom-out-enter-active {
+  position: relative;
+}
+.keep-zoom-in-leave-active,
+.keep-zoom-out-leave-active {
+  position: absolute;
+  top: var(--vue-keep-leave-top, 0);
+  left: var(--vue-keep-leave-left, 0);
+}
+.keep-zoom-in-enter-active,
+.keep-zoom-out-leave-active {
+  z-index: 2;
+}
+.keep-zoom-in-leave-active,
+.keep-zoom-out-enter-active {
+  z-index: 1;
+}
+.keep-zoom-in-enter-from {
+  transform: scale(0.9);
+  opacity: 0;
+}
+.keep-zoom-in-leave-to {
+  transform: scale(1.1);
+  opacity: 0;
+}
+
+/* zoom-out：返回（旧页面缩小退出） */
+.keep-zoom-out-enter-from {
+  transform: scale(1.1);
+  opacity: 0;
+}
+.keep-zoom-out-leave-to {
+  transform: scale(0.9);
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .keep-slide-left-enter-active,
+  .keep-slide-left-leave-active,
+  .keep-slide-right-enter-active,
+  .keep-slide-right-leave-active,
+  .keep-fade-enter-active,
+  .keep-fade-leave-active,
+  .keep-zoom-in-enter-active,
+  .keep-zoom-in-leave-active,
+  .keep-zoom-out-enter-active,
+  .keep-zoom-out-leave-active {
+    transition-duration: 0.01ms !important;
+  }
+}

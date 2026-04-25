@@ -1,0 +1,57 @@
+{
+  "name": "@bye_past/vue-keep",
+  "version": "2.0.0-alpha.0",
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./animations.css": "./dist/animations.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "size": "size-limit"
+  },
+  "peerDependencies": {
+    "vue": "^3.4.0",
+    "vue-router": "^4.2.0"
+  },
+  "peerDependenciesMeta": {
+    "@vue/devtools-api": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@vue/devtools-api": "^8.1.1",
+    "vue": "^3.5.33",
+    "vue-router": "^5.0.6"
+  },
+  "keywords": [
+    "vue",
+    "vue3",
+    "keep-alive",
+    "page-cache",
+    "router",
+    "scroll-restoration",
+    "page-stack",
+    "navigation"
+  ],
+  "license": "MIT"
+}

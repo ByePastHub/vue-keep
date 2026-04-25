@@ -1,0 +1,34 @@
+name: Bug Report
+description: 报告一个 Bug
+labels: [bug]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: 版本
+      placeholder: "2.0.0"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: 问题描述
+      placeholder: 请描述你遇到的问题
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: 复现步骤
+      placeholder: 请提供最小复现步骤或 StackBlitz 链接
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期望行为
+  - type: input
+    id: environment
+    attributes:
+      label: 环境信息
+      placeholder: "Vue 3.x, Vue Router 4.x, 浏览器版本"
