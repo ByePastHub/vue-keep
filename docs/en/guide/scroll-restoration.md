@@ -4,13 +4,14 @@ Vue Keep automatically saves and restores scroll positions when navigating betwe
 
 ## How It Works
 
-When a user navigates away from a page, Vue Keep captures the scroll position of all detected scroll containers. When the user navigates back, positions are restored using a 3-tier defense mechanism:
+When a user navigates away from a page, Vue Keep captures the scroll position of all detected scroll containers. When the user navigates back, positions are restored using a layered defense mechanism:
 
-1. **nextTick** -- Immediately attempts to restore after the DOM updates.
-2. **ResizeObserver** -- Watches for content height changes (e.g. lazy-loaded images, async data) and re-applies positions until the layout stabilizes.
-3. **Timeout fallback** -- After 600ms (default), forces a final restore to guarantee the position is applied even if ResizeObserver never fires.
+1. **Synchronous restore** -- Applies the saved position immediately to avoid drawing the top of a cached page first.
+2. **nextTick** -- Re-applies the position after Vue updates the DOM.
+3. **ResizeObserver** -- Watches for content height changes (e.g. lazy-loaded images, async data) and re-applies positions until the layout stabilizes.
+4. **Timeout fallback** -- After 600ms (default), forces a final restore to guarantee the position is applied even if ResizeObserver never fires.
 
-This layered approach handles the common problem where content hasn't fully rendered when scroll restoration runs.
+For document scrolling, Vue Keep temporarily reserves enough document height before restoring, so browsers do not clamp the target scroll position back to the top.
 
 ## Scroll Behavior Strategies
 
@@ -25,12 +26,12 @@ const keepRouter = createKeepRouter({
 })
 ```
 
-| Strategy   | Behavior                                                            |
-| ---------- | ------------------------------------------------------------------- |
-| `'auto'`   | Restore on back navigation only. Forward navigation scrolls to top. |
-| `'always'` | Always restore saved positions, regardless of direction.            |
-| `'none'`   | Disable scroll restoration entirely.                                |
-| `function` | Custom function for full control.                                   |
+| Strategy   | Behavior                                                                                |
+| ---------- | --------------------------------------------------------------------------------------- |
+| `'auto'`   | Restore on back; push/replace/reLaunch scroll to top; switchTab is handled by Vue Keep. |
+| `'always'` | Always restore saved positions, regardless of direction.                                |
+| `'none'`   | Disable scroll restoration entirely.                                                    |
+| `function` | Custom function for full control.                                                       |
 
 ### Custom Function
 
@@ -59,6 +60,12 @@ const keepRouter = createKeepRouter({
   scrollBehavior: customScroll,
 })
 ```
+
+## Page Refresh
+
+Vue Keep sets the browser's native `history.scrollRestoration` to `manual` when the plugin is installed. This prevents the browser from automatically restoring the scroll position after a page refresh.
+
+When the current navigation is detected as a reload, Vue Keep resets the document scroll to the top after initialization. Component state is rebuilt on refresh, similar to a cold start.
 
 ## Custom Scroll Containers
 
@@ -186,3 +193,7 @@ interface ScrollPosition {
 ```
 
 The `scrollWidth` and `scrollHeight` fields are captured alongside the position, which can be useful for proportional restoration when content dimensions change (e.g. responsive layouts).
+
+## Known Limitations
+
+- `switchTab` can still visibly flicker in document-scroll layouts when repeatedly switching between short and long pages. Vue Keep already prevents Vue Router and native browser restoration from taking over, but this rendering-timing edge case still needs follow-up optimization.

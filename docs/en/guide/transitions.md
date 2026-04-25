@@ -47,6 +47,10 @@ Each preset maps to CSS class names that you need to define in your styles. Exam
 }
 ```
 
+## Directionless Navigation
+
+For directionless navigations such as `replace`, `reLaunch`, and `switchTab`, built-in presets do not play a transition. If a custom `TransitionConfig.name` returns an empty string, Vue Keep renders the page directly instead of creating an empty `Transition` wrapper.
+
 ## TransitionConfig
 
 For fine-grained control, pass a `TransitionConfig` object:

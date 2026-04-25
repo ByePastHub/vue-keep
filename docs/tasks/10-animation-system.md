@@ -10,12 +10,12 @@
 
 ## 文件清单
 
-| 文件                                              | 职责                         |
-| ------------------------------------------------- | ---------------------------- |
-| `packages/core/src/animation/presets.css`         | CSS 动画预设                 |
-| `packages/core/src/animation/presets.ts`          | 预设名称映射                 |
-| `packages/core/src/animation/direction-class.ts`  | 方向 → CSS class 解析        |
-| `packages/core/src/components/KeepTransition.tsx` | 方向感知 Transition 包装组件 |
+| 文件                                             | 职责                         |
+| ------------------------------------------------ | ---------------------------- |
+| `packages/core/src/animation/presets.css`        | CSS 动画预设                 |
+| `packages/core/src/animation/presets.ts`         | 预设名称映射                 |
+| `packages/core/src/animation/direction-class.ts` | 方向 → CSS class 解析        |
+| `packages/core/src/components/KeepTransition.ts` | 方向感知 Transition 包装组件 |
 
 ---
 
@@ -228,7 +228,7 @@
 
 ### T10-04：KeepTransition 组件
 
-文件：`packages/core/src/components/KeepTransition.tsx`
+文件：`packages/core/src/components/KeepTransition.ts`
 
 - [✅] 实现方向感知的 Transition 包装组件：
 
@@ -360,3 +360,17 @@
 - [✅] SSR 安全（Transition 在 SSR 下不渲染动画）
 - [✅] 单元测试覆盖：预设映射、方向解析、首屏跳过
 - [✅] `pnpm typecheck` 通过
+
+### T10-06：none 方向动画跳过
+
+文件：`packages/core/src/components/KeepTransition.ts`
+
+- [✅] 当预设在 `direction = 'none'` 下解析不到动画名称时，直接渲染默认内容
+- [✅] 避免 switchTab / replace 等无方向导航创建空 Transition 包裹
+- [✅] 首屏跳过动画逻辑仍仅在存在有效 transition props 时生效
+
+**验收**：
+
+- [✅] switchTab 默认不播放页面过渡动画
+- [✅] 自定义 transition name 返回空字符串时不创建 Transition
+- [✅] 前进/后退动画行为不受影响

@@ -96,7 +96,7 @@ The following features are entirely client-side and have no server-side effect:
 | KeepAlive caching     | Vue's `<KeepAlive>` is a client-only runtime feature     |
 | EventChannel          | Tied to client-side navigation lifecycle                 |
 | Transition animations | CSS transitions require the DOM                          |
-| State persistence     | Uses `sessionStorage`                                    |
+| State persistence     | Uses browser `history.state` markers                     |
 | DevTools integration  | Browser extension API                                    |
 
 ## Other SSR Frameworks
@@ -137,5 +137,5 @@ export default boot(({ app, router, ssrContext }) => {
 ## Notes
 
 - Vue Keep does not provide server-side page caching. On the server, pages render fresh on every request as usual.
-- The `persist` option (which uses `sessionStorage`) is automatically skipped in non-browser environments.
+- The `persist` option relies on browser `history.state` markers and is automatically skipped in non-browser environments.
 - If you see hydration mismatch warnings, make sure `KeepRouterView` is wrapped in a client-only boundary.

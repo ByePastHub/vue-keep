@@ -4,7 +4,7 @@
 
 ## 目标
 
-实现页面返回时的滚动位置恢复。支持 `document.scrollingElement`（主滚动容器）和自定义滚动容器（通过 `[data-scroll-container]` 标记）。抓取在 `onDeactivated` 同步阶段完成，恢复采用三道防线策略确保可靠性。
+实现页面返回时的滚动位置恢复。支持 `document.scrollingElement`（主滚动容器）和自定义滚动容器（通过 `[data-scroll-container]` 标记）。抓取在 `onDeactivated` 同步阶段完成，恢复采用同步恢复、nextTick、ResizeObserver 与超时兜底的多层防线确保可靠性。
 
 ---
 
@@ -13,12 +13,14 @@
 | 文件                                                    | 职责                            |
 | ------------------------------------------------------- | ------------------------------- |
 | `packages/core/src/scroll/capture.ts`                   | 滚动位置抓取                    |
-| `packages/core/src/scroll/restore.ts`                   | 滚动位置恢复（三道防线）        |
+| `packages/core/src/scroll/restore.ts`                   | 滚动位置恢复（多层防线）        |
 | `packages/core/src/scroll/container-detect.ts`          | 滚动容器发现                    |
 | `packages/core/src/scroll/resize-watcher.ts`            | ResizeObserver 监听高度变化     |
 | `packages/core/src/scroll/index.ts`                     | 桶文件                          |
 | `packages/core/src/composables/useScrollRestoration.ts` | 滚动恢复 composable             |
 | `packages/core/src/scroll/keep-scroll-behavior.ts`      | createKeepScrollBehavior helper |
+| `packages/core/src/scroll/document-placeholder.ts`      | 文档滚动恢复前预留高度          |
+| `packages/core/src/store/scroll-restoration-mode.ts`    | 禁用浏览器原生刷新滚动恢复      |
 
 ---
 
@@ -123,7 +125,7 @@
 - [✅] 多个容器各自独立抓取
 - [✅] 主滚动容器 key 为 `__document__`
 
-### T09-03：滚动位置恢复 — 三道防线
+### T09-03：滚动位置恢复 — 多层防线
 
 文件：`packages/core/src/scroll/restore.ts`
 
@@ -134,19 +136,24 @@
     containers: Element[],
     positions: Map<string, ScrollPosition>,
     options?: {
-      timeout?: number // 三道防线的兜底超时时间
+      timeout?: number // 多层防线的兜底超时时间
     },
   ): Promise<void> {
     const timeout = options?.timeout ?? 600
 
-    // 第一道防线：nextTick 立即恢复
+    const shouldCleanupDocumentSpace = ensureDocumentScrollSpace(positions)
+
+    // 第一道防线：同步恢复，避免缓存页先以顶部位置绘制一帧
+    applyPositions(containers, positions)
+
+    // 第二道防线：nextTick 后再次恢复
     await nextTick()
     applyPositions(containers, positions)
 
-    // 第二道防线：ResizeObserver 监听高度变化
+    // 第三道防线：ResizeObserver 监听高度变化
     const { promise, cleanup } = watchResize(containers, positions)
 
-    // 第三道防线：超时兜底
+    // 第四道防线：超时兜底
     const timer = setTimeout(() => {
       applyPositions(containers, positions)
       cleanup()
@@ -154,7 +161,9 @@
 
     await Promise.race([promise, new Promise((r) => setTimeout(r, timeout))])
     clearTimeout(timer)
+    applyPositions(containers, positions)
     cleanup()
+    cleanupDocumentScrollSpace(shouldCleanupDocumentSpace)
   }
   ```
 
@@ -175,10 +184,13 @@
   }
   ```
 - [✅] 不使用非标准的 `behavior: 'instant'`
+- [✅] 恢复 document 滚动前通过占位节点预留高度，避免目标滚动值被浏览器夹到顶部
+- [✅] 恢复完成后再次应用滚动位置并清理占位节点
 
 **验收**：
 
-- [✅] nextTick 后立即恢复滚动位置
+- [✅] 同步阶段立即恢复滚动位置，避免先绘制顶部一帧
+- [✅] nextTick 后再次恢复滚动位置
 - [✅] 懒加载图片导致高度变化时，ResizeObserver 触发二次恢复
 - [✅] 600ms 超时后强制恢复（兜底）
 - [✅] 恢复完成后清理 ResizeObserver
@@ -410,13 +422,34 @@
   ```
 
 - [✅] back + 有缓存位置时返回 `false`（交给 vue-keep 恢复）
+- [✅] switchTab 返回 `false`，完全交给 vue-keep 恢复
 - [✅] 其他情况使用 fallback 或默认 `{ top: 0 }`
 
 **验收**：
 
 - [✅] 返回导航时 Vue Router 不干预滚动（由 vue-keep 接管）
+- [✅] switchTab 时 Vue Router 不干预滚动（由 vue-keep 接管）
 - [✅] 前进导航时正常滚动到顶部
 - [✅] 自定义 fallback 函数生效
+
+### T09-09：浏览器原生滚动恢复控制
+
+文件：`packages/core/src/store/scroll-restoration-mode.ts`
+
+- [✅] 安装插件时将 `history.scrollRestoration` 设置为 `manual`
+- [✅] 检测浏览器刷新导航（`PerformanceNavigationTiming.type === 'reload'`）
+- [✅] 刷新进入页面时重置到顶部，避免浏览器恢复刷新前滚动位置
+- [✅] 不支持或不可写的浏览器环境静默降级
+
+**验收**：
+
+- [✅] 页面刷新后不再由浏览器自动回到刷新前位置
+- [✅] 非刷新导航不强制重置滚动
+- [✅] SSR 或无 Performance API 环境不报错
+
+### 已知问题
+
+- [!] `switchTab` 在 document 主滚动场景下仍可能出现可见闪烁，尤其是短页面与长页面反复切换时；该问题暂时搁置，后续需要从渲染时序或布局容器隔离方向继续排查。
 
 ### T09-08：SSR 安全
 
@@ -436,7 +469,7 @@
 
 - [✅] 页面返回时滚动位置自动恢复
 - [✅] 支持主滚动容器和自定义滚动容器
-- [✅] 三道防线确保恢复可靠性（nextTick → ResizeObserver → 超时兜底）
+- [✅] 多层防线确保恢复可靠性（同步恢复 → nextTick → ResizeObserver → 超时兜底）
 - [✅] iOS 弹性滚动正确处理
 - [✅] 与 Vue Router scrollBehavior 正确共存
 - [✅] SSR 安全

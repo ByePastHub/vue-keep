@@ -35,5 +35,5 @@ export default defineNuxtPlugin((nuxtApp) => {
 
 - Vue Keep 是纯客户端库，不影响 SSR 的 HTML 输出
 - 页面栈状态在客户端 hydration 后才开始管理
-- 如果使用 `persist: true`，刷新恢复依赖 `sessionStorage`，仅在客户端可用
+- 如果使用 `persist: true`，刷新恢复依赖浏览器 `history.state` 标识，仅在客户端可用
 - DevTools 集成仅在客户端生效

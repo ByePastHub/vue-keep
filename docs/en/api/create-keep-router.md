@@ -17,7 +17,7 @@ function createKeepRouter(options: KeepOptions): Plugin
 | `exclude`                | `NameMatcher`                                   | `undefined`    | Global exclude rule — matched pages are never cached                            |
 | `include`                | `NameMatcher`                                   | `undefined`    | Global include rule — only matched pages are cached                             |
 | `scrollBehavior`         | `ScrollBehaviorStrategy`                        | `'auto'`       | Scroll restoration strategy                                                     |
-| `persist`                | `boolean`                                       | `true`         | Enable state recovery after page refresh                                        |
+| `persist`                | `boolean`                                       | `true`         | Enable history.state marker recovery after page refresh                         |
 | `transition`             | `false \| TransitionPreset \| TransitionConfig` | `'slide'`      | Page transition animation config                                                |
 | `devtools`               | `boolean`                                       | `false`        | Enable Vue DevTools integration                                                 |
 | `namespace`              | `string`                                        | `'[vue-keep]'` | Log namespace prefix                                                            |
@@ -30,6 +30,7 @@ Returns a standard Vue `Plugin`. Call `app.use()` to install it.
 
 After installation the plugin:
 
+- Disables native browser `history.scrollRestoration` to avoid restoring the previous scroll position after refresh
 - Binds `beforeEach` / `afterEach` guards on the router
 - Ensures every route component has a stable name for `<KeepAlive>` matching
 - Registers the `<KeepRouterView>` component globally

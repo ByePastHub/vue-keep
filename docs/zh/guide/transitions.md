@@ -25,6 +25,10 @@ createKeepRouter({
 import '@bye_past/vue-keep/animations.css'
 ```
 
+## 无方向导航
+
+`replace`、`reLaunch`、`switchTab` 等导航方向为 `none` 时，内置预设不会播放页面过渡动画。若自定义 `TransitionConfig.name` 返回空字符串，Vue Keep 会直接渲染页面内容，不创建空的 `Transition` 包裹。
+
 ## 单个容器配置
 
 ```vue

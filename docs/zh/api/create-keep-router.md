@@ -17,7 +17,7 @@ function createKeepRouter(options: KeepOptions): Plugin
 | `exclude`                | `NameMatcher`                                   | —              | 全局排除规则，匹配的页面不缓存            |
 | `include`                | `NameMatcher`                                   | —              | 全局白名单，仅匹配的页面缓存              |
 | `scrollBehavior`         | `ScrollBehaviorStrategy`                        | `'auto'`       | 滚动恢复策略                              |
-| `persist`                | `boolean`                                       | `true`         | 是否启用刷新恢复（基于 sessionStorage）   |
+| `persist`                | `boolean`                                       | `true`         | 是否启用刷新后 history.state 标识恢复     |
 | `transition`             | `false \| TransitionPreset \| TransitionConfig` | `'slide'`      | 动画配置                                  |
 | `devtools`               | `boolean`                                       | `false`        | 是否启用 Vue DevTools 集成                |
 | `namespace`              | `string`                                        | `'[vue-keep]'` | 日志命名空间                              |
@@ -28,9 +28,10 @@ function createKeepRouter(options: KeepOptions): Plugin
 
 返回一个 Vue Plugin 对象，通过 `app.use()` 安装。安装后会：
 
-1. 注册 `<KeepRouterView>` 全局组件
-2. 注入 `$keepRouter` 全局属性
-3. 提供 `KEEP_STORE_KEY`、`KEEP_OPTIONS_KEY`、`KEEP_ROUTER_KEY` 等注入键
+1. 禁用浏览器原生 `history.scrollRestoration`，避免刷新后自动回到刷新前位置
+2. 注册 `<KeepRouterView>` 全局组件
+3. 注入 `$keepRouter` 全局属性
+4. 提供 `KEEP_STORE_KEY`、`KEEP_OPTIONS_KEY`、`KEEP_ROUTER_KEY` 等注入键
 
 ## 示例
 
