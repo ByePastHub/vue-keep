@@ -130,6 +130,13 @@ export default defineConfig({
   title: 'Vue Keep',
   description: 'Vue 页面缓存库，复刻微信小程序页面栈体验',
 
+  // 部署到 https://bypasthub.github.io/vue-keep/，子路径需要带尾斜杠
+  base: '/vue-keep/',
+  // 把 .html 写到目录文件，方便子路径下的相对链接
+  cleanUrls: true,
+  // tasks/ 是内部规划文档，不参与文档站构建
+  srcExclude: ['tasks/**', '**/README.md'],
+
   locales: {
     zh: {
       label: '简体中文',
@@ -160,7 +167,7 @@ export default defineConfig({
   },
 
   themeConfig: {
-    socialLinks: [{ icon: 'github', link: 'https://github.com/user/vue-keep' }],
+    socialLinks: [{ icon: 'github', link: 'https://github.com/ByePastHub/vue-keep' }],
     search: {
       provider: 'local',
     },

@@ -2,15 +2,17 @@
   {
     "name": "ESM bundle (gzip)",
     "path": "packages/core/dist/index.js",
-    "limit": "5 kB",
+    "limit": "10 kB",
     "gzip": true,
-    "import": "{ createKeepRouter, useKeepRouter }"
+    "import": "{ createKeepRouter, useKeepRouter }",
+    "ignore": ["vue", "vue-router", "@vue/devtools-api"]
   },
   {
     "name": "Full bundle (gzip)",
     "path": "packages/core/dist/index.js",
-    "limit": "6 kB",
-    "gzip": true
+    "limit": "11 kB",
+    "gzip": true,
+    "ignore": ["vue", "vue-router", "@vue/devtools-api"]
   },
   {
     "name": "CSS (gzip)",

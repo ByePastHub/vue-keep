@@ -4,7 +4,11 @@ import { resolve } from 'path'
 
 const coreRoot = resolve(__dirname, '../../packages/core')
 
+// 部署在 https://bypasthub.github.io/vue-keep/demo/，本地开发保持根路径
+const base = process.env.SHOWCASE_BASE ?? '/'
+
 export default defineConfig({
+  base,
   plugins: [vue()],
   define: {
     __DEV__: true,

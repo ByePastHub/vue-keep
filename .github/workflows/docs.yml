@@ -3,8 +3,13 @@ name: Deploy Docs
 on:
   push:
     branches: [main, master]
-    paths:
-      - 'docs/**'
+  # 允许手动触发，方便 docs 内容改完立刻刷新
+  workflow_dispatch:
+
+# 同一时间只允许一个部署在跑，避免并发推送 Pages
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -12,22 +17,49 @@ jobs:
     permissions:
       pages: write
       id-token: write
+      contents: read
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+
       - uses: pnpm/action-setup@v4
         with:
           version: 10
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
+
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter docs build
+
+      # showcase 走源码 alias，但导出时还是先把 core 构建产物准备好
+      - name: Build core
+        run: pnpm --filter @bye_past/vue-keep build
+
+      - name: Build docs (VitePress)
+        run: pnpm --filter docs build
+
+      - name: Build showcase demo
+        # 部署到 https://<user>.github.io/vue-keep/demo/
+        env:
+          SHOWCASE_BASE: /vue-keep/demo/
+        run: pnpm --filter playground-showcase build
+
+      - name: Assemble Pages artifact
+        run: |
+          mkdir -p public
+          cp -r docs/.vitepress/dist/. public/
+          mkdir -p public/demo
+          cp -r playground/showcase/dist/. public/demo/
+          # SPA fallback：刷新子路由不 404
+          cp public/demo/index.html public/demo/404.html
+
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: docs/.vitepress/dist
+          path: public
+
       - id: deployment
         uses: actions/deploy-pages@v4

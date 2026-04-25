@@ -6,7 +6,8 @@ import App from './App.vue'
 import './styles/global.css'
 
 const router = createRouter({
-  history: createWebHistory(),
+  // 部署在 GitHub Pages 子路径下时由 Vite 注入 BASE_URL，本地开发为 '/'
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     { path: '/', name: 'Home', component: () => import('./pages/home/index.vue') },
     {

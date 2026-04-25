@@ -2,7 +2,8 @@ name: Release
 
 on:
   push:
-    branches: [master]
+    # 在 master 上发正式版；refactor/v2 上发 alpha（通过 changeset pre 模式）
+    branches: [master, refactor/v2]
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
@@ -12,8 +13,12 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      id-token: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          # 让 changesets 能写入 tag 和 changelog
+          fetch-depth: 0
 
       - uses: pnpm/action-setup@v4
         with:
@@ -24,16 +29,25 @@ jobs:
           node-version: 20
           cache: pnpm
           registry-url: https://registry.npmjs.org
+          # 让 npm publish 能从环境变量读取 token
+          always-auth: true
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm build
+      - name: Build packages
+        run: pnpm build
 
       - name: Create Release Pull Request or Publish
+        # changesets/action 会自动识别 .changeset/pre.json，
+        # pre 模式下 changeset publish 会以 dist-tag = alpha/beta/... 发布
         uses: changesets/action@v1
         with:
           publish: pnpm changeset publish
           version: pnpm changeset version
+          # 在 pre 模式下提交标题更直观
+          commit: 'chore(release): :package: 发布版本'
+          title: 'chore(release): 发布版本'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

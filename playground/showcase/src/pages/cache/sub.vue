@@ -7,6 +7,12 @@ import FeatureBadge from '../../components/FeatureBadge.vue'
 const route = useRoute()
 const keepRouter = useKeepRouter()
 const { entry, setConstCache, destroySelf } = usePageCache()
+
+// 销毁当前页面缓存并返回，下次进入会重新 mounted
+function destroyAndBack() {
+  destroySelf()
+  keepRouter.back()
+}
 </script>
 
 <template>
@@ -35,15 +41,7 @@ const { entry, setConstCache, destroySelf } = usePageCache()
         <button class="btn btn-outline" @click="setConstCache(!entry?.constCache)">
           切换 constCache
         </button>
-        <button
-          class="btn btn-danger btn-sm"
-          @click="
-            destroySelf()
-            keepRouter.back()
-          "
-        >
-          销毁自身
-        </button>
+        <button class="btn btn-danger btn-sm" @click="destroyAndBack">销毁自身</button>
       </div>
 
       <button
