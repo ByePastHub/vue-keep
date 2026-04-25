@@ -56,4 +56,27 @@ describe('restoreScrollPositions', () => {
     await restoreScrollPositions([div], positions, { timeout: 10 })
     expect(div.scrollTop).toBe(50)
   })
+
+  it('快速连续切换时，新的恢复不会被上一次残留的兜底逻辑覆盖', async () => {
+    const div = document.createElement('div')
+    div.setAttribute('data-scroll-container', 'test')
+    document.body.appendChild(div)
+
+    const oldPositions = new Map<string, ScrollPosition>([['test', { top: 0, left: 0 }]])
+    const newPositions = new Map<string, ScrollPosition>([['test', { top: 200, left: 0 }]])
+
+    // 模拟「Tab 切到 Home（restore 还没跑完）→ 又切到 Explore」的场景
+    const oldPromise = restoreScrollPositions([div], oldPositions, { timeout: 80 })
+    // 上一次 restore 在跑的同时，立刻发起新的 restore
+    const newPromise = restoreScrollPositions([div], newPositions, { timeout: 80 })
+
+    await Promise.all([oldPromise, newPromise])
+
+    // 新的位置应该生效
+    expect(div.scrollTop).toBe(200)
+
+    // 等待超过上一次 restore 的 timeout，确保上一次的 setTimeout 不会再触发把位置改回 0
+    await new Promise((r) => setTimeout(r, 120))
+    expect(div.scrollTop).toBe(200)
+  })
 })
