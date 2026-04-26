@@ -2,7 +2,7 @@ import { defineConfig } from 'tsup'
 import { copyFileSync } from 'fs'
 
 export default defineConfig({
-  entry: ['src/index.ts'],
+  entry: ['src/index.ts', 'src/auto-imports.ts'],
   format: ['esm', 'cjs'],
   tsconfig: 'tsconfig.build.json',
   dts: true,

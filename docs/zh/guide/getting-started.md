@@ -71,6 +71,26 @@ app.mount('#app')
 import '@bye_past/vue-keep/animations.css'
 ```
 
+## 自动导入（可选）
+
+`unplugin-auto-import` 的 `imports` 字符串只识别内置 preset。使用 `@bye_past/vue-keep`
+时，请引入包内提供的 preset 对象：
+
+```ts
+// vite.config.ts
+import AutoImport from 'unplugin-auto-import/vite'
+import { VueKeepAutoImports } from '@bye_past/vue-keep/auto-imports'
+
+export default {
+  plugins: [
+    AutoImport({
+      imports: ['vue', 'vue-router', VueKeepAutoImports],
+      dts: 'auto-imports.d.ts',
+    }),
+  ],
+}
+```
+
 ## 使用导航方法
 
 ```vue

@@ -66,6 +66,26 @@ app.mount('#app')
 import '@bye_past/vue-keep/animations.css'
 ```
 
+## Auto Import (Optional)
+
+String entries in `unplugin-auto-import` `imports` only resolve built-in presets. For
+`@bye_past/vue-keep`, import the package preset object:
+
+```ts
+// vite.config.ts
+import AutoImport from 'unplugin-auto-import/vite'
+import { VueKeepAutoImports } from '@bye_past/vue-keep/auto-imports'
+
+export default {
+  plugins: [
+    AutoImport({
+      imports: ['vue', 'vue-router', VueKeepAutoImports],
+      dts: 'auto-imports.d.ts',
+    }),
+  ],
+}
+```
+
 ## Navigation
 
 ```vue

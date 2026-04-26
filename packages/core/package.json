@@ -14,6 +14,11 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
+    "./auto-imports": {
+      "types": "./dist/auto-imports.d.ts",
+      "import": "./dist/auto-imports.js",
+      "require": "./dist/auto-imports.cjs"
+    },
     "./animations.css": "./dist/animations.css",
     "./package.json": "./package.json"
   },
