@@ -1,7 +1,9 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import {
   disableNativeScrollRestoration,
+  isIOSWebKitBrowser,
   isReloadNavigation,
+  resolveNativeScrollRestorationMode,
   resetScrollOnReload,
 } from './scroll-restoration-mode'
 
@@ -14,6 +16,28 @@ describe('scroll-restoration-mode', () => {
     disableNativeScrollRestoration()
 
     expect(history.scrollRestoration).toBe('manual')
+  })
+
+  it('识别 iPhone WebKit 浏览器', () => {
+    const nav = {
+      userAgent:
+        'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Safari/604.1',
+      platform: 'iPhone',
+      maxTouchPoints: 5,
+    }
+
+    expect(isIOSWebKitBrowser(nav)).toBe(true)
+  })
+
+  it('iPadOS 桌面模式下保留原生滚动恢复', () => {
+    const nav = {
+      userAgent:
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/605.1.15 Safari/605.1.15',
+      platform: 'MacIntel',
+      maxTouchPoints: 5,
+    }
+
+    expect(resolveNativeScrollRestorationMode(nav)).toBe('auto')
   })
 
   it('识别刷新导航', () => {

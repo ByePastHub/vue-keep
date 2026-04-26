@@ -63,7 +63,7 @@ const keepRouter = createKeepRouter({
 
 ## Page Refresh
 
-Vue Keep sets the browser's native `history.scrollRestoration` to `manual` when the plugin is installed. This prevents the browser from automatically restoring the scroll position after a page refresh.
+Vue Keep configures the browser's native `history.scrollRestoration` when the plugin is installed. Non-iOS WebKit environments use `manual` to avoid restoring the previous scroll position after refresh; iOS WebKit keeps `auto` so the system back gesture can display the previous-page snapshot instead of a blank preview.
 
 When the current navigation is detected as a reload, Vue Keep resets the document scroll to the top after initialization. Component state is rebuilt on refresh, similar to a cold start.
 

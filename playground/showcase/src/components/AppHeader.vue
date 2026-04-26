@@ -17,12 +17,13 @@ withDefaults(
 const keepRouter = useKeepRouter()
 const router = useRouter()
 
-function goBack() {
+// 返回上一页，兜底回到首页
+async function goBack() {
   if (window.history.length > 1) {
     keepRouter.back()
-  } else {
-    router.push('/')
+    return
   }
+  await router.push('/')
 }
 </script>
 

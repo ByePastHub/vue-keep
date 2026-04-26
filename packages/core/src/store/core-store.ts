@@ -27,6 +27,7 @@ interface NavigationSnapshot {
   id: string // 本次导航提交 id
   method: NavigationMethod // 本次导航方法
   direction: NavigationDirection // 本次导航方向
+  transitionDirection: NavigationDirection // 本次页面动画方向
   delta: number // 本次导航步数
   containerId: string // 本次导航命中的容器 id
   from: RouteLocationNormalizedLoaded | null // 来源路由
@@ -41,6 +42,7 @@ interface CoreStoreState {
   currentRoute: RouteLocationNormalizedLoaded | null // 当前激活路由
   lastNavigation: NavigationSnapshot | null // 最近一次导航快照
   pendingDirection: NavigationDirection | null // 当前正在进行的导航方向（beforeEach 设置，afterEach 清除）
+  pendingTransitionDirection: NavigationDirection | null // 当前正在进行的页面动画方向
   ready: boolean // 是否完成初始化
 }
 
@@ -56,6 +58,7 @@ export function createCoreStore() {
     currentRoute: null,
     lastNavigation: null,
     pendingDirection: null,
+    pendingTransitionDirection: null,
     ready: false,
   })
 
@@ -163,11 +166,13 @@ export function createCoreStore() {
   function prepareNavigation(params: PrepareNavigationParams) {
     preparedNavigation = params
     state.pendingDirection = params.direction
+    state.pendingTransitionDirection = params.transitionDirection ?? params.direction
   }
 
   function clearPreparedNavigation() {
     preparedNavigation = null
     state.pendingDirection = null
+    state.pendingTransitionDirection = null
   }
 
   function getPreparedMethod(): NavigationMethod | null {
@@ -183,7 +188,9 @@ export function createCoreStore() {
 
     const nav = preparedNavigation
     preparedNavigation = null
+    const transitionDirection = nav.transitionDirection ?? nav.direction
     state.pendingDirection = null
+    state.pendingTransitionDirection = null
 
     ensureStack(nav.containerId)
     const stack = state.stacks.get(nav.containerId)!
@@ -210,6 +217,7 @@ export function createCoreStore() {
       id: navId,
       method: nav.method,
       direction: nav.direction,
+      transitionDirection,
       delta: nav.delta,
       containerId: nav.containerId,
       from: nav.from,

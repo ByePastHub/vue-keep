@@ -30,7 +30,7 @@ Returns a standard Vue `Plugin`. Call `app.use()` to install it.
 
 After installation the plugin:
 
-- Disables native browser `history.scrollRestoration` to avoid restoring the previous scroll position after refresh
+- Configures native browser `history.scrollRestoration`: non-iOS WebKit uses `manual`, while iOS WebKit keeps `auto` so the system back snapshot stays visible
 - Binds `beforeEach` / `afterEach` guards on the router
 - Ensures every route component has a stable name for `<KeepAlive>` matching
 - Registers the `<KeepRouterView>` component globally

@@ -31,6 +31,7 @@ export interface PrepareNavigationParams {
   from: RouteLocationNormalizedLoaded | null // 来源路由
   method: NavigationMethod // 结算后的导航方法
   direction: NavigationDirection // 结算后的导航方向
+  transitionDirection?: NavigationDirection // 本次页面动画方向
   delta: number // 结算后的导航步数
   hints: NavigationHints // 本次导航附带的缓存与通道提示
 }

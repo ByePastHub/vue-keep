@@ -28,7 +28,7 @@ function createKeepRouter(options: KeepOptions): Plugin
 
 返回一个 Vue Plugin 对象，通过 `app.use()` 安装。安装后会：
 
-1. 禁用浏览器原生 `history.scrollRestoration`，避免刷新后自动回到刷新前位置
+1. 配置浏览器原生 `history.scrollRestoration`，非 iOS WebKit 使用 `manual`，iOS WebKit 保持 `auto` 以兼容系统返回快照
 2. 注册 `<KeepRouterView>` 全局组件
 3. 注入 `$keepRouter` 全局属性
 4. 提供 `KEEP_STORE_KEY`、`KEEP_OPTIONS_KEY`、`KEEP_ROUTER_KEY` 等注入键

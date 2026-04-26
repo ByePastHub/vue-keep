@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs'
 import { describe, it, expect } from 'vitest'
 import { PRESET_MAP } from './presets'
 
@@ -25,5 +26,18 @@ describe('PRESET_MAP', () => {
 
   it('zoom back → keep-zoom-out', () => {
     expect(PRESET_MAP.zoom.back).toBe('keep-zoom-out')
+  })
+
+  it('内置动画根节点保留长页面高度并提供 fixed 补偿', () => {
+    const css = readFileSync('src/animation/presets.css', 'utf-8')
+
+    expect(css).toContain('min-height: 100dvh;')
+    expect(css).not.toMatch(/^\s*height:\s*100dvh;/m)
+    expect(css).toContain('.keep-slide-left-leave-active [data-vue-keep-fixed-auto]')
+    expect(css).toContain('.keep-slide-right-enter-active [data-vue-keep-fixed-auto]')
+    expect(css).toContain('.keep-fade-leave-active [data-vue-keep-fixed-auto]')
+    expect(css).toContain('.keep-zoom-out-enter-active [data-vue-keep-fixed-auto]')
+    expect(css).toContain('.keep-zoom-out-leave-active [data-vue-keep-fixed-auto]')
+    expect(css).toContain('var(--vue-keep-auto-fixed-offset-y, var(--vue-keep-fixed-offset-y, 0));')
   })
 })

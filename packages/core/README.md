@@ -137,6 +137,8 @@ keepRouter.reLaunch('/')
 | `transition`       | `false \| 'slide' \| 'fade' \| 'zoom' \| TransitionConfig` | 同全局 | 当前容器动画配置      |
 | `scrollContainers` | `string[]`                                                 | —      | 额外滚动容器选择器    |
 
+页面动画期间，Vue Keep 会自动冻结页面内 `position: fixed` 元素的当前视口位置，避免头部、底栏、悬浮按钮等固定元素因动画容器 transform 改变定位上下文而闪烁或掉到底部。
+
 ### `KeepRouter` 实例方法
 
 ```ts

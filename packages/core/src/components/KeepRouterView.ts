@@ -87,6 +87,10 @@ export const KeepRouterView = defineComponent({
           const includeList = effectiveInclude.value
           const dir =
             store.state.pendingDirection ?? store.state.lastNavigation?.direction ?? 'none'
+          const transitionDir =
+            store.state.pendingTransitionDirection ??
+            store.state.lastNavigation?.transitionDirection ??
+            dir
           const currentEntry = store.getCurrentEntry(cid.value)
 
           // 渲染页面组件
@@ -130,7 +134,7 @@ export const KeepRouterView = defineComponent({
             return h(
               KeepTransition,
               {
-                direction: dir,
+                direction: transitionDir,
                 preset: tc,
               },
               () => keepAliveVNode,

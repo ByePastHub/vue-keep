@@ -51,6 +51,10 @@ Each preset maps to CSS class names that you need to define in your styles. Exam
 
 For directionless navigations such as `replace`, `reLaunch`, and `switchTab`, built-in presets do not play a transition. If a custom `TransitionConfig.name` returns an empty string, Vue Keep renders the page directly instead of creating an empty `Transition` wrapper.
 
+## Fixed Elements
+
+During enter / leave transitions, Vue Keep automatically freezes `position: fixed` elements inside the page at their current viewport position. This prevents headers, tab bars, floating buttons, and other fixed elements from flickering or dropping to the page bottom when the transition container changes the fixed positioning context. No extra marker is required in application components.
+
 ## TransitionConfig
 
 For fine-grained control, pass a `TransitionConfig` object:

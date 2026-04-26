@@ -29,6 +29,10 @@ import '@bye_past/vue-keep/animations.css'
 
 `replace`、`reLaunch`、`switchTab` 等导航方向为 `none` 时，内置预设不会播放页面过渡动画。若自定义 `TransitionConfig.name` 返回空字符串，Vue Keep 会直接渲染页面内容，不创建空的 `Transition` 包裹。
 
+## 固定元素
+
+内置动画会在 enter / leave 阶段自动冻结页面内 `position: fixed` 元素的当前视口位置，避免头部、底栏、悬浮按钮等固定元素因动画容器 transform 改变定位上下文而闪烁或掉到底部。业务组件无需添加额外标记。
+
 ## 单个容器配置
 
 ```vue

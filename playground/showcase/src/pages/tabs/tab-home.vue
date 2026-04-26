@@ -13,8 +13,8 @@ onPageShow(() => {
 })
 
 // 跳详情页（验证 Tab 内 push 子页的过渡动画）
-function openDetail(id: number) {
-  keepRouter.push(`/tabs/detail/${id}`)
+async function openDetail(id: number) {
+  await keepRouter.push(`/tabs/detail/${id}`)
 }
 
 const quickActions = [

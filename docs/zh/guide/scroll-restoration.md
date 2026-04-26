@@ -50,7 +50,7 @@ createKeepRouter({
 
 ## 刷新滚动位置
 
-Vue Keep 安装时会将浏览器原生 `history.scrollRestoration` 设置为 `manual`，避免浏览器在刷新后自动回到刷新前的滚动位置。
+Vue Keep 安装时会配置浏览器原生 `history.scrollRestoration`。非 iOS WebKit 环境会设置为 `manual`，避免浏览器在刷新后自动回到刷新前的滚动位置；iOS WebKit 会保持 `auto`，避免系统级返回手势预览上一页时出现空白。
 
 当检测到当前页面是刷新进入时，Vue Keep 会在初始化完成后主动滚动到顶部。页面缓存状态不会跨刷新保留，刷新更接近一次冷启动。
 

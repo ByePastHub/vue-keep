@@ -92,7 +92,29 @@ describe('CoreStore 导航', () => {
       expect(result!.added.length).toBe(1)
       expect(store.state.lastNavigation?.method).toBe('push')
       expect(store.state.lastNavigation?.direction).toBe('forward')
+      expect(store.state.lastNavigation?.transitionDirection).toBe('forward')
       expect(store.state.currentRoute).toBe(to)
+    })
+
+    it('提交导航后保留独立动画方向', () => {
+      const to = mockRoute('home', '/home')
+      const from = mockRoute('detail', '/detail')
+
+      store.prepareNavigation({
+        containerId: 'c1',
+        to,
+        from,
+        method: 'back',
+        direction: 'back',
+        transitionDirection: 'none',
+        delta: -1,
+        hints: {},
+      })
+
+      store.commitNavigation()
+
+      expect(store.state.lastNavigation?.direction).toBe('back')
+      expect(store.state.lastNavigation?.transitionDirection).toBe('none')
     })
 
     it('commitNavigation 触发 onNavigationCommit', () => {
