@@ -15,7 +15,12 @@ import {
   cleanupDocumentScrollSpace,
   ensureDocumentScrollSpace,
 } from '../scroll/document-placeholder'
-import { isIOSWebKitBrowser, resetScrollOnReload } from '../store/scroll-restoration-mode'
+import {
+  isIOSWebKitBrowser,
+  isWeChatBrowser,
+  resetScrollOnReload,
+  type NavigatorLike,
+} from '../store/scroll-restoration-mode'
 import { refreshMarkedFixedElementOffsets } from '../animation/fixed-elements'
 import type { NavigationInfo, NavigationIntent } from '../types/internal'
 
@@ -57,12 +62,19 @@ function restoreDocumentScrollImmediately(positions: Map<string, ScrollPosition>
   return () => cleanupDocumentScrollSpace(shouldCleanupDocumentSpace)
 }
 
-// 判断是否应跳过 iOS 系统返回后的二次页面动画
-function shouldSkipIOSNativeBackTransition(
+// 判断是否应跳过 iOS 系统返回后的二次页面动画，微信内置浏览器保留 vue-keep 返回动画
+export function shouldSkipIOSNativeBackTransition(
   intent: NavigationIntent | null,
   info: NavigationInfo | null,
+  nav?: NavigatorLike,
 ): boolean {
-  return !intent && info?.type === 'pop' && info.direction === 'back' && isIOSWebKitBrowser()
+  return (
+    !intent &&
+    info?.type === 'pop' &&
+    info.direction === 'back' &&
+    isIOSWebKitBrowser(nav) &&
+    !isWeChatBrowser(nav)
+  )
 }
 
 // 绑定 Vue Router 导航生命周期并同步页面栈、滚动和导航方向

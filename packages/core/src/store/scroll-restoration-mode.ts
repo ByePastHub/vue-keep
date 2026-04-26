@@ -1,6 +1,6 @@
 import { isBrowser } from '../utils/env'
 
-interface NavigatorLike {
+export interface NavigatorLike {
   userAgent: string // 用户代理字符串
   platform: string // 平台标识
   maxTouchPoints?: number // 最大触点数量
@@ -17,6 +17,14 @@ export function isIOSWebKitBrowser(nav?: NavigatorLike): boolean {
   const isWebKit = /WebKit/i.test(currentNavigator.userAgent)
 
   return isIOS && isWebKit
+}
+
+// 判断是否为微信内置浏览器
+export function isWeChatBrowser(nav?: NavigatorLike): boolean {
+  const currentNavigator = nav ?? (typeof navigator !== 'undefined' ? navigator : null)
+  if (!currentNavigator) return false
+
+  return /MicroMessenger/i.test(currentNavigator.userAgent)
 }
 
 // 解析原生滚动恢复模式，iOS 保留 auto 以兼容系统返回快照

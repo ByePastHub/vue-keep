@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import {
   disableNativeScrollRestoration,
   isIOSWebKitBrowser,
+  isWeChatBrowser,
   isReloadNavigation,
   resolveNativeScrollRestorationMode,
   resetScrollOnReload,
@@ -27,6 +28,17 @@ describe('scroll-restoration-mode', () => {
     }
 
     expect(isIOSWebKitBrowser(nav)).toBe(true)
+  })
+
+  it('识别微信内置浏览器', () => {
+    const nav = {
+      userAgent:
+        'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Mobile/15E148 MicroMessenger/8.0.47',
+      platform: 'iPhone',
+      maxTouchPoints: 5,
+    }
+
+    expect(isWeChatBrowser(nav)).toBe(true)
   })
 
   it('iPadOS 桌面模式下保留原生滚动恢复', () => {
