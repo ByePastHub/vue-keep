@@ -1,3 +1,4 @@
+import { nextTick } from 'vue'
 import type { Router, RouteLocationNormalizedLoaded } from 'vue-router'
 import type { KeepOptionsResolved, ScrollPosition } from '../types/public'
 import type { CoreStore } from '../store/core-store'
@@ -41,7 +42,7 @@ export function bindRouter(
     },
   )
 
-  // 保存当前页面滚动位置
+  // 保存当前页面滚动位置（在 beforeEach 同步执行，抓导航发起前的真实位置）
   function saveCurrentScroll() {
     if (!isBrowser || options.scrollBehavior === 'none') return
     const entry = store.getCurrentEntry(DEFAULT_CONTAINER)
@@ -53,14 +54,27 @@ export function bindRouter(
   }
 
   // 恢复目标页面滚动位置
-  function restoreTargetScroll(method: string) {
+  // 关键：放到 nextTick 之后启动，等 KeepAlive 完成 DOM 切换，避免 sync apply 把滚动写到旧组件
+  // 期间记录目标 entry 的 id，等 nextTick 后再次校验当前 entry 仍是同一个，防止用户连续切换时把
+  // 旧导航的滚动位置应用到新页面上
+  async function restoreTargetScroll(method: string) {
     if (!isBrowser || options.scrollBehavior === 'none') return
+    if (method !== 'back' && method !== 'switchTab') return
     const entry = store.getCurrentEntry(DEFAULT_CONTAINER)
     if (!entry) return
-    if ((method === 'back' || method === 'switchTab') && entry.scrollPositions.size > 0) {
-      const containers = detectScrollContainers()
-      restoreScrollPositions(containers, entry.scrollPositions)
-    }
+    const targetEntryId = entry.id
+    const positions =
+      entry.scrollPositions.size > 0
+        ? entry.scrollPositions
+        : new Map<string, ScrollPosition>([['__document__', { top: 0, left: 0 }]])
+
+    await nextTick()
+
+    const currentEntry = store.getCurrentEntry(DEFAULT_CONTAINER)
+    if (!currentEntry || currentEntry.id !== targetEntryId) return
+
+    const containers = detectScrollContainers()
+    restoreScrollPositions(containers, positions)
   }
 
   // 2. 注册 beforeEach
@@ -110,7 +124,7 @@ export function bindRouter(
     const method = store.getPreparedMethod()
     store.commitNavigation()
     if (method) {
-      restoreTargetScroll(method)
+      void restoreTargetScroll(method)
     }
   })
 

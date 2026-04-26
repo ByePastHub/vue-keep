@@ -21,7 +21,6 @@ const browsingHistory = Array.from({ length: 10 }, (_, i) => ({
 <template>
   <div class="page page-with-header" style="padding-bottom: 76px">
     <AppHeader title="Tab 切换演示" :show-back="false" />
-
     <div style="padding: 16px">
       <div class="card" style="padding: 16px; margin-bottom: 12px">
         <h2 style="font-size: 18px; margin-bottom: 4px">我的 Tab</h2>
@@ -29,7 +28,6 @@ const browsingHistory = Array.from({ length: 10 }, (_, i) => ({
           onPageShow: {{ showCount }} 次
         </p>
       </div>
-
       <div class="card" style="overflow: hidden; margin-bottom: 12px">
         <div
           style="
@@ -78,7 +76,6 @@ const browsingHistory = Array.from({ length: 10 }, (_, i) => ({
           <div style="padding: 14px 16px; font-size: 14px">设置</div>
         </div>
       </div>
-
       <div class="card" style="display: flex; padding: 20px 0; margin-bottom: 12px">
         <div style="flex: 1; text-align: center">
           <div style="font-size: 20px; font-weight: 700">128</div>
@@ -99,7 +96,6 @@ const browsingHistory = Array.from({ length: 10 }, (_, i) => ({
           </div>
         </div>
       </div>
-
       <div class="card" style="margin-bottom: 12px">
         <div style="padding: 4px 0">
           <div
@@ -132,7 +128,6 @@ const browsingHistory = Array.from({ length: 10 }, (_, i) => ({
           <div style="padding: 14px 16px; font-size: 14px">帮助与反馈</div>
         </div>
       </div>
-
       <div class="card" style="margin-bottom: 12px">
         <div style="padding: 4px 0">
           <div
@@ -165,7 +160,6 @@ const browsingHistory = Array.from({ length: 10 }, (_, i) => ({
           <div style="padding: 14px 16px; font-size: 14px">清除缓存</div>
         </div>
       </div>
-
       <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 10px">最近浏览</h3>
       <div class="card" style="margin-bottom: 12px">
         <div style="padding: 4px 0">
@@ -196,7 +190,6 @@ const browsingHistory = Array.from({ length: 10 }, (_, i) => ({
           </div>
         </div>
       </div>
-
       <div
         style="
           text-align: center;
@@ -208,7 +201,6 @@ const browsingHistory = Array.from({ length: 10 }, (_, i) => ({
         版本 2.0.0-alpha
       </div>
     </div>
-
     <BottomTabBar />
   </div>
 </template>

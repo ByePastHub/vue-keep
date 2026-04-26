@@ -238,20 +238,43 @@ export function createStackManager(options: KeepOptionsResolved) {
       (typeof to.name === 'string' ? to.name : null) ??
       to.path
 
-    // 查找已存在的 tab
-    const existingIdx = stack.findIndex((e) => e.tabKey === tabKey)
+    // 收集所有同 tabKey 的 entry，并以 lastActiveAt 最新的那条作为命中
+    // 防止初始化（restoreFromState/initFirstEntry）的占位 entry 与 push 进来的真实 entry 共存时
+    // findIndex 误命中陈旧的占位 entry，导致滚动位置等数据丢失
+    const sameTabIndexes: number[] = []
+    for (let i = 0; i < stack.length; i++) {
+      if (stack[i]!.tabKey === tabKey) sameTabIndexes.push(i)
+    }
 
-    if (existingIdx !== -1) {
-      const existing = stack[existingIdx]!
+    if (sameTabIndexes.length > 0) {
+      // 选 lastActiveAt 最新的（同时间则取栈中靠后的，因为它是更近创建的）
+      let bestIdx = sameTabIndexes[0]!
+      for (const idx of sameTabIndexes) {
+        if (stack[idx]!.lastActiveAt >= stack[bestIdx]!.lastActiveAt) bestIdx = idx
+      }
+      const existing = stack[bestIdx]!
       existing.lastActiveAt = Date.now()
       existing.route = cloneRoute(to)
       existing.fullPath = to.fullPath
-      if (existingIdx !== stack.length - 1) {
-        stack.splice(existingIdx, 1)
-        stack.push(existing)
-        normalizePositions(stack)
+
+      // 移除其它同 tabKey 的陈旧 entry，避免栈中残留无效占位
+      const removed: PageStackEntry[] = []
+      for (let i = stack.length - 1; i >= 0; i--) {
+        if (i === bestIdx) continue
+        if (stack[i]!.tabKey === tabKey) {
+          removed.push(stack[i]!)
+          stack.splice(i, 1)
+          if (i < bestIdx) bestIdx--
+        }
       }
-      return { added: [], removed: [], updated: [existing] }
+
+      // 把命中的 entry 移到栈顶
+      if (bestIdx !== stack.length - 1) {
+        stack.splice(bestIdx, 1)
+        stack.push(existing)
+      }
+      normalizePositions(stack)
+      return { added: [], removed, updated: [existing] }
     }
 
     // 创建新 tab 条目

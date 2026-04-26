@@ -79,6 +79,11 @@ const router = createRouter({
       meta: { keep: { tabKey: 'profile' } },
     },
     {
+      path: '/tabs/detail/:id',
+      name: 'TabDetail',
+      component: () => import('./pages/tabs/tab-detail.vue'),
+    },
+    {
       path: '/lifecycle',
       name: 'Lifecycle',
       component: () => import('./pages/lifecycle/index.vue'),

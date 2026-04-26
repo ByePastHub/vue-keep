@@ -30,7 +30,6 @@ defineProps<{
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  margin: 12px 16px;
   padding: 12px 14px;
   background: color-mix(in srgb, var(--color-info) 8%, transparent);
   border-radius: var(--radius-sm);
