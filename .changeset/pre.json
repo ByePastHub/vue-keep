@@ -1,0 +1,17 @@
+{
+  "mode": "pre",
+  "tag": "alpha",
+  "initialVersions": {
+    "docs": "0.0.0",
+    "@bye_past/vue-keep": "2.0.0-alpha.4",
+    "@bye_past/vue-keep-devtools": "2.0.0-alpha.0",
+    "playground-basic": "0.0.0",
+    "playground-ecommerce": "0.0.0",
+    "playground-showcase": "0.0.0"
+  },
+  "changesets": [
+    "bright-birds-get-keep-router",
+    "quiet-rules-wechat-back",
+    "tall-rivers-auto-imports"
+  ]
+}
