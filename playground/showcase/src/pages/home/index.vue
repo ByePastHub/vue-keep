@@ -13,6 +13,13 @@ const features = [
     color: '#3b82f6',
   },
   {
+    icon: '🧩',
+    title: '普通 JS 调用',
+    desc: '组件外模块调用 useKeepRouter / getKeepRouter',
+    path: '/nav/js-call',
+    color: '#64748b',
+  },
+  {
     icon: '📜',
     title: '滚动恢复',
     desc: '长列表 → 详情 → 返回，位置自动恢复',

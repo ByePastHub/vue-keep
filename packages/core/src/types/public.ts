@@ -1,3 +1,4 @@
+import type { App } from 'vue'
 import type { RouteLocationNormalized, RouteLocationNormalizedLoaded } from 'vue-router'
 
 // ---- 导航方向 ----
@@ -172,6 +173,10 @@ export interface KeepRouter {
   switchTab(to: KeepLocation, options?: Omit<KeepNavigateOptions, 'events'>): Promise<void>
   destroy(target: DestroyTarget): void
   beforeEach(guard: KeepNavigationGuard): () => void
+}
+
+export interface KeepRouterPlugin extends KeepRouter {
+  install(app: App): void // 安装到 Vue 应用
 }
 
 // ---- 页面生命周期上下文 ----

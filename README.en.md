@@ -142,6 +142,17 @@ function logout() {
 </script>
 ```
 
+You can also call it from plain JS / TS modules after the plugin is installed:
+
+```ts
+import { useKeepRouter } from '@bye_past/vue-keep'
+
+export async function navigateToLogin() {
+  const keepRouter = useKeepRouter()
+  await keepRouter.push('/login')
+}
+```
+
 Done. Every page gets _forward = fresh, back = preserved_ behavior with no extra wiring.
 
 ---

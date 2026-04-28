@@ -1,11 +1,11 @@
 # createKeepRouter
 
-The plugin factory function. Creates a Vue plugin that installs the page-stack cache system.
+Creates a Vue Keep router instance and installs the page-stack cache system.
 
 ## Signature
 
 ```ts
-function createKeepRouter(options: KeepOptions): Plugin
+function createKeepRouter(options: KeepOptions): KeepRouterPlugin
 ```
 
 ## KeepOptions
@@ -26,7 +26,7 @@ function createKeepRouter(options: KeepOptions): Plugin
 
 ## Return Value
 
-Returns a standard Vue `Plugin`. Call `app.use()` to install it.
+Returns a `KeepRouter` instance that is also a Vue plugin. Call `app.use()` to install it.
 
 After installation the plugin:
 
@@ -36,6 +36,13 @@ After installation the plugin:
 - Registers the `<KeepRouterView>` component globally
 - Provides `keepRouter`, `store`, and `options` via `app.provide`
 - Exposes `$keepRouter` on every component instance
+- Registers the installed instance as the default instance for `useKeepRouter()` / `getKeepRouter()` calls outside Vue components
+
+```ts
+interface KeepRouterPlugin extends KeepRouter {
+  install(app: App): void
+}
+```
 
 ## Example
 

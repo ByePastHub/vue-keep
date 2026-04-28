@@ -142,6 +142,17 @@ function logout() {
 </script>
 ```
 
+普通 JS / TS 模块中也可以在插件安装后调用：
+
+```ts
+import { useKeepRouter } from '@bye_past/vue-keep'
+
+export async function navigateToLogin() {
+  const keepRouter = useKeepRouter()
+  await keepRouter.push('/login')
+}
+```
+
 完成。后续所有页面自动获得「前进刷新、返回保留状态和滚动位置」的能力。
 
 ---

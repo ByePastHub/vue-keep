@@ -1,11 +1,11 @@
 # createKeepRouter
 
-创建 Vue Keep 插件实例。
+创建 Vue Keep 路由增强实例。
 
 ## 函数签名
 
 ```ts
-function createKeepRouter(options: KeepOptions): Plugin
+function createKeepRouter(options: KeepOptions): KeepRouterPlugin
 ```
 
 ## KeepOptions
@@ -26,12 +26,19 @@ function createKeepRouter(options: KeepOptions): Plugin
 
 ## 返回值
 
-返回一个 Vue Plugin 对象，通过 `app.use()` 安装。安装后会：
+返回一个可通过 `app.use()` 安装的 `KeepRouter` 实例。安装后会：
 
 1. 配置浏览器原生 `history.scrollRestoration`，非 iOS WebKit 使用 `manual`，iOS WebKit 保持 `auto` 以兼容系统返回快照
 2. 注册 `<KeepRouterView>` 全局组件
 3. 注入 `$keepRouter` 全局属性
 4. 提供 `KEEP_STORE_KEY`、`KEEP_OPTIONS_KEY`、`KEEP_ROUTER_KEY` 等注入键
+5. 将当前实例登记为组件外默认实例，供 `useKeepRouter()` / `getKeepRouter()` 在普通 TS 模块中使用
+
+```ts
+interface KeepRouterPlugin extends KeepRouter {
+  install(app: App): void // 安装到 Vue 应用
+}
+```
 
 ## 示例
 
@@ -59,4 +66,15 @@ const app = createApp(App)
 app.use(router)
 app.use(keepRouter)
 app.mount('#app')
+```
+
+如果在请求拦截器、工具模块等组件外场景中导航，确保调用发生在 `app.use(keepRouter)` 之后：
+
+```ts
+import { useKeepRouter } from '@bye_past/vue-keep'
+
+async function goLogin() {
+  const keepRouter = useKeepRouter()
+  await keepRouter.push('/login')
+}
 ```

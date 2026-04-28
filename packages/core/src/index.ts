@@ -21,6 +21,7 @@ export {
   type KeepGuardReturn,
   type KeepNavigationGuard,
   type KeepRouter,
+  type KeepRouterPlugin,
   type PageShowContext,
   type PageHideContext,
   type PageShowHandler,
@@ -100,6 +101,7 @@ export {
 
 // Composables
 export {
+  getKeepRouter,
   useKeepRouter,
   usePageCache,
   useNavigationDirection,

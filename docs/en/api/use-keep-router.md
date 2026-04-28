@@ -8,7 +8,9 @@ Returns the `KeepRouter` instance — the primary API for navigating with cache 
 function useKeepRouter(): KeepRouter
 ```
 
-Throws if called outside a component tree where `createKeepRouter` has been installed.
+When called inside `setup()` / `<script setup>`, it resolves the instance from Vue injection.
+When called from a plain TS / JS module, it resolves the default instance installed by
+`app.use(createKeepRouter(...))`.
 
 ## KeepRouter Interface
 
@@ -64,6 +66,8 @@ interface KeepGuardReturn {
 
 ## Example
 
+### Inside Components
+
 ```vue
 <script setup lang="ts">
 import { useKeepRouter } from '@bye_past/vue-keep'
@@ -106,6 +110,19 @@ const removeGuard = keepRouter.beforeEach((to, from, direction) => {
 })
 </script>
 ```
+
+### Outside Components
+
+```ts
+import { useKeepRouter } from '@bye_past/vue-keep'
+
+export async function navigateToLogin() {
+  const keepRouter = useKeepRouter()
+  await keepRouter.push('/login')
+}
+```
+
+Make sure this function is called after `app.use(createKeepRouter(...))`.
 
 ## KeepLocation
 

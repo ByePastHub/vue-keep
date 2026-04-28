@@ -16,6 +16,11 @@ const router = createRouter({
       component: () => import('./pages/navigation/stack-demo.vue'),
     },
     {
+      path: '/nav/js-call',
+      name: 'PlainJsCall',
+      component: () => import('./pages/navigation/js-call.vue'),
+    },
+    {
       path: '/scroll/list',
       name: 'ScrollList',
       component: () => import('./pages/scroll/list.vue'),

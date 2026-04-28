@@ -1,4 +1,4 @@
-export { useKeepRouter } from './useKeepRouter'
+export { getKeepRouter, useKeepRouter } from './useKeepRouter'
 export { usePageCache } from './usePageCache'
 export { useNavigationDirection } from './useNavigationDirection'
 export { usePageStack } from './usePageStack'

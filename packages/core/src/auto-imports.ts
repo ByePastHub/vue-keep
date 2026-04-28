@@ -13,6 +13,7 @@ export const VueKeepAutoImports = {
     'KeepRouterView',
     'KeepPageShell',
     'KeepTransition',
+    'getKeepRouter',
     'useKeepRouter',
     'usePageCache',
     'useNavigationDirection',
